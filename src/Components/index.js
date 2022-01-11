@@ -1,3 +1,4 @@
-import Navbar from './Navbar';
+import Navbar from './Navbar'
+import Beatmap from './Beatmap'
 
-export { Navbar };
+export { Navbar, Beatmap }

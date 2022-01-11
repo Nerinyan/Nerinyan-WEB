@@ -1,4 +1,4 @@
-import Users from './Users';
-import TsetD from './TsetD';
+import Beatmaps from './Beatmaps'
+import TsetD from './TsetD'
 
-export { Users, TsetD };
+export { Beatmaps, TsetD }
