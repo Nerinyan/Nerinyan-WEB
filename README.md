@@ -2,8 +2,8 @@
 Nerinyan is osu! beatmap mirror written by vue-js
 
 ## Api Server
-[osu-Beatmap-Mirror-API (arcived)](https://github.com/zeee2/osu-Beatmap-Mirror-API) \
-[osu-Beatmap-Mirror-APIV2 (arcived)](https://github.com/zeee2/osu-BeatmapMirror-ApiV2) \
+[osu-Beatmap-Mirror-API (archived)](https://github.com/zeee2/osu-Beatmap-Mirror-API) \
+[osu-Beatmap-Mirror-APIV2 (archived)](https://github.com/zeee2/osu-BeatmapMirror-ApiV2) \
 [Nerinyan-API (latest)](https://github.com/Nerinyan/Nerinyan-API)
 
 
