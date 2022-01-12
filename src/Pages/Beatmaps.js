@@ -50,7 +50,7 @@ function Beatmaps() {
 
   const scrollHandler = () => {
     const documentData = document.documentElement;
-    if (documentData.scrollTop + documentData.clientHeight + 350 >= documentData.scrollHeight && !Loading) {
+    if (documentData.scrollTop + documentData.clientHeight + 500 >= documentData.scrollHeight && !Loading) {
       getData()
     }
   }
