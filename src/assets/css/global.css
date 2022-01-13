@@ -1,3 +1,3 @@
-@media screen and (min-width: 2050px) {
+@media screen and (min-width: 1280px) {
     div.container { margin: 0 auto; max-width: 1200px; }
 }
