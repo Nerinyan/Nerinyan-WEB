@@ -7,11 +7,13 @@ function App() {
   return(
     <BrowserRouter>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Navigate to="/main"/>}/>
-        <Route path="/main" element={<Beatmaps />}/>
-        <Route path="/test" element={<TsetD />}/>
-      </Routes>
+      <div className="container">
+        <Routes>
+          <Route path="/" element={<Navigate to="/main"/>}/>
+          <Route path="/main" element={<Beatmaps />}/>
+          <Route path="/test" element={<TsetD />}/>
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 }
