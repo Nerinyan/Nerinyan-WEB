@@ -1,11 +1,11 @@
 import React from "react"
-import { BrowserRouter, Route, Routes, Navigate  } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Navigate  } from "react-router-dom"
 import { Navbar } from './Components'
 import { Beatmaps, TsetD } from './Pages'
 
 function App() {
   return(
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <BrowserRouter>
       <Navbar />
       <div className="container">
         <Routes>
