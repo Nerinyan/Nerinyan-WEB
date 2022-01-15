@@ -1,11 +1,11 @@
 import React from "react"
-import { BrowserRouter, HashRouter, Route, Routes, Navigate  } from "react-router-dom"
+import { BrowserRouter, Route, Routes, Navigate  } from "react-router-dom"
 import { Navbar } from './Components'
 import { Beatmaps, TsetD } from './Pages'
 
 function App() {
   return(
-    <HashRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Navbar />
       <div className="container">
         <Routes>
@@ -14,7 +14,7 @@ function App() {
           <Route path="/test" element={<TsetD />}/>
         </Routes>
       </div>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 
