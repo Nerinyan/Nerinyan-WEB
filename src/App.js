@@ -5,7 +5,7 @@ import { Beatmaps, TsetD } from './Pages'
 
 function App() {
   return(
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Navbar />
       <div className="container">
         <Routes>
