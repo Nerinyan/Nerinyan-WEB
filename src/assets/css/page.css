@@ -1,10 +1,18 @@
 @media screen and (min-width: 1280px) {
     ul.beatmap-list { display: flex; flex-wrap: wrap; justify-content: center; margin: 12px auto; row-gap: 1em; column-gap: 1em; }
-    ul.beatmap-list li { position:relative; overflow: hidden; display: flex; width: calc(50% - 2%); }
+    ul.beatmap-list > li { position:relative; overflow: hidden; display: flex; width: calc(50% - 2%); transition: transform 150ms ease-in-out; }
+    ul.beatmap-list > li:hover { transform: scale(1.025); z-index: 2; }
     div.beatmap-single { max-width: 590px; width: 100%; position: relative; padding-top: 0; text-align: left; margin: 0; overflow: hidden; }
-    div.beatmap-single a.card-header { background: repeat center/100% linear-gradient(to right, #00000099, #ffe4e100), var(--bg), var(--base-bg); width: 100%; height: 136px; margin-bottom: 4px; padding: 8px; display: flex; }
-    div.card-header-beatmapinfo { width: 100%; }
-    div.card-header-beatmapinfo ul { display: flex; justify-content: space-between; }
-    div.card-header-beatmapinfo ul li.card-header-info { justify-content: right; }
-    div.card-header-beatmapinfo ul li div { padding: 0.1em 0.75em; border-radius: 0.75em; font-weight: 800; color: var(--ranked-text-color); }
+    div.beatmap-single a.card-header { background: repeat center/100% linear-gradient(to right, #00000099, #ffe4e100), var(--bg), var(--base-bg); width: 100%; height: 136px; margin-bottom: 4px; padding: 8px; display: flex; flex-direction: column; justify-content: space-between; }
+    div.beatmap-single a.card-header div.card-header-beatmapinfo { width: 100%; }
+    div.beatmap-single a.card-header div.card-header-beatmapinfo ul { display: flex; justify-content: space-between; }
+    div.beatmap-single a.card-header div.card-header-beatmapinfo ul li.card-header-info { justify-content: right; }
+    div.beatmap-single a.card-header div.card-header-beatmapinfo ul li div { padding: 0.1em 0.75em; border-radius: 0.75em; font-weight: 800; color: var(--ranked-text-color); }
+    div.beatmap-single a.card-header div.beatmap-title { display: flex; flex-direction: column; }
+    div.beatmap-single ul.card-main li {  }
+    div.beatmap-single ul.card-main li.beatmap-info {}
+    div.beatmap-single ul.card-main li.beatmap-list {}
+    div.beatmap-single ul.card-main li.beatmap-list button { border: none; background-color: transparent; cursor: pointer; }
+    div.beatmap-single ul.card-main li.beatmap-list button i { transition: transform 150ms ease-in-out; vertical-align: middle; }
+    div.beatmap-single ul.card-main li.beatmap-list button.expand i {  transform: rotate(180deg); }
 }

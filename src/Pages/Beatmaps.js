@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react"
+import { useSearchParams } from "react-router-dom"
 import axios from "axios"
 import { Beatmap } from "../Components"
-// import { Button, Popover } from 'antd'
 
 var Page = 0
 var ErrorCount = 0
@@ -9,9 +9,10 @@ var Data = []
 var Loading = false
 
 function Beatmaps() {
+  const [searchParams] = useSearchParams()
   const [beatmaps, setBeatmaps] = useState([])
   const [loading, setLoading] = useState(false)
-
+  
   const getData = async () => {
     setLoading(true)
     Loading = true
@@ -58,6 +59,7 @@ function Beatmaps() {
   useEffect(() => {
     window.addEventListener("scroll", scrollHandler) // Add scroll Event
     getData() // get Beatmap Data From Nerinyan API
+    if ((searchParams.get("creator") !== null)) console.log(searchParams.get("creator"))
     return () => {
       window.removeEventListener("scroll", scrollHandler) // Delete scroll Event
     }
