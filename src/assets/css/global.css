@@ -1,3 +1,22 @@
+@font-face {
+    font-family: 'TmoneyRoundWindRegular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindRegular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    --ranked-text-color: #394246;
+}
+
 @media screen and (min-width: 1280px) {
     div.container { margin: 0 auto; max-width: 1200px; }
+
+    /* Ranked status color */
+    .RANKED { background-color: #b3ff66; }
+    .LOVED { background-color: #ff66ab; }
+    .QUALIFIED { background-color: #66ccff; }
+    .PENDING { background-color: #ffd966; }
+    .GRAVEYARD { background-color: #5c6970; color: #5c6970; }
+    .NSFW { background-color: #1c2123; color: #deb945; }
 }

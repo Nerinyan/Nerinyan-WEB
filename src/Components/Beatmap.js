@@ -38,13 +38,13 @@ function Beatmap({ bmap }) {
             <div className="beatmap-single">
                 <a href="/" target="_blank" id={bmap.id} className="card-header" style={
                     {
-                        "--bg": "url(https://assets.ppy.sh/beatmaps/"+bmap.id+"/covers/cover.jpg?1622784772",
-                        "--bg2": "linear-gradient(to right, #00000099, #ffe4e100), url(/images/beatmaps-default.png)"
+                        "--bg": "no-repeat center/100% url(https://assets.ppy.sh/beatmaps/"+bmap.id+"/covers/cover.jpg?1622784772",
+                        "--base-bg": "repeat center/90% url(/static/images/beatmaps-default.png)"
                     }
                 }>
                     <div className="card-header-beatmapinfo">
                         <ul>
-                            <li>
+                            <li className="card-header-status">
                                 <div className={"ranked-status " + convertRankedStatusToText(bmap.ranked)}>
                                     {convertRankedStatusToText(bmap.ranked)}
                                 </div>
@@ -54,7 +54,7 @@ function Beatmap({ bmap }) {
                                     </div>
                                 }
                             </li>
-                            <li>
+                            <li className="card-header-info">
                                 <div className="card-haeder-stats">
                                     <Tooltip placement="top" title={"Favorites count: " + bmap.favourite_count}>
                                         <i class="fas fa-heart"></i> {bmap.favourite_count}
