@@ -185,7 +185,7 @@ function Beatmap({ bmap }) {
                                     <ul>
                                         {versionsSTD.map((ver, index) => (
                                             <li key={ver.id}>
-                                                <Version ver={ver} isCollapse={isCollapse}/>
+                                                <Version mode={0} ver={ver} isCollapse={isCollapse}/>
                                             </li>
                                         ))}
                                     </ul>
@@ -198,7 +198,7 @@ function Beatmap({ bmap }) {
                                     <ul>
                                         {versionsTAIKO.map((ver, index) => (
                                             <li key={ver.id}>
-                                                <Version mode={0} ver={ver} isCollapse={isCollapse}/>
+                                                <Version mode={1} ver={ver} isCollapse={isCollapse}/>
                                             </li>
                                         ))}
                                     </ul>
@@ -211,7 +211,7 @@ function Beatmap({ bmap }) {
                                     <ul>
                                         {versionsCTB.map((ver, index) => (
                                             <li key={ver.id}>
-                                                <Version mode={0} ver={ver} isCollapse={isCollapse}/>
+                                                <Version mode={2} ver={ver} isCollapse={isCollapse}/>
                                             </li>
                                         ))}
                                     </ul>
@@ -224,7 +224,7 @@ function Beatmap({ bmap }) {
                                     <ul>
                                         {versionsMANIA.map((ver, index) => (
                                             <li key={ver.id}>
-                                                <Version mode={0} ver={ver} isCollapse={isCollapse}/>
+                                                <Version mode={3} ver={ver} isCollapse={isCollapse}/>
                                             </li>
                                         ))}
                                     </ul>
