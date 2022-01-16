@@ -68,7 +68,7 @@ function Version({ mode, ver, isCollapse }) {
                         </Tooltip>
                         <Tooltip placement="top" title={"BPM"}>
                             <li>
-                                <BPM width={iconWidth} height={iconHeight}/><span>{secondsToTime(ver.total_length)}</span>
+                                <BPM width={iconWidth} height={iconHeight}/><span>{parseFloat(ver.bpm)}</span>
                             </li>
                         </Tooltip>
                         <Tooltip placement="top" title={"Circle count"}>
@@ -84,7 +84,7 @@ function Version({ mode, ver, isCollapse }) {
                     </ul>
                 </div>
             }>
-                qwe
+                <span></span>
             </Tooltip>
             }
             {/* {ver.version} | {isCollapse ? 'collapse' : 'expand'} */}
