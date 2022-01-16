@@ -35,19 +35,35 @@ const convertRankedStatusToText = (ranked) => {
 }
 
 function Beatmap({ bmap }) {
-
     const [isCollapse, setCollapse] = useState(true)
     const [versionsSTD, setVersionsSTD] = useState([])
     const [versionsTAIKO, setVersionsTAIKO] = useState([])
     const [versionsCTB, setVersionsCTB] = useState([])
     const [versionsMANIA, setVersionsMANIA] = useState([])
 
+    const modeToicon = (mode) => {
+        switch (mode) {
+            case 0:
+                return (<i className="faa fa-extra-mode-osu"></i>)
+            case 1:
+                return (<i className="faa fa-extra-mode-taiko"></i>)
+            case 2:
+                return (<i className="faa fa-extra-mode-fruits"></i>)
+            case 3:
+                return (<i className="faa fa-extra-mode-mania"></i>)
+            default:
+                break
+        }
+    }
+
     const sortBeatmaps = () => {
         // todo: 로직 단축, 지금은 너무 쓸대없이 함수를 많이 선언함
-        var std = []
-        var taiko = []
-        var ctb = []
-        var mania = []
+        var versions_temp = {
+            'std': [],
+            'taiko': [],
+            'ctb': [],
+            'mania': []
+        }
 
         for (var b in bmap.beatmaps) {
             var temp = bmap.beatmaps[b]
@@ -55,23 +71,23 @@ function Beatmap({ bmap }) {
                 default:
                     break
                 case 0:
-                    std.push(temp)
+                    versions_temp.std.push(temp)
                     break
                 case 1:
-                    taiko.push(temp)
+                    versions_temp.taiko.push(temp)
                     break
                 case 2:
-                    ctb.push(temp)
+                    versions_temp.ctb.push(temp)
                     break
                 case 3:
-                    mania.push(temp)
+                    versions_temp.mania.push(temp)
                     break
             }
         }
-        setVersionsSTD(std)
-        setVersionsTAIKO(taiko)
-        setVersionsCTB(ctb)
-        setVersionsMANIA(mania)
+        setVersionsSTD(versions_temp.std)
+        setVersionsTAIKO(versions_temp.taiko)
+        setVersionsCTB(versions_temp.ctb)
+        setVersionsMANIA(versions_temp.mania)
     }
 
     const changeCollapse = () => {
@@ -130,7 +146,6 @@ function Beatmap({ bmap }) {
                                 </div>
                             </li>
                         </ul>
-                        {/* {bmap.id} - {bmap.title} */}
                     </div>
                     <div className="beatmap-title">
                         <span className="title">{bmap.title}</span>
@@ -159,14 +174,61 @@ function Beatmap({ bmap }) {
                         }
                     </li>
                     <li className="beatmap-list">
-                        <button className={"beatmap-list-btn " + (isCollapse ? '' : 'expand')} onClick={changeCollapse}><i className="fad fa-caret-square-down"></i></button>
-                        <div>
+                        <Tooltip placement="top" title={isCollapse ? 'Expand beatmap list' : 'Collapse beatmap list '}>
+                            <button className={"beatmap-list-btn " + (isCollapse ? 'collapse' : 'expand')} onClick={changeCollapse}><i className="fad fa-caret-square-down"></i></button>
+                        </Tooltip>
+                        <div className={(isCollapse ? 'collapse' : 'expand')}>
+                            {/* mode: standard */}
                             {versionsSTD.length > 0 &&
-                                versionsSTD.map((std, index) => (
-                                    <div key={std.id}>
-                                        <Version ver={std}/>
-                                    </div>
-                                ))
+                                <div className="version-list-single">
+                                    {isCollapse && modeToicon(0)}
+                                    <ul>
+                                        {versionsSTD.map((ver, index) => (
+                                            <li key={ver.id}>
+                                                <Version ver={ver} isCollapse={isCollapse}/>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            }
+                            {/* mode: taiko */}
+                            {versionsTAIKO.length > 0 &&
+                                <div className="version-list-single">
+                                    {isCollapse && modeToicon(1)}
+                                    <ul>
+                                        {versionsTAIKO.map((ver, index) => (
+                                            <li key={ver.id}>
+                                                <Version mode={0} ver={ver} isCollapse={isCollapse}/>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            }
+                            {/* mode: fruits */}
+                            {versionsCTB.length > 0 &&  
+                                <div className="version-list-single">
+                                    {isCollapse && modeToicon(2)}
+                                    <ul>
+                                        {versionsCTB.map((ver, index) => (
+                                            <li key={ver.id}>
+                                                <Version mode={0} ver={ver} isCollapse={isCollapse}/>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            }
+                            {/* mode: mania */}
+                            {versionsMANIA.length > 0 &&
+                                <div className="version-list-single">
+                                    {isCollapse && modeToicon(3)}
+                                    <ul>
+                                        {versionsMANIA.map((ver, index) => (
+                                            <li key={ver.id}>
+                                                <Version mode={0} ver={ver} isCollapse={isCollapse}/>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
                             }
                             {/* todo: versions 구조화 작업 */}
                         </div>

@@ -7,7 +7,7 @@
     div.beatmap-single a.card-header div.card-header-beatmapinfo { width: 100%; }
     div.beatmap-single a.card-header div.card-header-beatmapinfo ul { display: flex; justify-content: space-between; }
     div.beatmap-single a.card-header div.card-header-beatmapinfo ul li.card-header-info { justify-content: right; }
-    div.beatmap-single a.card-header div.card-header-beatmapinfo ul li div { padding: 0.1em 0.75em; border-radius: 0.75em; font-weight: 800; color: var(--ranked-text-color); }
+    div.beatmap-single a.card-header div.card-header-beatmapinfo ul li div { padding: 0.1em 0.75em; border-radius: 0.75em; font-weight: 800; }
     div.beatmap-single a.card-header div.beatmap-title { display: flex; flex-direction: column; }
     div.beatmap-single ul.card-main li {  }
     div.beatmap-single ul.card-main li.beatmap-info {}
