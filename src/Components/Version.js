@@ -1,5 +1,6 @@
 import React, { Fragment } from "react"
 import { Tooltip } from 'antd'
+import { scaleLinear, interpolateRgb } from 'd3'
 import { ReactComponent as TotalLength } from '../assets/images/total_length.svg'
 import { ReactComponent as SliderCount } from '../assets/images/count_sliders.svg'
 import { ReactComponent as CircleCount } from '../assets/images/count_circles.svg'
@@ -8,6 +9,18 @@ import { ReactComponent as BPM } from '../assets/images/bpm.svg'
 function Version({ mode, ver, isCollapse }) {
     var iconWidth, iconHeight = '20px'
     // const iconHeight = '18px'
+    
+    const difficultyColorSpectrum = scaleLinear().domain([0.1, 1.25, 2, 2.5, 3.3, 4.2, 4.9, 5.8, 6.7, 7.7, 9])
+    .clamp(true)
+    .range(['#4290FB', '#4FC0FF', '#4FFFD5', '#7CFF4F', '#F6F05C', '#FF8068', '#FF4E6F', '#C645B8', '#6563DE', '#18158E', '#000000'])
+    .interpolate(interpolateRgb.gamma(2.2))
+
+    const getDiffColor = (rating) => {
+        if (rating < 0.1) return '#AAAAAA'
+        if (rating>= 9) return '#000000'
+        return difficultyColorSpectrum(rating)
+    }
+
     const modeToicon = (mode) => {
         switch (mode) {
             case 0:
@@ -84,7 +97,7 @@ function Version({ mode, ver, isCollapse }) {
                     </ul>
                 </div>
             }>
-                <span></span>
+                <span>TEST: {getDiffColor(ver.difficulty_rating)}</span>
             </Tooltip>
             }
             {/* {ver.version} | {isCollapse ? 'collapse' : 'expand'} */}
