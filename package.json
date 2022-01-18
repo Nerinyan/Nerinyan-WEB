@@ -44,5 +44,8 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://dev.nerina.pw"
+  "homepage": "https://dev.nerina.pw",
+  "devDependencies": {
+    "gh-pages": "^3.2.3"
+  }
 }
