@@ -97,7 +97,7 @@ function Version({ mode, ver, isCollapse }) {
                     </ul>
                 </div>
             }>
-                <span style={{color: getDiffColor(ver.difficulty_rating)}}>TEST: {getDiffColor(ver.difficulty_rating)}</span>
+                <span style={{color: getDiffColor(ver.difficulty_rating)}}>TEST: {ver.difficulty_rating}|{getDiffColor(ver.difficulty_rating)}</span>
             </Tooltip>
             }
             {/* {ver.version} | {isCollapse ? 'collapse' : 'expand'} */}
