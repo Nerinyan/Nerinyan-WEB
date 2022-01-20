@@ -48,7 +48,7 @@ function Beatmap({ bmap }) {
             case 1:
                 return (<i className="faa fa-extra-mode-taiko"></i>)
             case 2:
-                return (<i className="faa fa-extra-mode-fruits"></i>)
+                return (<i className="faa fa-extra-mode-furits"></i>)
             case 3:
                 return (<i className="faa fa-extra-mode-mania"></i>)
             default:
@@ -57,7 +57,6 @@ function Beatmap({ bmap }) {
     }
 
     const sortBeatmaps = () => {
-        // todo: 로직 단축, 지금은 너무 쓸대없이 함수를 많이 선언함
         var versions_temp = {
             'std': [],
             'taiko': [],

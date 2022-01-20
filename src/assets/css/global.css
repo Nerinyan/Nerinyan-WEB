@@ -98,7 +98,7 @@
     .NSFW { background-color: #1c2123; color: #deb945; }
 
     /* osu icon */
-    .faa { font-family: osuFonts; font-style: normal; font-weight: normal; }
+    .faa { font-family: osuFonts; font-style: normal; font-weight: 550; }
     .fa-extra-mode-osu:before { content: "\E800"; }
     .fa-extra-mode-taiko:before { content: "\E803"; }
     .fa-extra-mode-furits:before { content: "\E801"; }

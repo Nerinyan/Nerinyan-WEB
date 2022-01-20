@@ -67,8 +67,8 @@ function Version({ mode, ver, isCollapse }) {
         <Fragment>
             {isCollapse &&
             <Tooltip placement="top" title={
-                <div className="beatmap-version-single">
-                    <div className="beatmap-version-info-header">
+                <div className="beatmap-version-tooltip-single">
+                    <div className="beatmap-version-tooltip-info-header">
                         {modeToicon(mode)}
                         <span><i className="fas fa-star"/>{addCommas(ver.difficulty_rating.toFixed(2))}</span>
                         <span>{ver.version}</span>
@@ -97,7 +97,7 @@ function Version({ mode, ver, isCollapse }) {
                     </ul>
                 </div>
             }>
-                <span style={{color: getDiffColor(ver.difficulty_rating)}}>TEST: {ver.difficulty_rating}|{getDiffColor(ver.difficulty_rating)}</span>
+                <div className="beatmap-version-single" style={{ '--color': getDiffColor(ver.difficulty_rating)}}></div>
             </Tooltip>
             }
             {/* {ver.version} | {isCollapse ? 'collapse' : 'expand'} */}
