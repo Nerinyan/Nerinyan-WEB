@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { Tooltip } from 'antd'
+import LazyLoad from 'react-lazyload'
 import { GeneralMixins, Version } from '../Components'
 
 function Beatmap({ bmap }) {
@@ -113,58 +114,60 @@ function Beatmap({ bmap }) {
     return (
         <Fragment>
             <div id={bmap.id} className="beatmap-single" onMouseOver={() => setIsHover(true)} onMouseOut={() => setIsHover(false)}>
-                <div onClick={(e) => handleSingleClick(e)} className="card-header" style={
-                    {
-                        "--bg": "no-repeat center/100% url(https://assets.ppy.sh/beatmaps/"+bmap.id+"/covers/cover.jpg?1622784772",
-                        "--base-bg": "repeat center/90% url(" + require('../assets/images/beatmaps-default.png') +")"
-                    }
-                }>
-                    <div className="card-header-beatmapinfo">
-                        <ul>
-                            <li className="card-header-status">
-                                <div style={isHover ? {transform: 'translateX('+(-250)+'px)'} : {}} className={"ranked-status " + GeneralMixins.convertRankedStatusToText(bmap.ranked)}>
-                                    {GeneralMixins.convertRankedStatusToText(bmap.ranked)}
-                                </div>
-                                <button onClick={(e) => {
-                                    e.stopPropagation()
-                                    handleCallMusic(e, bmap.id)
-                                }} style={!isHover ? {transform: 'translateX('+(-250)+'px)'} : {}} className="">
-                                    <i className="fa-duotone fa-play"></i>
-                                </button>
-                                {bmap.nsfw &&
-                                    <div className={"nsfw"}>
-                                        EXPLICIT
+                <LazyLoad height={136} offset={300} style={{background: "url(" + require('../assets/images/beatmaps-default.png') + ")"}}>
+                    <div onClick={(e) => handleSingleClick(e)} className="card-header" style={
+                        {
+                            "--bg": "no-repeat center/100% url(https://assets.ppy.sh/beatmaps/"+bmap.id+"/covers/cover.jpg?1622784772",
+                            "--base-bg": "repeat center/90% url(" + require('../assets/images/beatmaps-default.png') +")"
+                        }
+                    }>
+                        <div className="card-header-beatmapinfo">
+                            <ul>
+                                <li className="card-header-status">
+                                    <div style={isHover ? {transform: 'translateX('+(-250)+'px)'} : {}} className={"ranked-status " + GeneralMixins.convertRankedStatusToText(bmap.ranked)}>
+                                        {GeneralMixins.convertRankedStatusToText(bmap.ranked)}
                                     </div>
-                                }
-                            </li>
-                            <li className="card-header-info">
-                                <div className="card-haeder-stats">
-                                    <Tooltip placement="top" title={"Favorites count: " + bmap.favourite_count}>
-                                        <i className="fa-solid fa-heart"></i> {bmap.favourite_count}
-                                    </Tooltip>
-                                    <Tooltip placement="top" title={"Play count: " + bmap.play_count}>
-                                        <i className="fa-solid fa-circle-play"></i> {bmap.play_count}
-                                    </Tooltip>
-                                    <Tooltip placement="top" title={"BPM: " + parseFloat(bmap.bpm)}>
-                                        <i className="fa-solid fa-music-note"></i> {parseFloat(bmap.bpm)}
-                                    </Tooltip>
-                                    <Tooltip placement="top" title={"Beatmaps count: " + bmap.beatmaps.length}>
-                                        <i className="fa-solid fa-clipboard-list"></i> {bmap.beatmaps.length}
-                                    </Tooltip>
-                                    {bmap.video && 
-                                        <Tooltip placement="top" title={"This beatmap contains video."}>
-                                            <i className="fa-solid fa-video"></i>
-                                        </Tooltip>
+                                    <button onClick={(e) => {
+                                        e.stopPropagation()
+                                        handleCallMusic(e, bmap.id)
+                                    }} style={!isHover ? {transform: 'translateX('+(-250)+'px)'} : {}} className="">
+                                        <i className="fa-duotone fa-play"></i>
+                                    </button>
+                                    {bmap.nsfw &&
+                                        <div className={"nsfw"}>
+                                            EXPLICIT
+                                        </div>
                                     }
-                                </div>
-                            </li>
-                        </ul>
+                                </li>
+                                <li className="card-header-info">
+                                    <div className="card-haeder-stats">
+                                        <Tooltip placement="top" title={"Favorites count: " + bmap.favourite_count}>
+                                            <i className="fa-solid fa-heart"></i> {bmap.favourite_count}
+                                        </Tooltip>
+                                        <Tooltip placement="top" title={"Play count: " + bmap.play_count}>
+                                            <i className="fa-solid fa-circle-play"></i> {bmap.play_count}
+                                        </Tooltip>
+                                        <Tooltip placement="top" title={"BPM: " + parseFloat(bmap.bpm)}>
+                                            <i className="fa-solid fa-music-note"></i> {parseFloat(bmap.bpm)}
+                                        </Tooltip>
+                                        <Tooltip placement="top" title={"Beatmaps count: " + bmap.beatmaps.length}>
+                                            <i className="fa-solid fa-clipboard-list"></i> {bmap.beatmaps.length}
+                                        </Tooltip>
+                                        {bmap.video && 
+                                            <Tooltip placement="top" title={"This beatmap contains video."}>
+                                                <i className="fa-solid fa-video"></i>
+                                            </Tooltip>
+                                        }
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div className="beatmap-title">
+                            <span className="title">{bmap.title}</span>
+                            <span className="artist">by {bmap.artist}</span>
+                        </div>
                     </div>
-                    <div className="beatmap-title">
-                        <span className="title">{bmap.title}</span>
-                        <span className="artist">by {bmap.artist}</span>
-                    </div>
-                </div>
+                </LazyLoad>
                 <ul className="card-main">
                     <li className="beatmap-info">
                         <span>mapped by <Link to={"/main?creator="+bmap.user_id}>{bmap.creator}</Link></span>

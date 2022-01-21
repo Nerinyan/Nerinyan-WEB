@@ -23,7 +23,8 @@ function Beatmaps() {
       await axios.get(
         process.env.REACT_APP_BASE_API_URI+"/search", {
           params: {
-            p: Page
+            p: Page,
+            ps: 210
           }
         }
       ).then(function (response) {
