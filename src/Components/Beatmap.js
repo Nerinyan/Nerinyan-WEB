@@ -2,7 +2,6 @@ import React, { Fragment, useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { Tooltip } from 'antd'
 import { GeneralMixins, Version } from '../Components'
-import { range } from "d3"
 
 function Beatmap({ bmap }) {
     const [isCollapse, setCollapse] = useState(true)
@@ -24,7 +23,7 @@ function Beatmap({ bmap }) {
                         <ul>
                             {version.map((ver, index) => (
                                 <li key={ver.id}>
-                                    <Version mode={index} ver={ver}/>
+                                    <Version mode={index} ver={ver} isCollapse={true}/>
                                 </li>
                             ))}
                         </ul>
@@ -43,9 +42,7 @@ function Beatmap({ bmap }) {
                     <ul key={index}>
                         {version.map((ver, index) => (
                             <li key={ver.id}>
-                                <i className={IconList[index]}></i>
-                                <span><i className="fas fa-star"/>{GeneralMixins.addCommas(ver.difficulty_rating.toFixed(2))}</span>
-                                <span>{ver.version}</span>
+                                <Version mode={ver.mode_int} ver={ver} isCollapse={false}/>
                             </li>
                         ))}
                     </ul>

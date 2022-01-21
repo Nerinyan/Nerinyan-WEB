@@ -16,7 +16,7 @@
     div.beatmap-single ul.card-main li.beatmap-list { transition: all 1s ease-in; display: flex; flex-direction: row; align-items: flex-start; padding: 5px 0; }
     
     div.beatmap-single ul.card-main li.beatmap-list button { display: inline-flex; border: none; background-color: transparent; cursor: pointer; }
-    div.beatmap-single ul.card-main li.beatmap-list button i { transition: transform 150ms ease-in-out; vertical-align: middle; }
+    div.beatmap-single ul.card-main li.beatmap-list button i { transition: transform 300ms ease-in-out; vertical-align: middle; }
     div.beatmap-single ul.card-main li.beatmap-list button.expand i {  transform: rotate(180deg); }
     
     div.beatmap-single ul.card-main li.beatmap-list div.version-lists { display: flex; flex-direction: row; }

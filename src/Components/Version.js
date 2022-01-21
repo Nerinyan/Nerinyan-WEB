@@ -6,7 +6,7 @@ import { ReactComponent as CircleCount } from '../assets/images/count_circles.sv
 import { ReactComponent as BPM } from '../assets/images/bpm.svg'
 import { GeneralMixins } from '../Components'
 
-function Version({ mode, ver }) {
+function Version({ mode, ver, isCollapse }) {
     var iconWidth, iconHeight = '20px'
     
     return (
@@ -42,7 +42,15 @@ function Version({ mode, ver }) {
                     </ul>
                 </div>
             }>
+            {isCollapse && 
                 <div className="beatmap-version-single" style={{ '--color': GeneralMixins.getDiffColor(ver.difficulty_rating)}}></div>
+            }
+            {!isCollapse &&
+                <Fragment>
+                    <span><i className="fas fa-star"/>{GeneralMixins.addCommas(ver.difficulty_rating.toFixed(2))}</span>
+                    <span>{ver.version}</span>
+                </Fragment>
+            }
             </Tooltip>
             {/* {ver.version} | {isCollapse ? 'collapse' : 'expand'} */}
         </Fragment>
