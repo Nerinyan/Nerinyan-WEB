@@ -51,7 +51,7 @@ function Beatmaps() {
 
   const scrollHandler = () => {
     const documentData = document.documentElement;
-    if (documentData.scrollTop + documentData.clientHeight + (documentData.clientHeight*1.45) >= documentData.scrollHeight && !Loading) {
+    if (documentData.scrollTop + documentData.clientHeight + (documentData.clientHeight*1.6) >= documentData.scrollHeight && !Loading) {
       getData()
     }
   }
@@ -71,8 +71,8 @@ function Beatmaps() {
   return (
     <Fragment>
       <ul className="beatmap-list">
-        {beatmaps.map(beatmap => (
-          <li key={beatmap.id}>
+        {beatmaps.map((beatmap, index) => (
+          <li key={index}>
             <Beatmap bmap={beatmap}/>
           </li>
         ))}

@@ -1,6 +1,6 @@
 import React from "react"
 import { BrowserRouter, Routes, Route, Navigate  } from "react-router-dom"
-import { Navbar } from './Components'
+import { Navbar, MusicPlayer } from './Components'
 import { Beatmaps, TsetD } from './Pages'
 
 function App() {
@@ -14,6 +14,7 @@ function App() {
           <Route path="/test" element={<TsetD />}/>
         </Routes>
       </div>
+      <MusicPlayer />
     </BrowserRouter>
   );
 }
