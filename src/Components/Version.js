@@ -14,8 +14,8 @@ function Version({ mode, ver, isCollapse }) {
             <Tooltip placement="top" title={
                 <div className="beatmap-version-tooltip-single">
                     <div className="beatmap-version-tooltip-info-header">
-                        {GeneralMixins.modeToicon(mode)}
-                        <span><i className="fas fa-star"/>{GeneralMixins.addCommas(ver.difficulty_rating.toFixed(2))}</span>
+                        {GeneralMixins.modeToicon(ver.mode_int)}
+                        <span className="beatmap-version-rating" style={{ '--color': GeneralMixins.getDiffColor(ver.difficulty_rating)}}><i className="fas fa-star"/>{GeneralMixins.addCommas(ver.difficulty_rating.toFixed(2))}</span>
                         <span>{ver.version}</span>
                     </div>
                     <ul>
@@ -47,7 +47,8 @@ function Version({ mode, ver, isCollapse }) {
             }
             {!isCollapse &&
                 <Fragment>
-                    <span><i className="fas fa-star"/>{GeneralMixins.addCommas(ver.difficulty_rating.toFixed(2))}</span>
+                    {GeneralMixins.modeToicon(ver.mode_int)}
+                    <span className="beatmap-version-rating" style={{ '--color': GeneralMixins.getDiffColor(ver.difficulty_rating)}}><i className="fas fa-star"/>{GeneralMixins.addCommas(ver.difficulty_rating.toFixed(2))}</span>
                     <span>{ver.version}</span>
                 </Fragment>
             }

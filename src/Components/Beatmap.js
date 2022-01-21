@@ -190,11 +190,13 @@ function Beatmap({ bmap }) {
                         }
                     </li>
                     <li className="beatmap-list">
-                        <Tooltip placement="top" title={isCollapse ? 'Expand beatmap list' : 'Collapse beatmap list '}>
-                            <button className={"beatmap-list-btn " + (isCollapse ? 'collapse' : 'expand')} onClick={changeCollapse}><i className="fad fa-caret-square-down"></i></button>
-                        </Tooltip>
-                        <div className="version-lists">
-                            {generateVersionListElement()}
+                        <div>
+                            <Tooltip placement="top" title={isCollapse ? 'Expand beatmap list' : 'Collapse beatmap list '}>
+                                <button className={"beatmap-list-btn " + (isCollapse ? 'collapse' : 'expand')} onClick={changeCollapse}><i className="fad fa-caret-square-down"></i></button>
+                            </Tooltip>
+                            <div className="version-lists">
+                                {generateVersionListElement()}
+                            </div>
                         </div>
                         {!isCollapse && generateVersionExpandListElement()}
                     </li>

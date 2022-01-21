@@ -77,7 +77,7 @@ export function modeToicon(mode){
         case 1:
             return (<i className="faa fa-extra-mode-taiko"></i>)
         case 2:
-            return (<i className="faa fa-extra-mode-fruits"></i>)
+            return (<i className="faa fa-extra-mode-furits"></i>)
         case 3:
             return (<i className="faa fa-extra-mode-mania"></i>)
         default:
