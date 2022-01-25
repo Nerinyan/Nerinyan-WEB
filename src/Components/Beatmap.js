@@ -171,23 +171,25 @@ function Beatmap({ bmap }) {
                 <ul className="card-main">
                     <li className="beatmap-info">
                         <span>mapped by <Link to={"/main?creator="+bmap.user_id}>{bmap.creator}</Link></span>
-                        <Tooltip placement="top" title={"Copy download url"}>
-                            <button>
-                                <i className="fa-solid fa-copy"></i>
-                            </button>
-                        </Tooltip>
-                        <Tooltip placement="top" title={"Download beatmap" + (bmap.video ? ' with video' : '')}>
-                            <button>
-                                <i className="fa-solid fa-arrow-down-to-bracket"></i>
-                            </button>
-                        </Tooltip>
-                        {bmap.video && 
-                            <Tooltip placement="top" title={"Download beatmap without video"}>
+                        <div>
+                            <Tooltip placement="top" title={"Copy download url"}>
                                 <button>
-                                    <i className="fa-solid fa-video-slash"></i>
+                                    <i className="fa-solid fa-copy"></i>
                                 </button>
                             </Tooltip>
-                        }
+                            <Tooltip placement="top" title={"Download beatmap" + (bmap.video ? ' with video' : '')}>
+                                <button>
+                                    <i className="fa-solid fa-arrow-down-to-bracket"></i>
+                                </button>
+                            </Tooltip>
+                            {bmap.video && 
+                                <Tooltip placement="top" title={"Download beatmap without video"}>
+                                    <button>
+                                        <i className="fa-solid fa-video-slash"></i>
+                                    </button>
+                                </Tooltip>
+                            }
+                        </div>
                     </li>
                     <li className="beatmap-list">
                         <div>

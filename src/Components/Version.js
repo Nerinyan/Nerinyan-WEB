@@ -1,5 +1,5 @@
 import React, { Fragment } from "react"
-import { Tooltip } from 'antd'
+import { Tooltip, Progress } from 'antd'
 import { ReactComponent as TotalLength } from '../assets/images/total_length.svg'
 import { ReactComponent as SliderCount } from '../assets/images/count_sliders.svg'
 import { ReactComponent as CircleCount } from '../assets/images/count_circles.svg'
@@ -8,17 +8,26 @@ import { GeneralMixins } from '../Components'
 
 function Version({ mode, ver, isCollapse }) {
     var iconWidth, iconHeight = '20px'
-    
+
+    const format = (percentage) => {
+        var perc = percentage / 10
+        return perc
+    }
+
+    const convertPercent = (b) => {
+        return b*10
+    }
+
     return (
         <Fragment>
-            <Tooltip placement="top" title={
+            <Tooltip overlayClassName={"version-tooltip"} placement="top" title={
                 <div className="beatmap-version-tooltip-single">
                     <div className="beatmap-version-tooltip-info-header">
                         {GeneralMixins.modeToicon(ver.mode_int)}
                         <span className="beatmap-version-rating" style={{ '--color': GeneralMixins.getDiffColor(ver.difficulty_rating)}}><i className="fas fa-star"/>{GeneralMixins.addCommas(ver.difficulty_rating.toFixed(2))}</span>
                         <span>{ver.version}</span>
                     </div>
-                    <ul>
+                    <ul className="beatmap-version-tooltip-info-middle">
                         <Tooltip placement="top" title={"Total length"}>
                             <li>
                                 <TotalLength width={iconWidth} height={iconHeight}/><span>{GeneralMixins.secondsToTime(ver.total_length)}</span>
@@ -39,6 +48,20 @@ function Version({ mode, ver, isCollapse }) {
                                 <SliderCount width={iconWidth} height={iconHeight}/><span>{GeneralMixins.addCommas(ver.count_sliders)}</span>
                             </li>
                         </Tooltip>
+                    </ul>
+                    <ul className="beatmap-version-tooltip-info-end">
+                        <li>
+                            <span>Circle Size</span> <Progress format={format} percent={convertPercent(ver.cs)} strokeWidth={14} />
+                        </li>
+                        <li>
+                            <span>HP Drain</span> <Progress format={format} percent={convertPercent(ver.drain)} strokeWidth={14} />
+                        </li>
+                        <li>
+                            <span>Accuracy</span> <Progress format={format} percent={convertPercent(ver.accuracy)} strokeWidth={14} />
+                        </li>
+                        <li>
+                            <span>Approach Rate</span> <Progress format={format} percent={convertPercent(ver.ar)} strokeWidth={14} />
+                        </li>
                     </ul>
                 </div>
             }>
