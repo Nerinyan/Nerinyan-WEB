@@ -84,3 +84,11 @@ export function modeToicon(mode){
             break
     }
 }
+
+export function generateDownloadURL(bid, hasVideo=true){
+    var downloadURL = "https://nerina.pw/d/"+bid+"?server="+sessionStorage.getItem("downloadServer")
+    if (hasVideo) {
+        downloadURL += "&noVideo=1"
+    }
+    return downloadURL
+}

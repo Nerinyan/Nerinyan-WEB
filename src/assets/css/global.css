@@ -108,24 +108,22 @@
     --nsfw-color: hsl(var(--hsl-orange-2));
 }
 
-@media screen and (min-width: 1280px) {
-    div.container { margin: 0 auto; max-width: 1200px; }
+div.container { margin: 0 auto; max-width: 1200px; }
 
-    /* Ranked status color */
-    .RANKED { background-color: var(--status-ranked-bg); color: var(--status-ranked-color); }
-    .LOVED { background-color: var(--status-loved-bg); color: var(--status-loved-color); }
-    .QUALIFIED { background-color: var(--status-qualified-bg); color: var(--status-qualified-color); }
-    .PENDING { background-color: var(--status-pending-bg); color: var(--status-pending-color); }
-    .GRAVEYARD { background-color: var(--status-graveyard-bg); color: var(--status-graveyard-color); }
-    .NSFW { background-color: #1c2123; color: #deb945; }
+/* Ranked status color */
+.RANKED { background-color: var(--status-ranked-bg); color: var(--status-ranked-color); }
+.LOVED { background-color: var(--status-loved-bg); color: var(--status-loved-color); }
+.QUALIFIED { background-color: var(--status-qualified-bg); color: var(--status-qualified-color); }
+.PENDING { background-color: var(--status-pending-bg); color: var(--status-pending-color); }
+.GRAVEYARD { background-color: var(--status-graveyard-bg); color: var(--status-graveyard-color); }
+.NSFW { background-color: #1c2123; color: #deb945; }
 
-    /* osu icon */
-    .faa { font-family: osuFonts; font-style: normal; font-weight: 550; }
-    .fa-extra-mode-osu:before { content: "\E800"; }
-    .fa-extra-mode-taiko:before { content: "\E803"; }
-    .fa-extra-mode-furits:before { content: "\E801"; }
-    .fa-extra-mode-mania:before { content: "\E802"; }
+/* osu icon */
+.faa { font-family: osuFonts; font-style: normal; font-weight: 550; }
+.fa-extra-mode-osu:before { content: "\E800"; }
+.fa-extra-mode-taiko:before { content: "\E803"; }
+.fa-extra-mode-furits:before { content: "\E801"; }
+.fa-extra-mode-mania:before { content: "\E802"; }
 
-    /* Version Rating */
-    span.beatmap-version-rating { color: #000; font-weight: bold; font-size: 0.9em; background-color: var(--color); padding: 0.1em 0.5em; border-radius: 12px 12px; }
-}
+/* Version Rating */
+span.beatmap-version-rating { color: #000; font-weight: bold; font-size: 0.9em; background-color: var(--color); padding: 0.1em 0.5em; border-radius: 12px 12px; }

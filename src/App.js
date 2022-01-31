@@ -4,17 +4,19 @@ import { Navbar, MusicPlayer } from './Components'
 import { Beatmaps, TsetD } from './Pages'
 
 function App() {
-  return(
+    sessionStorage.setItem('downloadServer', 0)
+
+    return(
     <BrowserRouter>
-      <Navbar />
-      <div className="container">
-        <Routes>
-          <Route path="/" element={<Navigate to="/main"/>}/>
-          <Route path="/main" element={<Beatmaps />}/>
-          <Route path="/test" element={<TsetD />}/>
-        </Routes>
-      </div>
-      <MusicPlayer />
+        <Navbar />
+        <div className="container">
+            <Routes>
+                <Route path="/" element={<Navigate to="/main"/>}/>
+                <Route path="/main" element={<Beatmaps />}/>
+                <Route path="/2" element={<TsetD />}/>
+            </Routes>
+        </div>
+        <MusicPlayer />
     </BrowserRouter>
   );
 }

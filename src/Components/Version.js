@@ -51,16 +51,16 @@ function Version({ mode, ver, isCollapse }) {
                     </ul>
                     <ul className="beatmap-version-tooltip-info-end">
                         <li>
-                            <span>Circle Size</span> <Progress format={format} percent={convertPercent(ver.cs)} strokeWidth={14} />
+                            <span>Circle Size</span> <Progress format={format} percent={convertPercent(ver.cs)} type={"dashboard"} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(ver.difficulty_rating)} strokeWidth={10} />
                         </li>
                         <li>
-                            <span>HP Drain</span> <Progress format={format} percent={convertPercent(ver.drain)} strokeWidth={14} />
+                            <span>HP Drain</span> <Progress format={format} percent={convertPercent(ver.drain)} type={"dashboard"} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(ver.difficulty_rating)} strokeWidth={10} />
                         </li>
                         <li>
-                            <span>Accuracy</span> <Progress format={format} percent={convertPercent(ver.accuracy)} strokeWidth={14} />
+                            <span>Accuracy</span> <Progress format={format} percent={convertPercent(ver.accuracy)} type={"dashboard"} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(ver.difficulty_rating)} strokeWidth={10} />
                         </li>
                         <li>
-                            <span>Approach Rate</span> <Progress format={format} percent={convertPercent(ver.ar)} strokeWidth={14} />
+                            <span>Approach Rate</span> <Progress format={format} percent={convertPercent(ver.ar)} type={"dashboard"} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(ver.difficulty_rating)} strokeWidth={10} />
                         </li>
                     </ul>
                 </div>

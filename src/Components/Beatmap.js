@@ -3,9 +3,11 @@ import { Link } from "react-router-dom"
 import { Tooltip } from 'antd'
 import LazyLoad from 'react-lazyload'
 import { GeneralMixins, Version } from '../Components'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 function Beatmap({ bmap }) {
     const [isCollapse, setCollapse] = useState(true)
+    const [isCopied, setIsCopied] = useState(false)
     const [isHover, setIsHover] = useState(false)
     const [versionsSTD, setVersionsSTD] = useState([])
     const [versionsTAIKO, setVersionsTAIKO] = useState([])
@@ -94,16 +96,15 @@ function Beatmap({ bmap }) {
         }
     }
 
-    const handleSingleClick = (e) => {
-        e.preventDefault()
-        window.open(
-            '/',
-            '_blank' // <- This is what makes it open in a new window.
-          );
-    }
-    
     const handleCallMusic = (e, bid) => {
         e.preventDefault()
+    }
+
+    const clipboardHandler = () => {
+        setIsCopied(true)
+        setTimeout(() => {
+            setIsCopied(false)
+        }, 900);
     }
 
     useEffect(() => {
@@ -115,12 +116,14 @@ function Beatmap({ bmap }) {
         <Fragment>
             <div id={bmap.id} className="beatmap-single" onMouseOver={() => setIsHover(true)} onMouseOut={() => setIsHover(false)}>
                 <LazyLoad height={136} offset={300} style={{background: "url(" + require('../assets/images/beatmaps-default.png') + ")"}}>
-                    <div onClick={(e) => handleSingleClick(e)} className="card-header" style={
-                        {
-                            "--bg": "no-repeat center/100% url(https://assets.ppy.sh/beatmaps/"+bmap.id+"/covers/cover.jpg?1622784772",
-                            "--base-bg": "repeat center/90% url(" + require('../assets/images/beatmaps-default.png') +")"
-                        }
-                    }>
+                    <div onClick={(e) => {
+                        e.stopPropagation()
+                        e.preventDefault()
+                        window.open(
+                            GeneralMixins.generateDownloadURL(bmap.id),
+                            '_blank'
+                        )
+                    }} className="card-header" style={{ "--bg": "center / cover no-repeat url(https://assets.ppy.sh/beatmaps/"+bmap.id+"/covers/cover.jpg?1622784772" }}>
                         <div className="card-header-beatmapinfo">
                             <ul>
                                 <li className="card-header-status">
@@ -130,7 +133,7 @@ function Beatmap({ bmap }) {
                                     <button onClick={(e) => {
                                         e.stopPropagation()
                                         handleCallMusic(e, bmap.id)
-                                    }} style={!isHover ? {transform: 'translateX('+(-250)+'px)'} : {}} className="">
+                                    }} style={!isHover ? {transform: 'translateX('+(-250)+'px)'} : {}} className="play-button">
                                         <i className="fa-duotone fa-play"></i>
                                     </button>
                                     {bmap.nsfw &&
@@ -173,18 +176,24 @@ function Beatmap({ bmap }) {
                         <span>mapped by <Link to={"/main?creator="+bmap.user_id}>{bmap.creator}</Link></span>
                         <div>
                             <Tooltip placement="top" title={"Copy download url"}>
-                                <button>
-                                    <i className="fa-solid fa-copy"></i>
-                                </button>
+                                <CopyToClipboard text={GeneralMixins.generateDownloadURL(bmap.id)} onCopy={() => clipboardHandler()}>
+                                    <button>
+                                        <i className={isCopied ? "download-url-copied fa-solid fa-badge-check" : "fa-solid fa-copy"}></i>
+                                    </button>
+                                </CopyToClipboard>
                             </Tooltip>
                             <Tooltip placement="top" title={"Download beatmap" + (bmap.video ? ' with video' : '')}>
-                                <button>
+                                <button onClick={(e) => {
+                                        e.stopPropagation()
+                                    }}>
                                     <i className="fa-solid fa-arrow-down-to-bracket"></i>
                                 </button>
                             </Tooltip>
                             {bmap.video && 
                                 <Tooltip placement="top" title={"Download beatmap without video"}>
-                                    <button>
+                                    <button onClick={(e) => {
+                                        e.stopPropagation()
+                                    }}>
                                         <i className="fa-solid fa-video-slash"></i>
                                     </button>
                                 </Tooltip>
