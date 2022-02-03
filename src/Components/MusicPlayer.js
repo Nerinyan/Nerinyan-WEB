@@ -12,6 +12,7 @@ function MusicPlayer() {
 
     function volumeHandler(value) {
         const player = document.getElementById("musicPlayerAudio")
+        localStorage.setItem("musicPlayerVolume", (value / 100))
         player.volume = value / 100
     }
 
@@ -45,8 +46,17 @@ function MusicPlayer() {
     }
 
     function Timer() { 
-        if(playingPercent < 100) {
+        if (playingPercent < 100) {
             timer = setTimeout(function () {progressbarHandler()})
+        }
+    }
+
+    function getVolumeOnLocalStroage() {
+        if (localStorage.getItem("musicPlayerVolume") !== null) {
+            return localStorage.getItem("musicPlayerVolume") * 100
+        }
+        else {
+            return 25
         }
     }
 
@@ -66,7 +76,7 @@ function MusicPlayer() {
     }, [])
 
     return (
-        <div className="music-player-block" data-musicplayer-isplaying={isPlaying ? true : false}>
+        <div className="music-player-block" style={beatmap.title !== undefined ? {display: 'block'} : {display: 'none'}} data-musicplayer-isplaying={isPlaying ? true : false}>
             <audio preload="metadata" src={"https://b.ppy.sh/preview/0.mp3"} id="musicPlayerAudio"></audio>
             <div className="music-player-head" style={{ "--bg": "center / cover no-repeat url(https://assets.ppy.sh/beatmaps/"+beatmap.id+"/covers/cover@2x.jpg?1622784772)" }}>
                 <img alt={beatmap.artist+" - "+beatmap.title} src={"https://assets.ppy.sh/beatmaps/"+beatmap.id+"/covers/list@2x.jpg?1622784772"}></img>
@@ -83,7 +93,7 @@ function MusicPlayer() {
                     </button>
                     <div className="music-player-volume-controller">
                         <i className="fa-solid fa-volume-low"></i>
-                        <Slider trackStyle={{height: "7.5px"}} handleStyle={{display: 'none'}} tipFormatter={null} defaultValue={25} onChange={volumeHandler} />
+                        <Slider trackStyle={{height: "7.5px"}} handleStyle={{display: 'none'}} tipFormatter={null} defaultValue={getVolumeOnLocalStroage()} onChange={volumeHandler} />
                         <i className="fa-solid fa-volume-high"></i>
                     </div>
                 </div>

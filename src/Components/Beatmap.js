@@ -112,10 +112,16 @@ function Beatmap({ bmap }) {
 
         setGlobalState("musicPlayerIsPlaying", true)
         setGlobalState("musicPlayerBeatmap", bmap)
+        
+        console.log(localStorage.getItem("musicPlayerVolume"))
 
-        if (player.volume !== 0.25) { //set volume default value if not default
-            player.volume = 0.25
+        if (localStorage.getItem("musicPlayerVolume") === null) {
+            localStorage.setItem("musicPlayerVolume", 0.25)
+            player.volume = localStorage.getItem("musicPlayerVolume")
+        } else {
+            player.volume = localStorage.getItem("musicPlayerVolume")
         }
+
         player.src = "https://b.ppy.sh/preview/" + bmap.id +".mp3"
         if (player.duration > 0 && !player.paused) { //if player is playing
             return
@@ -139,7 +145,7 @@ function Beatmap({ bmap }) {
 
     return (
         <Fragment>
-            <div id={bmap.id} className="beatmap-single" data-isPlaying={musicPlayerIsPlaying && musicPlayerBeatmap.id === bmap.id ? true : false}>
+            <div id={bmap.id} className="beatmap-single" data-isplaying={musicPlayerIsPlaying && musicPlayerBeatmap.id === bmap.id ? true : false}>
                 <LazyLoad height={136} offset={300} style={{background: "url(" + require('../assets/images/beatmaps-default.png') + ")"}}>
                     <div onClick={(e) => {
                         e.stopPropagation()
