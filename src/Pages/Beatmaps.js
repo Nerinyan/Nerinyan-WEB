@@ -13,7 +13,7 @@ function Beatmaps() {
     const [beatmaps, setBeatmaps] = useState([])
     const [loading, setLoading] = useState(false)
     
-    const getData = async () => {
+    async function getData() {
         setLoading(true)
         Loading = true
         if(ErrorCount > 4) {
@@ -48,7 +48,7 @@ function Beatmaps() {
         Loading = false
     }
 
-    const scrollHandler = () => {
+    function scrollHandler() {
         const documentData = document.documentElement
         if (documentData.scrollTop + documentData.clientHeight + (documentData.clientHeight*1.6) >= documentData.scrollHeight && !Loading) {
             getData()

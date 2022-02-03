@@ -9,17 +9,16 @@ import { GeneralMixins, Version } from '../Components'
 function Beatmap({ bmap }) {
     const [isCollapse, setCollapse] = useState(true)
     const [isCopied, setIsCopied] = useState(false)
-    const [isHover, setIsHover] = useState(false)
     const [versionsSTD, setVersionsSTD] = useState([])
     const [versionsTAIKO, setVersionsTAIKO] = useState([])
     const [versionsCTB, setVersionsCTB] = useState([])
     const [versionsMANIA, setVersionsMANIA] = useState([])
     const VersionList = [versionsSTD, versionsTAIKO, versionsCTB, versionsMANIA]
     const [musicPlayerIsPlaying] = useGlobalState("musicPlayerIsPlaying")
-    const [musicPlayerBid] = useGlobalState("musicPlayerBid")
+    const [musicPlayerBeatmap] = useGlobalState("musicPlayerBeatmap")
     const IconList = ["faa fa-extra-mode-osu", "faa fa-extra-mode-taiko", "faa fa-extra-mode-furits", "faa fa-extra-mode-mania"]
 
-    const generateVersionListElement = () => {
+    function generateVersionListElement() {
         var result = []
         VersionList.forEach((version, index) => {
             if (version.length > 0) {
@@ -40,7 +39,7 @@ function Beatmap({ bmap }) {
         return result
     }
 
-    const generateVersionExpandListElement = () => {
+    function generateVersionExpandListElement() {
         var result = []
         VersionList.forEach((version, index) => {
             if (version.length > 0) {
@@ -58,7 +57,7 @@ function Beatmap({ bmap }) {
         return result
     }
 
-    const sortBeatmaps = () => {
+    function sortBeatmaps() {
         var versions_temp = {
             'std': [],
             'taiko': [],
@@ -91,7 +90,7 @@ function Beatmap({ bmap }) {
         setVersionsMANIA(versions_temp.mania)
     }
 
-    const changeCollapse = () => {
+    function changeCollapse() {
         if (isCollapse) {
             setCollapse(false)
         } else {
@@ -99,21 +98,22 @@ function Beatmap({ bmap }) {
         }
     }
 
-    const handleCallMusic = (e) => {
+    function handleCallMusic(e) {
+        e.stopPropagation()
         e.preventDefault()
         var player = document.getElementById("musicPlayerAudio")
 
         // 음악이 현재 재생중이며 재생중인 음악이 선택한 비트맵과 같은경 우
-        if (musicPlayerIsPlaying && musicPlayerBid === bmap.id) {
+        if (musicPlayerIsPlaying && musicPlayerBeatmap.id === bmap.id) {
             player.pause()
             setGlobalState("musicPlayerIsPlaying", false)
             return
         }
 
         setGlobalState("musicPlayerIsPlaying", true)
-        setGlobalState("musicPlayerBid", bmap.id)
+        setGlobalState("musicPlayerBeatmap", bmap)
 
-        if (player.volume != 0.25) { //set volume default value if not default
+        if (player.volume !== 0.25) { //set volume default value if not default
             player.volume = 0.25
         }
         player.src = "https://b.ppy.sh/preview/" + bmap.id +".mp3"
@@ -125,7 +125,7 @@ function Beatmap({ bmap }) {
         }
     }
 
-    const clipboardHandler = () => {
+    function clipboardHandler() {
         setIsCopied(true)
         setTimeout(() => {
             setIsCopied(false)
@@ -139,7 +139,7 @@ function Beatmap({ bmap }) {
 
     return (
         <Fragment>
-            <div id={bmap.id} className="beatmap-single" onMouseOver={() => setIsHover(true)} onMouseOut={() => setIsHover(false)}>
+            <div id={bmap.id} className="beatmap-single" data-isPlaying={musicPlayerIsPlaying && musicPlayerBeatmap.id === bmap.id ? true : false}>
                 <LazyLoad height={136} offset={300} style={{background: "url(" + require('../assets/images/beatmaps-default.png') + ")"}}>
                     <div onClick={(e) => {
                         e.stopPropagation()
@@ -188,15 +188,12 @@ function Beatmap({ bmap }) {
                             <span className="title">{bmap.title}</span>
                             <span className="artist">by {bmap.artist}</span>
                         </div>
-                        <div className="beatmap-preview" style={musicPlayerIsPlaying && musicPlayerBid === bmap.id ? {opacity: 1} : {}}>
-                            <button onClick={(e) => {
-                                e.stopPropagation()
-                                handleCallMusic(e)
-                            }} className="play-button">
-                                <i className={"fa-duotone fa-" + (musicPlayerIsPlaying && musicPlayerBid === bmap.id ? "pause" : "play")}></i>
+                        <div className="beatmap-preview" style={musicPlayerIsPlaying && musicPlayerBeatmap.id === bmap.id ? {opacity: 1} : {}}>
+                            <button onClick={(e) => {handleCallMusic(e)}} className="play-button">
+                                <i className={"fa-duotone fa-" + (musicPlayerIsPlaying && musicPlayerBeatmap.id === bmap.id ? "pause" : "play")}></i>
                             </button>
                             <div className="beatmap-preview-progress">
-                            
+
                             </div>
                         </div>
                     </div>
@@ -213,17 +210,13 @@ function Beatmap({ bmap }) {
                                 </CopyToClipboard>
                             </Tooltip>
                             <Tooltip placement="top" title={"Download beatmap" + (bmap.video ? ' with video' : '')}>
-                                <button onClick={(e) => {
-                                        e.stopPropagation()
-                                    }}>
+                                <button onClick={(e) => {e.stopPropagation()}}>
                                     <i className="fa-solid fa-arrow-down-to-bracket"></i>
                                 </button>
                             </Tooltip>
                             {bmap.video && 
                                 <Tooltip placement="top" title={"Download beatmap without video"}>
-                                    <button onClick={(e) => {
-                                        e.stopPropagation()
-                                    }}>
+                                    <button onClick={(e) => {e.stopPropagation()}}>
                                         <i className="fa-solid fa-video-slash"></i>
                                     </button>
                                 </Tooltip>

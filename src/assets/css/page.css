@@ -1,23 +1,25 @@
 /* Beatmap Page */
-ul.beatmap-list { display: flex; flex-wrap: wrap; justify-content: center; margin: 12px auto; row-gap: 1em; column-gap: 1em; }
-ul.beatmap-list > li { position:relative; overflow: hidden; display: flex; width: calc(50% - 2%); transition: transform 150ms ease-in-out; border-radius: 5px; }
-ul.beatmap-list > li:hover { transform: scale(1.025); z-index: 2; }
+ul.beatmap-list { display: flex; flex-wrap: wrap; justify-content: center; margin: 12px auto; }
+ul.beatmap-list > li { padding: 0.5em; position:relative; overflow: hidden; display: inline-block; width: calc(50% - 2%); transition: transform 150ms ease, border 150ms ease; }
+ul.beatmap-list > li:hover { z-index: 2; }
 ul.beatmap-list > li > div { color: white; }
-ul.beatmap-list > li > ul.card-main { box-shadow: hsl(var(--hsl-b6)) 0 0 3.5px; }
 
-div.beatmap-single { box-shadow: hsl(var(--hsl-b6)) 0 0 3.5px; max-width: 590px; width: 100%; position: relative; padding-top: 0; text-align: left; margin: 0; overflow: hidden; }
+div.beatmap-single { border-radius: 5px; box-shadow: hsl(var(--hsl-b6)) 0 0 5px; max-width: 590px; width: 100%; position: relative; padding-top: 0; text-align: left; margin: 0; overflow: hidden; }
+div.beatmap-single:hover { box-shadow: hsl(var(--hsl-b6)) 0 0 10px; }
+div.beatmap-single:hover::after { width: 5px; }
+div.beatmap-single::after { display: block; position: absolute; top: 0; right: 0; width: 0px; height: 100%; content: ''; background-color: hsl(var(--hsl-darkorange-1)); transition: width 150ms ease; }
+div.beatmap-single[data-isPlaying=true]::after { width: 5px; }
 div.beatmap-single div.card-header { cursor: pointer; background: center / cover no-repeat linear-gradient(to right, #00000099, #ffe4e100), var(--bg); width: 100%; height: 136px; padding: 8px; display: flex; flex-direction: column; justify-content: space-between; }
-div.beatmap-single div.card-header div.card-header-beatmapinfo { width: 100%; }
+div.beatmap-single div.card-header div.card-header-beatmapinfo { width: 100%; z-index: 2; }
 div.beatmap-single div.card-header div.card-header-beatmapinfo ul { display: flex; justify-content: space-between; position: relative; }
-div.beatmap-single div.card-header div.card-header-beatmapinfo ul li.card-header-info { justify-content: right; }
 div.beatmap-single div.card-header div.card-header-beatmapinfo ul li > * { padding: 0.1em 0.75em; border-radius: 0.75em; font-weight: 800; transition: all 125ms cubic-bezier(0.62, 0, 0.99, 0.49); }
-div.beatmap-single div.card-header div.beatmap-title { display: flex; flex-direction: column; font-weight: bold; }
+div.beatmap-single div.card-header div.beatmap-title { display: flex; flex-direction: column; font-weight: bold; z-index: 2; }
 div.beatmap-single div.card-header div.beatmap-title span.title { font-size: 1.5em; line-height: 1; }
 div.beatmap-single div.card-header div.beatmap-title span.artist { color: hsl(var(--hsl-orange-1)); }
 div.beatmap-single div.card-header div.beatmap-preview { transition: opacity 180ms ease; opacity: 0; }
 div.beatmap-single:hover div.card-header div.beatmap-preview { opacity: 1; }
-div.beatmap-single div.card-header div.beatmap-preview { display: flex; justify-content: center; align-items: center; position: absolute; left: 0; top: 0; width: 100%; height: 136px; background: radial-gradient(transparent, black); }
-div.beatmap-single div.card-header div.beatmap-preview button { cursor: pointer; border: none; background: transparent; font-size: 2em; text-shadow: 0 0 10px black; }
+div.beatmap-single div.card-header div.beatmap-preview { display: flex; justify-content: center; align-items: center; position: absolute; left: 0; top: 0; width: 100%; height: 136px; background: radial-gradient(transparent, hsl(var(--hsl-b3))); }
+div.beatmap-single div.card-header div.beatmap-preview button { z-index: 3; cursor: pointer; border: none; background: transparent; font-size: 2em; text-shadow: 0 0 10px black; }
 
 div.beatmap-single ul.card-main li.beatmap-info { display: flex; align-items: center; justify-content: space-between; padding: 7.5px 10px; background-color: hsl(var(--hsl-b5)); color: white; }
 div.beatmap-single ul.card-main li.beatmap-info span a { color: hsl(var(--hsl-pink-1)); }
@@ -28,7 +30,7 @@ div.beatmap-single ul.card-main li.beatmap-list > div { display: flex; flex-dire
 div.beatmap-single ul.card-main li.beatmap-list div button { font-size: 1.5em; display: inline-flex; border: none; background-color: transparent; cursor: pointer; }
 div.beatmap-single ul.card-main li.beatmap-list div button i { transition: transform 300ms ease-in-out; vertical-align: middle; }
 div.beatmap-single ul.card-main li.beatmap-list div button.expand i {  transform: rotate(180deg); }
-div.beatmap-single ul.card-main li.beatmap-list div div.version-lists { display: flex; flex-direction: row; }
+div.beatmap-single ul.card-main li.beatmap-list div div.version-lists { display: block; margin: auto 0; }
 div.beatmap-single ul.card-main li.beatmap-list div div.version-lists div.version-list-single { display: flex; flex-direction: row; align-items: center; }
 div.beatmap-single ul.card-main li.beatmap-list div div.version-lists div.version-list-single:not(:last-child) { margin-right: 10px; }
 div.beatmap-single ul.card-main li.beatmap-list div div.version-lists div.version-list-single i { font-size: 1.15em; line-height: 1; margin-right: 3px; }
@@ -52,12 +54,38 @@ div.beatmap-version-tooltip-single ul.beatmap-version-tooltip-info-end li:nth-ch
 div.beatmap-version-tooltip-single ul.beatmap-version-tooltip-info-end li > span { margin-right: 1em; }
 div.beatmap-version-tooltip-single ul.beatmap-version-tooltip-info-end li div { display: flex; flex-direction: row; align-items: center; color: white; transform: scale(0.9); }
 
+
+/* MusicPlayer */
+div.music-player-block { border-radius: 12px; box-shadow: 0 0 10px black; position: fixed; top: 5vh; right: 2.5vw; z-index: 3; min-width: 400px; max-width: 400px; transition: all 200ms ease; }
+div.music-player-block[data-musicplayer-isplaying=false] { animation: musicPlayer forwards 4s; }
+div.music-player-block[data-musicplayer-isplaying=true] { animation: musicPlayer-reverse forwards 400ms; }
+div.music-player-block div.music-player-head { border-radius: 12px 12px 0 0; display: flex; flex-direction: row; background: center / cover no-repeat linear-gradient(to left, #00000099, #00000080), var(--bg); padding: 10px; }
+div.music-player-block div.music-player-head > img { width: 125px; margin-right: 1.5em; }
+div.music-player-block div.music-player-head > div.music-player-info { display: flex; flex-direction: column; color: white; justify-content: center; }
+div.music-player-block div.music-player-head > div.music-player-info span.title { font-size: 1.3em; font-weight: bold; line-height: 1.2; margin-bottom: 0.25em; }
+div.music-player-block div.music-player-body { border-radius: 0 0 12px 12px; background: hsl(var(--hsl-b3)); }
+div.music-player-block div.music-player-body div.music-player-controller { display: flex; flex-direction: row; justify-content: space-between; padding: 10px 10px; }
+div.music-player-block div.music-player-body div.music-player-controller div.music-player-progress { width: 50%; }
+div.music-player-block div.music-player-body div.music-player-controller div.music-player-progress div.ant-slider-rail { height: 10px; background: hsl(var(--hsl-darkorange-2)); }
+div.music-player-block div.music-player-body div.music-player-controller div.music-player-progress div.ant-slider-track { background: hsl(var(--hsl-orange-1)); }
+div.music-player-block div.music-player-body div.music-player-controller button { margin: 0 auto; cursor: pointer; width: 30px; height: 30px; border: none; background: white; color: hsl(var(--hsl-darkorange-3)); border-radius: 8px; transition: background 200ms ease; }
+div.music-player-block div.music-player-body div.music-player-controller button:hover { background: hsl(var(--hsl-orange-1)); }
+div.music-player-block div.music-player-body div.music-player-controller div.music-player-volume-controller { display: flex; width: 30%; align-items: center; }
+div.music-player-block div.music-player-body div.music-player-controller div.music-player-volume-controller > div { width: 100%; color: white; }
+div.music-player-block div.music-player-body div.music-player-controller div.music-player-volume-controller > div div.ant-slider-rail { height: 7.5px; background: hsl(var(--hsl-darkorange-2)); }
+div.music-player-block div.music-player-body div.music-player-controller div.music-player-volume-controller > div div.ant-slider-track { background: hsl(var(--hsl-orange-1)); }
+
 @keyframes copy-anime {
     0% { transform: scale(0.25); }
     75% { transform: scale(1.5); color: hsl(var(--hsl-orange-1)); }
     100% { transform: scale(1) rotateX(120deg); }
 }
 
-/* MusicPlayer */
-div.music-player-block { position: fixed; top: 5vh; right: 2.5vw; }
-div.music-player-block div.music-player-cardheader { width: 180px; height: 180px; background: center / cover no-repeat var(--img); border-radius: 12px; box-shadow: black 0 0 10px; }
+@keyframes musicPlayer {
+    0%, 80% { transform: translateY(0); }
+    100% { transform: translateY(-500px); }
+}
+@keyframes musicPlayer-reverse {
+    0%, 80% { transform: translateY(-500px); }
+    100% { transform: translateY(0); }
+}

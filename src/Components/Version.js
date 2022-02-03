@@ -9,12 +9,12 @@ import { GeneralMixins } from '../Components'
 function Version({ mode, ver, isCollapse }) {
     var iconWidth, iconHeight = '20px'
 
-    const format = (percentage) => {
+    function format(percentage) {
         var perc = percentage / 10
         return perc
     }
 
-    const convertPercent = (b) => {
+    function convertPercent(b) {
         return b*10
     }
 
