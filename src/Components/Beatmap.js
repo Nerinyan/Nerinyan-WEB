@@ -1,9 +1,10 @@
 import React, { Fragment, useState, useEffect } from "react"
 import { Link } from "react-router-dom"
-import { Tooltip } from 'antd'
+import { setGlobalState, useGlobalState } from '../store'
 import LazyLoad from 'react-lazyload'
-import { GeneralMixins, Version } from '../Components'
+import { Tooltip } from 'antd'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { GeneralMixins, Version } from '../Components'
 
 function Beatmap({ bmap }) {
     const [isCollapse, setCollapse] = useState(true)
@@ -14,6 +15,8 @@ function Beatmap({ bmap }) {
     const [versionsCTB, setVersionsCTB] = useState([])
     const [versionsMANIA, setVersionsMANIA] = useState([])
     const VersionList = [versionsSTD, versionsTAIKO, versionsCTB, versionsMANIA]
+    const [musicPlayerIsPlaying] = useGlobalState("musicPlayerIsPlaying")
+    const [musicPlayerBid] = useGlobalState("musicPlayerBid")
     const IconList = ["faa fa-extra-mode-osu", "faa fa-extra-mode-taiko", "faa fa-extra-mode-furits", "faa fa-extra-mode-mania"]
 
     const generateVersionListElement = () => {
@@ -96,8 +99,30 @@ function Beatmap({ bmap }) {
         }
     }
 
-    const handleCallMusic = (e, bid) => {
+    const handleCallMusic = (e) => {
         e.preventDefault()
+        var player = document.getElementById("musicPlayerAudio")
+
+        // 음악이 현재 재생중이며 재생중인 음악이 선택한 비트맵과 같은경 우
+        if (musicPlayerIsPlaying && musicPlayerBid === bmap.id) {
+            player.pause()
+            setGlobalState("musicPlayerIsPlaying", false)
+            return
+        }
+
+        setGlobalState("musicPlayerIsPlaying", true)
+        setGlobalState("musicPlayerBid", bmap.id)
+
+        if (player.volume != 0.25) { //set volume default value if not default
+            player.volume = 0.25
+        }
+        player.src = "https://b.ppy.sh/preview/" + bmap.id +".mp3"
+        if (player.duration > 0 && !player.paused) { //if player is playing
+            return
+        }
+        else {
+            player.play()
+        }
     }
 
     const clipboardHandler = () => {
@@ -127,15 +152,9 @@ function Beatmap({ bmap }) {
                         <div className="card-header-beatmapinfo">
                             <ul>
                                 <li className="card-header-status">
-                                    <div style={isHover ? {transform: 'translateX('+(-250)+'px)'} : {}} className={"ranked-status " + GeneralMixins.convertRankedStatusToText(bmap.ranked)}>
+                                    <div className={"ranked-status " + GeneralMixins.convertRankedStatusToText(bmap.ranked)}>
                                         {GeneralMixins.convertRankedStatusToText(bmap.ranked)}
                                     </div>
-                                    <button onClick={(e) => {
-                                        e.stopPropagation()
-                                        handleCallMusic(e, bmap.id)
-                                    }} style={!isHover ? {transform: 'translateX('+(-250)+'px)'} : {}} className="play-button">
-                                        <i className="fa-duotone fa-play"></i>
-                                    </button>
                                     {bmap.nsfw &&
                                         <div className={"nsfw"}>
                                             EXPLICIT
@@ -168,6 +187,17 @@ function Beatmap({ bmap }) {
                         <div className="beatmap-title">
                             <span className="title">{bmap.title}</span>
                             <span className="artist">by {bmap.artist}</span>
+                        </div>
+                        <div className="beatmap-preview" style={musicPlayerIsPlaying && musicPlayerBid === bmap.id ? {opacity: 1} : {}}>
+                            <button onClick={(e) => {
+                                e.stopPropagation()
+                                handleCallMusic(e)
+                            }} className="play-button">
+                                <i className={"fa-duotone fa-" + (musicPlayerIsPlaying && musicPlayerBid === bmap.id ? "pause" : "play")}></i>
+                            </button>
+                            <div className="beatmap-preview-progress">
+                            
+                            </div>
                         </div>
                     </div>
                 </LazyLoad>

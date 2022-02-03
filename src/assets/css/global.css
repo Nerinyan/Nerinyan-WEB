@@ -127,3 +127,10 @@ div.container { margin: 0 auto; max-width: 1200px; }
 
 /* Version Rating */
 span.beatmap-version-rating { color: #000; font-weight: bold; font-size: 0.9em; background-color: var(--color); padding: 0.1em 0.5em; border-radius: 12px 12px; }
+
+.ant-tooltip-content .ant-tooltip-inner { border-radius: 8px; background-color: rgb(0 0 0 / 80%); }
+.version-tooltip { max-width: 400px !important; }
+.version-tooltip .ant-tooltip-content .ant-tooltip-inner { padding: 18px 20px !important; }
+.ant-progress-circle .ant-progress-text { color: rgba(255,255,255,.85) !important; }
+.ant-progress-circle-trail { stroke: hsl(var(--hsl-b4)) !important; }
+.download-url-copied { animation: copy-anime 750ms; transition: transform 200ms cubic-bezier(0.85, 0.1, 0.22, 1.07); }
