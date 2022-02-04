@@ -56,11 +56,12 @@ div.beatmap-version-tooltip-single ul.beatmap-version-tooltip-info-end li div { 
 
 
 /* MusicPlayer */
-div.music-player-block { transform: translateY(500px); border-radius: 12px; box-shadow: 0 0 10px black; position: fixed; bottom: 5vh; right: 2.5vw; z-index: 3; min-width: 400px; max-width: 400px; transition: all 200ms ease; }
+div.music-player-block { transform: translateY(500px); border-radius: 12px; box-shadow: 0 0 10px black; position: fixed; bottom: 3vh; right: 2.5vw; z-index: 3; min-width: 400px; max-width: 400px; transition: all 200ms ease; }
 div.music-player-block[data-musicplayer-isplaying=false] { animation: musicPlayer forwards 4s; }
 div.music-player-block[data-musicplayer-isplaying=true] { animation: musicPlayer-reverse forwards 400ms; }
 div.music-player-block div.music-player-head { border-radius: 12px 12px 0 0; display: flex; flex-direction: row; background: center / cover no-repeat linear-gradient(to left, #00000099, #00000080), var(--bg); padding: 10px; }
-div.music-player-block div.music-player-head > img { width: 125px; margin-right: 1.5em; }
+div.music-player-block div.music-player-head > div.lazyload-wrapper { width: 125px; height: 125px; margin-right: 1.5em; }
+div.music-player-block div.music-player-head > div.lazyload-wrapper > img { width: 125px; }
 div.music-player-block div.music-player-head > div.music-player-info { display: flex; flex-direction: column; color: white; justify-content: center; }
 div.music-player-block div.music-player-head > div.music-player-info span.title { font-size: 1.3em; font-weight: bold; line-height: 1.2; margin-bottom: 0.25em; }
 div.music-player-block div.music-player-body { border-radius: 0 0 12px 12px; background: hsl(var(--hsl-b3)); }

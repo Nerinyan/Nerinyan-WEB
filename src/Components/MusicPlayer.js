@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { setGlobalState, useGlobalState } from '../store'
+import LazyLoad from "react-lazyload"
 import { Slider } from 'antd'
 
 // eslint-disable-next-line no-unused-vars
@@ -7,8 +8,9 @@ var timer
 
 function MusicPlayer() {
     const [playingPercent, setPlayingPercent] = useState(0)
-    const [beatmap] = useGlobalState("musicPlayerBeatmap")
     const [isPlaying] = useGlobalState("musicPlayerIsPlaying")
+    const [isPaused] = useGlobalState("musicPlayerIsPaused")
+    const [beatmap] = useGlobalState("musicPlayerBeatmap")
 
     function volumeHandler(value) {
         const player = document.getElementById("musicPlayerAudio")
@@ -21,10 +23,11 @@ function MusicPlayer() {
         e.preventDefault()
 
         const player = document.getElementById("musicPlayerAudio")
-        if (isPlaying) {
-            setGlobalState("musicPlayerIsPlaying", false)
+        if (!isPaused) {
+            setGlobalState("musicPlayerIsPaused", true)
             player.pause()
         } else {
+            setGlobalState("musicPlayerIsPaused", false)
             setGlobalState("musicPlayerIsPlaying", true)
             player.play()
         }
@@ -63,13 +66,17 @@ function MusicPlayer() {
     useEffect(() => {
         const player = document.getElementById("musicPlayerAudio")
         player.onerror = function() {
+            player.pause()
+            setGlobalState("musicPlayerIsPaused", true)
             setGlobalState("musicPlayerIsPlaying", false)
         }
         player.onended = function() {
             player.pause()
+            setGlobalState("musicPlayerIsPaused", true)
             setGlobalState("musicPlayerIsPlaying", false)
         }
         player.onplaying = function() {
+            setGlobalState("musicPlayerIsPaused", false)
             progressbarHandler()
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -79,7 +86,9 @@ function MusicPlayer() {
         <div className="music-player-block" style={beatmap.title !== undefined ? {display: 'block'} : {display: 'none'}} data-musicplayer-isplaying={isPlaying ? true : false}>
             <audio preload="metadata" src={"https://b.ppy.sh/preview/0.mp3"} id="musicPlayerAudio"></audio>
             <div className="music-player-head" style={{ "--bg": "center / cover no-repeat url(https://assets.ppy.sh/beatmaps/"+beatmap.id+"/covers/cover@2x.jpg?1622784772)" }}>
-                <img alt={beatmap.artist+" - "+beatmap.title} src={"https://assets.ppy.sh/beatmaps/"+beatmap.id+"/covers/list@2x.jpg?1622784772"}></img>
+                <LazyLoad width={125    } height={125} style={{background: "url(" + require('../assets/images/beatmaps-default.png') + ")"}} >
+                    <img alt="" src={"https://assets.ppy.sh/beatmaps/"+beatmap.id+"/covers/list@2x.jpg?1622784772"}></img>
+                </LazyLoad>
                 <div className="music-player-info">
                     <span className="title">{beatmap.title}</span>
                     <span className="artist">{beatmap.artist}</span>
@@ -89,7 +98,7 @@ function MusicPlayer() {
                 <div className="music-player-controller">
                     <Slider className={"music-player-progress"} trackStyle={{height: "10px", transition: "width 10ms ease"}} handleStyle={{display: 'none'}} value={playingPercent} tipFormatter={null} defaultValue={0} onChange={progressbarControlHandler} />
                     <button onClick={(e) => {playerToggleHandler(e)}}>
-                        <i className={"fa-duotone fa-" + (isPlaying ? "pause" : "play")}></i>
+                        <i className={"fa-duotone fa-" + (!isPaused ? "pause" : "play")}></i>
                     </button>
                     <div className="music-player-volume-controller">
                         <i className="fa-solid fa-volume-low"></i>

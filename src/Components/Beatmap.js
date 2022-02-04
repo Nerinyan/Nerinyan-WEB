@@ -15,6 +15,7 @@ function Beatmap({ bmap }) {
     const [versionsMANIA, setVersionsMANIA] = useState([])
     const VersionList = [versionsSTD, versionsTAIKO, versionsCTB, versionsMANIA]
     const [musicPlayerIsPlaying] = useGlobalState("musicPlayerIsPlaying")
+    const [musicPlayerIsPaused] = useGlobalState("musicPlayerIsPaused")
     const [musicPlayerBeatmap] = useGlobalState("musicPlayerBeatmap")
     const IconList = ["faa fa-extra-mode-osu", "faa fa-extra-mode-taiko", "faa fa-extra-mode-furits", "faa fa-extra-mode-mania"]
 
@@ -112,8 +113,6 @@ function Beatmap({ bmap }) {
 
         setGlobalState("musicPlayerIsPlaying", true)
         setGlobalState("musicPlayerBeatmap", bmap)
-        
-        console.log(localStorage.getItem("musicPlayerVolume"))
 
         if (localStorage.getItem("musicPlayerVolume") === null) {
             localStorage.setItem("musicPlayerVolume", 0.25)
@@ -196,7 +195,7 @@ function Beatmap({ bmap }) {
                         </div>
                         <div className="beatmap-preview" style={musicPlayerIsPlaying && musicPlayerBeatmap.id === bmap.id ? {opacity: 1} : {}}>
                             <button onClick={(e) => {handleCallMusic(e)}} className="play-button">
-                                <i className={"fa-duotone fa-" + (musicPlayerIsPlaying && musicPlayerBeatmap.id === bmap.id ? "pause" : "play")}></i>
+                                <i className={"fa-duotone fa-" + (!musicPlayerIsPaused && musicPlayerBeatmap.id === bmap.id ? "pause" : "play")}></i>
                             </button>
                             <div className="beatmap-preview-progress">
 
