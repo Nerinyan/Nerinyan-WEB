@@ -36,7 +36,7 @@ div.beatmap-single ul.card-main li.beatmap-list div div.version-lists div.versio
 div.beatmap-single ul.card-main li.beatmap-list div div.version-lists div.version-list-single i { font-size: 1.15em; line-height: 1; margin-right: 3px; }
 div.beatmap-single ul.card-main li.beatmap-list div div.version-lists div.version-list-single ul { display: flex; flex-direction: row; }
 div.beatmap-single ul.card-main li.beatmap-list div div.version-lists div.version-list-single ul li:not(:last-child) { margin-right: 1.5px; }
-div.beatmap-single ul.card-main li.beatmap-list div div.version-lists div.version-list-single ul li div.beatmap-version-single { background: var(--color); width: 6px; border-radius: 10px; padding: 8px 0; }
+div.beatmap-single ul.card-main li.beatmap-list div div.version-lists div.version-list-single ul li div.beatmap-version-single { background: var(--bg-color); width: 6px; border-radius: 10px; padding: 8px 0; }
 div.beatmap-single ul.card-main li.beatmap-list > ul { padding: 0 0.5em; }
 div.beatmap-single ul.card-main li.beatmap-list > ul li span > *:not(:last-child) { margin-right: 0.25em; }   
 div.beatmap-single ul.card-main li.beatmap-list > ul li span i.faa { font-size: 1.1em; }

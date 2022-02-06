@@ -24,7 +24,7 @@ function Version({ mode, ver, isCollapse }) {
                 <div className="beatmap-version-tooltip-single">
                     <div className="beatmap-version-tooltip-info-header">
                         {GeneralMixins.modeToicon(ver.mode_int)}
-                        <span className="beatmap-version-rating" style={{ '--color': GeneralMixins.getDiffColor(ver.difficulty_rating)}}><i className="fas fa-star"/>{GeneralMixins.addCommas(ver.difficulty_rating.toFixed(2))}</span>
+                        <span className="beatmap-version-rating" style={{ '--bg-color': GeneralMixins.getDiffColor(ver.difficulty_rating), '--text-color': ver.difficulty_rating > 7 ? '#d2d2d2' : '#393939'}}><i className="fas fa-star"/>{GeneralMixins.addCommas(ver.difficulty_rating.toFixed(2))}</span>
                         <span>{ver.version}</span>
                     </div>
                     <ul className="beatmap-version-tooltip-info-middle">
@@ -66,12 +66,12 @@ function Version({ mode, ver, isCollapse }) {
                 </div>
             }>
             {isCollapse && 
-                <div className="beatmap-version-single" style={{ '--color': GeneralMixins.getDiffColor(ver.difficulty_rating)}}></div>
+                <div className="beatmap-version-single" style={{ '--bg-color': GeneralMixins.getDiffColor(ver.difficulty_rating), '--text-color': ver.difficulty_rating > 7 ? '#d2d2d2' : '#393939'}}></div>
             }
             {!isCollapse &&
                 <Fragment>
                     {GeneralMixins.modeToicon(ver.mode_int)}
-                    <span className="beatmap-version-rating" style={{ '--color': GeneralMixins.getDiffColor(ver.difficulty_rating)}}><i className="fas fa-star"/>{GeneralMixins.addCommas(ver.difficulty_rating.toFixed(2))}</span>
+                    <span className="beatmap-version-rating" style={{ '--bg-color': GeneralMixins.getDiffColor(ver.difficulty_rating), '--text-color': ver.difficulty_rating > 7 ? '#d2d2d2' : '#393939'}}><i className="fas fa-star"/>{GeneralMixins.addCommas(ver.difficulty_rating.toFixed(2))}</span>
                     <span>{ver.version}</span>
                 </Fragment>
             }
