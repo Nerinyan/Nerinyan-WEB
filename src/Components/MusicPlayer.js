@@ -86,9 +86,7 @@ function MusicPlayer() {
         <div className="music-player-block" style={beatmap.title !== undefined ? {display: 'block'} : {display: 'none'}} data-musicplayer-isplaying={isPlaying ? true : false}>
             <audio preload="metadata" src={"https://b.ppy.sh/preview/0.mp3"} id="musicPlayerAudio"></audio>
             <div className="music-player-head" style={{ "--bg": "center / cover no-repeat url(https://assets.ppy.sh/beatmaps/"+beatmap.id+"/covers/cover@2x.jpg?1622784772)" }}>
-                <LazyLoad width={125    } height={125} style={{background: "url(" + require('../assets/images/beatmaps-default.png') + ")"}} >
-                    <img alt="" src={"https://assets.ppy.sh/beatmaps/"+beatmap.id+"/covers/list@2x.jpg?1622784772"}></img>
-                </LazyLoad>
+                <img alt="" src={"https://assets.ppy.sh/beatmaps/"+beatmap.id+"/covers/list@2x.jpg?1622784772"}></img>
                 <div className="music-player-info">
                     <span className="title">{beatmap.title}</span>
                     <span className="artist">{beatmap.artist}</span>
