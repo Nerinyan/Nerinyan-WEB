@@ -22,8 +22,6 @@ function MusicPlayer() {
         e.stopPropagation()
         e.preventDefault()
 
-        console.log(isPlaying, isPaused)
-
         const player = document.getElementById("musicPlayerAudio")
         if (!isPaused) {
             setGlobalState("musicPlayerIsPaused", true)
