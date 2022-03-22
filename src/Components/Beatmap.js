@@ -102,16 +102,26 @@ function Beatmap({ bmap }) {
     function handleCallMusic(e) {
         e.stopPropagation()
         e.preventDefault()
+
         var player = document.getElementById("musicPlayerAudio")
 
         // 음악이 현재 재생중이며 재생중인 음악이 선택한 비트맵과 같은경 우
-        if (musicPlayerIsPlaying && musicPlayerBeatmap.id === bmap.id) {
+        if (musicPlayerIsPlaying && !musicPlayerIsPaused && musicPlayerBeatmap.id === bmap.id) {
+            console.log('1')
             player.pause()
-            setGlobalState("musicPlayerIsPlaying", false)
+            setGlobalState("musicPlayerIsPaused", true)
+            return
+        }
+
+        if (musicPlayerIsPaused && musicPlayerBeatmap.id === bmap.id) {
+            console.log('2')
+            player.play()
+            setGlobalState("musicPlayerIsPaused", false)
             return
         }
 
         setGlobalState("musicPlayerIsPlaying", true)
+        setGlobalState("musicPlayerIsPaused", false)
         setGlobalState("musicPlayerBeatmap", bmap)
 
         if (localStorage.getItem("musicPlayerVolume") === null) {
