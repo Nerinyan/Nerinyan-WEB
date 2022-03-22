@@ -127,7 +127,6 @@ function Beatmap({ bmap }) {
         } else {
             player.volume = localStorage.getItem("musicPlayerVolume")
         }
-
         player.src = "https://b.ppy.sh/preview/" + bmap.id +".mp3"
         if (player.duration > 0 && !player.paused) { //if player is playing
             return
