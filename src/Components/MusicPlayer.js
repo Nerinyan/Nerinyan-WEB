@@ -21,7 +21,6 @@ function MusicPlayer() {
     function playerToggleHandler(e) {
         e.stopPropagation()
         e.preventDefault()
-
         const player = document.getElementById("musicPlayerAudio")
         if (!isPaused) {
             setGlobalState("musicPlayerIsPaused", true)

@@ -102,7 +102,6 @@ function Beatmap({ bmap }) {
     function handleCallMusic(e) {
         e.stopPropagation()
         e.preventDefault()
-
         var player = document.getElementById("musicPlayerAudio")
 
         // 음악이 현재 재생중이며 재생중인 음악이 선택한 비트맵과 같은경 우
