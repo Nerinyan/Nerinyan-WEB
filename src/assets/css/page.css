@@ -38,6 +38,8 @@ div.beatmap-single ul.card-main li.beatmap-list div div.version-lists div.versio
 div.beatmap-single ul.card-main li.beatmap-list div div.version-lists div.version-list-single ul li:not(:last-child) { margin-right: 1.5px; }
 div.beatmap-single ul.card-main li.beatmap-list div div.version-lists div.version-list-single ul li div.beatmap-version-single { background: var(--bg-color); width: 6px; border-radius: 10px; padding: 8px 0; }
 div.beatmap-single ul.card-main li.beatmap-list > ul { padding: 0 0.5em; }
+div.beatmap-single ul.card-main li.beatmap-list > ul li { transition: background-color 150ms ease; padding: 0 5px; border-radius: 15px; }
+div.beatmap-single ul.card-main li.beatmap-list > ul li:hover { background-color: hsl(var(--hsl-b5)); }
 div.beatmap-single ul.card-main li.beatmap-list > ul li span > *:not(:last-child) { margin-right: 0.25em; }   
 div.beatmap-single ul.card-main li.beatmap-list > ul li span i.faa { font-size: 1.1em; }
 
