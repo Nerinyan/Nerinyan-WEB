@@ -65,18 +65,17 @@ function Version({ mode, ver, isCollapse }) {
                     </ul>
                 </div>
             }>
-            {isCollapse && 
-                <div className="beatmap-version-single" style={{ '--bg-color': GeneralMixins.getDiffColor(ver.difficulty_rating), '--text-color': ver.difficulty_rating > 7 ? '#d2d2d2' : '#393939'}}></div>
-            }
-            {!isCollapse &&
-                <Fragment>
-                    {GeneralMixins.modeToicon(ver.mode_int)}
-                    <span className="beatmap-version-rating" style={{ '--bg-color': GeneralMixins.getDiffColor(ver.difficulty_rating), '--text-color': ver.difficulty_rating > 7 ? '#d2d2d2' : '#393939'}}><i className="fas fa-star"/>{GeneralMixins.addCommas(ver.difficulty_rating.toFixed(2))}</span>
-                    <span>{ver.version}</span>
-                </Fragment>
-            }
+                {isCollapse && 
+                    <div className="beatmap-version-single" style={{ '--bg-color': GeneralMixins.getDiffColor(ver.difficulty_rating), '--text-color': ver.difficulty_rating > 7 ? '#d2d2d2' : '#393939'}}></div>
+                }
+                {!isCollapse &&
+                    <Fragment>
+                        {GeneralMixins.modeToicon(ver.mode_int)}
+                        <span className="beatmap-version-rating" style={{ '--bg-color': GeneralMixins.getDiffColor(ver.difficulty_rating), '--text-color': ver.difficulty_rating > 7 ? '#d2d2d2' : '#393939'}}><i className="fas fa-star"/>{GeneralMixins.addCommas(ver.difficulty_rating.toFixed(2))}</span>
+                        <span>{ver.version}</span>
+                    </Fragment>
+                }
             </Tooltip>
-            {/* {ver.version} | {isCollapse ? 'collapse' : 'expand'} */}
         </Fragment>
     )
 }

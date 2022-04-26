@@ -30,7 +30,7 @@ div.beatmap-single ul.card-main li.beatmap-list > div { display: flex; flex-dire
 div.beatmap-single ul.card-main li.beatmap-list div button { font-size: 1.5em; display: inline-flex; border: none; background-color: transparent; cursor: pointer; }
 div.beatmap-single ul.card-main li.beatmap-list div button i { transition: transform 300ms ease-in-out; vertical-align: middle; }
 div.beatmap-single ul.card-main li.beatmap-list div button.expand i {  transform: rotate(180deg); }
-div.beatmap-single ul.card-main li.beatmap-list div div.version-lists { display: block; margin: auto 0; }
+div.beatmap-single ul.card-main li.beatmap-list div div.version-lists { display: flex; margin: auto 0; }
 div.beatmap-single ul.card-main li.beatmap-list div div.version-lists div.version-list-single { display: flex; flex-direction: row; align-items: center; }
 div.beatmap-single ul.card-main li.beatmap-list div div.version-lists div.version-list-single:not(:last-child) { margin-right: 10px; }
 div.beatmap-single ul.card-main li.beatmap-list div div.version-lists div.version-list-single i { font-size: 1.15em; line-height: 1; margin-right: 3px; }
@@ -38,8 +38,10 @@ div.beatmap-single ul.card-main li.beatmap-list div div.version-lists div.versio
 div.beatmap-single ul.card-main li.beatmap-list div div.version-lists div.version-list-single ul li:not(:last-child) { margin-right: 1.5px; }
 div.beatmap-single ul.card-main li.beatmap-list div div.version-lists div.version-list-single ul li div.beatmap-version-single { background: var(--bg-color); width: 6px; border-radius: 10px; padding: 8px 0; }
 div.beatmap-single ul.card-main li.beatmap-list > ul { padding: 0 0.5em; }
+div.beatmap-single ul.card-main li.beatmap-list > ul:not(:last-child) { margin-bottom: 0.5em; }
 div.beatmap-single ul.card-main li.beatmap-list > ul li { transition: background-color 150ms ease; padding: 0 5px; border-radius: 15px; }
 div.beatmap-single ul.card-main li.beatmap-list > ul li:hover { background-color: hsl(var(--hsl-b5)); }
+div.beatmap-single ul.card-main li.beatmap-list > ul li > * { width: 100%; display: block; }
 div.beatmap-single ul.card-main li.beatmap-list > ul li span > *:not(:last-child) { margin-right: 0.25em; }   
 div.beatmap-single ul.card-main li.beatmap-list > ul li span i.faa { font-size: 1.1em; }
 
