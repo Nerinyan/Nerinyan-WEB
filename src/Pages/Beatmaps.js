@@ -2,48 +2,57 @@ import React, { useState, useEffect, Fragment } from "react"
 import { useSearchParams } from "react-router-dom"
 import axios from "axios"
 import { Beatmap } from "../Components"
+import { setGlobalState, useGlobalState } from '../store'
 
-var Page = 0
-var ErrorCount = 0
 var Data = []
 var Loading = false
 
 function Beatmaps() {
+    const [apiErrorCount] = useGlobalState("apiErrorCount")
+    const [apiURL] = useGlobalState("apiURL")
+    const [apiJson] = useGlobalState("apiJson")
     const [searchParams] = useSearchParams()
     const [beatmaps, setBeatmaps] = useState([])
     const [loading, setLoading] = useState(false)
-    
+
     async function getData() {
         setLoading(true)
         Loading = true
-        if(ErrorCount > 4) {
-            return
+
+        if (apiErrorCount > 3) {
+            setGlobalState("apiURL", "https://ko.nerinyan.moe")
         }
+
         try {
             await axios.get(
-            process.env.REACT_APP_BASE_API_URI+"/search", {
-                params: {
-                p: Page,
-                ps: 210
+                `${apiURL}/search`, {
+                    params: {
+                        b64: btoa(JSON.stringify(apiJson)),
+                        ps: 210
+                    }
                 }
-            }
             ).then(function (response) {
-            if (Data.length < 1) {
-                setBeatmaps(response.data)
-                Data = response.data
-            } else {
-                for (var bmp in response.data) {
-                Data.push(response.data[bmp])
+                if (Data.length < 1) {
+                    setBeatmaps(response.data)
+                    Data = response.data
+                } else {
+                    for (var bmp in response.data) {
+                        Data.push(response.data[bmp])
+                    }
+                    setBeatmaps(Data)
                 }
-                setBeatmaps(Data)
-            }
             })
         }
         catch(e) {
-            ErrorCount++
-            console.log("error! " + ErrorCount + "\n    " + e)
+            var tempErrorCount = apiErrorCount
+            setGlobalState("apiErrorCount", ++tempErrorCount)
         }
-        Page++
+
+        var temp = apiJson
+        var tempPage = Number(temp.page)
+        temp.page = String(++tempPage)
+        
+        setGlobalState("apiJson", temp)
         setLoading(false)
         Loading = false
     }

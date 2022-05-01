@@ -5,13 +5,33 @@ function Navbar() {
     return (
         <Fragment>
             <nav>
-                <h1>Navbar</h1>
                 <ul>
                     <li>
-                        <Link to="/main">Home</Link>
+                        <Link to="/main">Nerinyan: osu! Beatmap Mirror</Link>
                     </li>
                     <li>
-                        <Link to="/2">test</Link>
+                        <a href="https://api.nerinyan.moe">
+                            <i className="fa-solid fa-book"></i>
+                            Document
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/Nerinyan">
+                            <i className="fa-brands fa-github"></i>
+                            Github
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mailto:nerina@nerina.pw">
+                            <i className="fa-solid fa-circle-x"></i>
+                            DMCA
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://discord.gg/StNbVPT7y7">
+                            <i className="fa-brands fa-discord"></i>
+                            Discord
+                        </a>
                     </li>
                 </ul>
             </nav>
