@@ -70,9 +70,23 @@ function Version({ mode, ver, isCollapse }) {
                 }
                 {!isCollapse &&
                     <Fragment>
-                        {GeneralMixins.modeToicon(ver.mode_int)}
-                        <span className="beatmap-version-rating" style={{ '--bg-color': GeneralMixins.getDiffColor(ver.difficulty_rating), '--text-color': ver.difficulty_rating > 7 ? '#d2d2d2' : '#393939'}}><i className="fas fa-star"/>{GeneralMixins.addCommas(ver.difficulty_rating.toFixed(2))}</span>
-                        <span>{ver.version}</span>
+                        <div>
+                            {GeneralMixins.modeToicon(ver.mode_int)}
+                            <span className="beatmap-version-rating" style={{ '--bg-color': GeneralMixins.getDiffColor(ver.difficulty_rating), '--text-color': ver.difficulty_rating > 7 ? '#d2d2d2' : '#393939'}}><i className="fas fa-star"/>{GeneralMixins.addCommas(ver.difficulty_rating.toFixed(2))}</span>
+                            <span>{ver.version}</span>
+                        </div>
+                        <div>
+                            <button onClick={(e) => {
+                                e.stopPropagation()
+                                e.preventDefault()
+                                window.open(
+                                    GeneralMixins.genegratePreviewURL(ver.id),
+                                    '_blank'
+                                )
+                            }}>
+                                Preview
+                            </button>
+                        </div>
                     </Fragment>
                 }
             </Tooltip>

@@ -136,6 +136,26 @@ function Beatmap({ bmap }) {
         }
     }
 
+    function downloadHander(e, noVideo=false) {
+        e.stopPropagation()
+        e.preventDefault()
+        
+        switch (noVideo) {
+            case true:
+                window.open(
+                    GeneralMixins.generateDownloadURL(bmap.id),
+                    '_blank'
+                )
+                break;
+            default:
+                window.open(
+                    GeneralMixins.generateDownloadURL(bmap.id, false),
+                    '_blank'
+                )
+                break;
+        }
+    }
+
     function clipboardHandler() {
         setIsCopied(true)
         setTimeout(() => {
@@ -172,27 +192,6 @@ function Beatmap({ bmap }) {
                                         </div>
                                     }
                                 </li>
-                                <li className="card-header-info">
-                                    <div className="card-haeder-stats">
-                                        <Tooltip placement="top" title={"Favorites count: " + bmap.favourite_count}>
-                                            <i className="fa-solid fa-heart"></i> {bmap.favourite_count}
-                                        </Tooltip>
-                                        <Tooltip placement="top" title={"Play count: " + bmap.play_count}>
-                                            <i className="fa-solid fa-circle-play"></i> {bmap.play_count}
-                                        </Tooltip>
-                                        <Tooltip placement="top" title={"BPM: " + parseFloat(bmap.bpm)}>
-                                            <i className="fa-solid fa-music-note"></i> {parseFloat(bmap.bpm)}
-                                        </Tooltip>
-                                        <Tooltip placement="top" title={"Beatmaps count: " + bmap.beatmaps.length}>
-                                            <i className="fa-solid fa-clipboard-list"></i> {bmap.beatmaps.length}
-                                        </Tooltip>
-                                        {bmap.video && 
-                                            <Tooltip placement="top" title={"This beatmap contains video."}>
-                                                <i className="fa-solid fa-video"></i>
-                                            </Tooltip>
-                                        }
-                                    </div>
-                                </li>
                             </ul>
                         </div>
                         <div className="beatmap-title">
@@ -212,27 +211,51 @@ function Beatmap({ bmap }) {
                 <ul className="card-main">
                     <li className="beatmap-info">
                         <span>mapped by <Link to={"/main?creator="+bmap.user_id}>{bmap.creator}</Link></span>
-                        <div>
-                            <Tooltip placement="top" title={"Copy download url"}>
-                                <CopyToClipboard text={GeneralMixins.generateDownloadURL(bmap.id)} onCopy={() => clipboardHandler()}>
-                                    <button>
-                                        <i className={isCopied ? "download-url-copied fa-solid fa-badge-check" : "fa-solid fa-copy"}></i>
-                                    </button>
-                                </CopyToClipboard>
-                            </Tooltip>
-                            <Tooltip placement="top" title={"Download beatmap" + (bmap.video ? ' with video' : '')}>
-                                <button onClick={(e) => {e.stopPropagation()}}>
-                                    <i className="fa-solid fa-arrow-down-to-bracket"></i>
+                        <div className="card-header-info">
+                            <div className="card-haeder-stats">
+                                <Tooltip placement="top" title={"Favorites count: " + GeneralMixins.addCommas(bmap.favourite_count)}>
+                                    <i className="fa-solid fa-heart"></i> {GeneralMixins.addCommas(bmap.favourite_count)}
+                                </Tooltip>
+                                <Tooltip placement="top" title={"Play count: " + GeneralMixins.addCommas(bmap.play_count)}>
+                                    <i className="fa-solid fa-circle-play"></i> {GeneralMixins.addCommas(bmap.play_count)}
+                                </Tooltip>
+                                <Tooltip placement="top" title={"BPM: " + GeneralMixins.addCommas(parseFloat(bmap.bpm))}>
+                                    <i className="fa-solid fa-music-note"></i> {GeneralMixins.addCommas(parseFloat(bmap.bpm))}
+                                </Tooltip>
+                                <Tooltip placement="top" title={"Beatmaps count: " + GeneralMixins.addCommas(bmap.beatmaps.length)}>
+                                    <i className="fa-solid fa-clipboard-list"></i> {GeneralMixins.addCommas(bmap.beatmaps.length)}
+                                </Tooltip>
+                                {bmap.video && 
+                                    <Tooltip placement="top" title={"This beatmap contains video."}>
+                                        <i className="fa-solid fa-video"></i>
+                                    </Tooltip>
+                                }
+                            </div>
+                        </div>
+                    </li>
+                    <li className="beatmap-buttons">
+                        <Tooltip placement="top" title={"Copy download url"}>
+                            <CopyToClipboard text={GeneralMixins.generateDownloadURL(bmap.id)} onCopy={() => clipboardHandler()}>
+                                <button>
+                                    <i className={isCopied ? "download-url-copied fa-solid fa-badge-check" : "fa-solid fa-copy"}></i>
+                                    Copy url
+                                </button>
+                            </CopyToClipboard>
+                        </Tooltip>
+                        <Tooltip placement="top" title={"Download beatmap" + (bmap.video ? ' with video' : '')}>
+                            <button onClick={(e) => {downloadHander(e)}}>
+                                <i className="fa-solid fa-arrow-down-to-bracket"></i>
+                                Download
+                            </button>
+                        </Tooltip>
+                        {bmap.video && 
+                            <Tooltip placement="top" title={"Download beatmap without video"}>
+                                <button onClick={(e) => {downloadHander(e, true)}}>
+                                    <i className="fa-solid fa-video-slash"></i>
+                                    Download without video
                                 </button>
                             </Tooltip>
-                            {bmap.video && 
-                                <Tooltip placement="top" title={"Download beatmap without video"}>
-                                    <button onClick={(e) => {e.stopPropagation()}}>
-                                        <i className="fa-solid fa-video-slash"></i>
-                                    </button>
-                                </Tooltip>
-                            }
-                        </div>
+                        }
                     </li>
                     <li className="beatmap-list">
                         <div>
