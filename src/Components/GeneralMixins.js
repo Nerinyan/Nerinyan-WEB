@@ -86,7 +86,7 @@ export function modeToicon(mode){
 }
 
 export function generateDownloadURL(bid, hasVideo=true){
-    var downloadURL = `https://nerinyan.moe/d/${bid}`
+    var downloadURL = `https://api.nerinyan.moe/d/${bid}`
     if (hasVideo) {
         downloadURL += "?noVideo=1"
     }
