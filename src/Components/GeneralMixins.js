@@ -1,4 +1,8 @@
 import { scaleLinear, interpolateRgb } from 'd3'
+import { setGlobalState, getGlobalState } from '../store'
+import axios from "axios"
+
+var Data = []
 
 const difficultyColorSpectrum = scaleLinear().domain([0.1, 1.25, 2, 2.5, 3.3, 4.2, 4.9, 5.8, 6.7, 7.7, 9])
     .clamp(true)
@@ -82,6 +86,60 @@ export function modeToicon(mode){
             return (<i className="faa fa-extra-mode-mania"></i>)
         default:
             break
+    }
+}
+
+export async function getApiData(append=true){
+    var apiErrorCount = getGlobalState("apiErrorCount")
+    var apiURL = getGlobalState("apiURL")
+    var apiJson = getGlobalState("apiJson")
+
+    if (append === false) {
+        Data = []
+    }
+
+    setGlobalState("loading", true)
+
+    if (apiErrorCount > 3) {
+        setGlobalState("apiURL", "https://ko.nerinyan.moe")
+    }
+
+    try {
+        await axios.get(
+            `${apiURL}/search`, {
+                params: {
+                    b64: btoa(JSON.stringify(apiJson)),
+                    ps: 210
+                }
+            }
+        ).then(function (response) {
+            if (Data.length < 1) {
+                setGlobalState("apiResult", response.data)
+                Data = response.data
+            } else {
+                for (var bmp in response.data) {
+                    Data.push(response.data[bmp])
+                }
+                setGlobalState("apiResult", Data)
+            }
+        })
+    }
+    catch(e) {
+        var tempErrorCount = apiErrorCount
+        setGlobalState("apiErrorCount", ++tempErrorCount)
+    }
+
+    var temp = apiJson
+    var tempPage = Number(temp.page)
+    temp.page = String(++tempPage)
+        
+    setGlobalState("apiJson", temp)
+    setGlobalState("loading", false)
+
+    if (getGlobalState("apiResult").length < 1) { 
+        return true
+    } else {
+        return false
     }
 }
 

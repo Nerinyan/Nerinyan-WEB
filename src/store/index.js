@@ -1,6 +1,7 @@
 import { createGlobalState } from "react-hooks-global-state"
 
-const { setGlobalState, useGlobalState } = createGlobalState({
+const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
+    loading: true,
     apiErrorCount: 0,
     apiURL: "https://xiiov.com",
     apiJson: {
@@ -47,9 +48,10 @@ const { setGlobalState, useGlobalState } = createGlobalState({
         "page": "0",
         "query": ""
     },
+    apiResult: [],
     musicPlayerBeatmap: [],
     musicPlayerIsPlaying: false,
     musicPlayerIsPaused: false,
 })
 
-export { useGlobalState, setGlobalState }
+export { useGlobalState, setGlobalState, getGlobalState }
