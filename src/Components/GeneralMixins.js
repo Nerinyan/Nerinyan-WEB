@@ -94,8 +94,6 @@ export async function getApiData(append=true){
     var apiURL = getGlobalState("apiURL")
     var apiJson = getGlobalState("apiJson")
 
-    console.log(apiJson)
-
     if (append === false) {
         Data = []
     }

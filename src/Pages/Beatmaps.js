@@ -14,6 +14,8 @@ function Beatmaps() {
         }
     }
 
+    const renderBeatmaps = apiResult.map((bmap) => <li key={bmap.id}><Beatmap bmap={bmap}/></li>)
+
     useEffect(() => {
         window.addEventListener("scroll", scrollHandler) // Add scroll Event
         return () => {
@@ -27,11 +29,12 @@ function Beatmaps() {
     return (
         <Fragment>
             <ul className="beatmap-list">
-                {apiResult.map((beatmap, index) => (
+                {/* {apiResult.map((beatmap, index) => (
                     <li key={index}>
                       <Beatmap bmap={beatmap}/>
                     </li>
-                ))}
+                ))} */}
+                {renderBeatmaps}
             </ul>
         </Fragment>
     )
