@@ -238,21 +238,18 @@ function Beatmap({ bmap }) {
                             <CopyToClipboard text={GeneralMixins.generateDownloadURL(bmap.id)} onCopy={() => clipboardHandler()}>
                                 <button>
                                     <i className={isCopied ? "download-url-copied fa-solid fa-badge-check" : "fa-solid fa-copy"}></i>
-                                    Copy url
                                 </button>
                             </CopyToClipboard>
                         </Tooltip>
                         <Tooltip placement="top" title={"Download beatmap" + (bmap.video ? ' with video' : '')}>
                             <button onClick={(e) => {downloadHander(e)}}>
                                 <i className="fa-solid fa-arrow-down-to-bracket"></i>
-                                Download
                             </button>
                         </Tooltip>
                         {bmap.video && 
                             <Tooltip placement="top" title={"Download beatmap without video"}>
                                 <button onClick={(e) => {downloadHander(e, true)}}>
                                     <i className="fa-solid fa-video-slash"></i>
-                                    Download without video
                                 </button>
                             </Tooltip>
                         }

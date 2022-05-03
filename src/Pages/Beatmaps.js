@@ -1,27 +1,21 @@
 import React, { useEffect, Fragment } from "react"
-import { useSearchParams } from "react-router-dom"
 import { Beatmap, GeneralMixins } from "../Components"
 import { useGlobalState } from '../store'
-
-var Loading = false
 
 function Beatmaps() {
     const [apiResult] = useGlobalState("apiResult")
     const [loading] = useGlobalState("loading")
-    const [searchParams] = useSearchParams()
     // const [beatmaps, setBeatmaps] = useState([])
 
     function scrollHandler() {
         const documentData = document.documentElement
-        if (documentData.scrollTop + documentData.clientHeight + (documentData.clientHeight*1.6) >= documentData.scrollHeight && !Loading) {
+        if (documentData.scrollTop + documentData.clientHeight + (documentData.clientHeight*1.6) >= documentData.scrollHeight && !loading) {
             GeneralMixins.getApiData()
         }
     }
 
     useEffect(() => {
         window.addEventListener("scroll", scrollHandler) // Add scroll Event
-        GeneralMixins.getApiData() // get Beatmap Data From Nerinyan API
-        if ((searchParams.get("creator") !== null)) console.log(searchParams.get("creator"))
         return () => {
           window.removeEventListener("scroll", scrollHandler) // Delete scroll Event
         }

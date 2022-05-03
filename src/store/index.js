@@ -10,7 +10,7 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
         "nsfw": "",
         "video": "",
         "storyboard": "",
-        "creator": "",
+        "option": "",
         "m": "",
         "totalLength": {
             "min": 0,
