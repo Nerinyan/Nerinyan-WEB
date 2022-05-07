@@ -215,31 +215,31 @@ function Searchbar() {
                     <ul>
                         <li onClick={(e) => searchbarOptionChangeHandlerForSortBy(e, 'title')}>
                             <p data-active={apiJson.sort.includes('title') ? true : false}>Title</p>
-                            <i data-asc={apiJson.sort.includes('title') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down"></i>
+                            <i data-asc={apiJson.sort.includes('title') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down" style={{display: (apiJson.sort.includes('title') ? '' : 'none')}}></i>
                         </li>
                         <li onClick={(e) => searchbarOptionChangeHandlerForSortBy(e, 'artist')}>
                             <p data-active={apiJson.sort.includes('artist') ? true : false}>Artist</p>
-                            <i data-asc={apiJson.sort.includes('artist') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down"></i>
+                            <i data-asc={apiJson.sort.includes('artist') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down" style={{display: (apiJson.sort.includes('artist') ? '' : 'none')}}></i>
                         </li>
                         <li onClick={(e) => searchbarOptionChangeHandlerForSortBy(e, 'difficulty')}>
                             <p data-active={apiJson.sort.includes('difficulty') ? true : false}>Difficulty</p>
-                            <i data-asc={apiJson.sort.includes('difficulty') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down"></i>
+                            <i data-asc={apiJson.sort.includes('difficulty') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down" style={{display: (apiJson.sort.includes('difficulty') ? '' : 'none')}}></i>
                         </li>
                         <li onClick={(e) => searchbarOptionChangeHandlerForSortBy(e, 'ranked')}>
                             <p data-active={apiJson.sort.includes('ranked') || apiJson.sort === '' ? true : false}>Ranked</p>
-                            <i data-asc={apiJson.sort.includes('ranked') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down"></i>
+                            <i data-asc={apiJson.sort.includes('ranked') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down" style={{display: (apiJson.sort.includes('ranked') ? '' : 'none')}}></i>
                         </li>
                         <li onClick={(e) => searchbarOptionChangeHandlerForSortBy(e, 'updated')}>
                             <p data-active={apiJson.sort.includes('updated') ? true : false}>Updated</p>
-                            <i data-asc={apiJson.sort.includes('updated') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down"></i>
+                            <i data-asc={apiJson.sort.includes('updated') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down" style={{display: (apiJson.sort.includes('updated') ? '' : 'none')}}></i>
                         </li>
                         <li onClick={(e) => searchbarOptionChangeHandlerForSortBy(e, 'plays')}>
                             <p data-active={apiJson.sort.includes('plays') ? true : false}>Plays</p>
-                            <i data-asc={apiJson.sort.includes('plays') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down"></i>
+                            <i data-asc={apiJson.sort.includes('plays') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down" style={{display: (apiJson.sort.includes('plays') ? '' : 'none')}}></i>
                         </li>
                         <li onClick={(e) => searchbarOptionChangeHandlerForSortBy(e, 'favourites')}>
                             <p data-active={apiJson.sort.includes('favourites') ? true : false}>Favourites</p>
-                            <i data-asc={apiJson.sort.includes('favourites') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down"></i>
+                            <i data-asc={apiJson.sort.includes('favourites') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down" style={{display: (apiJson.sort.includes('favourites') ? '' : 'none')}}></i>
                         </li>
                     </ul>
                 </li>
