@@ -30,6 +30,10 @@ function Beatmaps() {
             <ul className="beatmap-list">
                 {renderBeatmaps}
             </ul>
+            <div data-loading={loading} className="beatmap-list-loading" style={{display: (loading ? '' : 'none')}}>
+                <i className="fa-duotone fa-spinner"></i>
+                <p>Loading</p>
+            </div>
         </Fragment>
     )
 }

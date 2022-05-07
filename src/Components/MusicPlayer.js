@@ -5,12 +5,21 @@ import { Slider } from 'antd'
 
 // eslint-disable-next-line no-unused-vars
 var timer
+var timer2
 
 function MusicPlayer() {
     const [playingPercent, setPlayingPercent] = useState(0)
+    const [isSkip, setIsSkip] = useState(false)
     const [isPlaying] = useGlobalState("musicPlayerIsPlaying")
     const [isPaused] = useGlobalState("musicPlayerIsPaused")
     const [beatmap] = useGlobalState("musicPlayerBeatmap")
+
+    timer2 = setTimeout(function () {
+        if (isPaused === true && isPlaying === false) {
+            document.getElementById("musicPlayerAudio").pause()
+            setIsSkip(true)
+        }
+    })
 
     function volumeHandler(value) {
         const player = document.getElementById("musicPlayerAudio")
@@ -63,6 +72,7 @@ function MusicPlayer() {
     }
 
     useEffect(() => {
+
         const player = document.getElementById("musicPlayerAudio")
         player.onerror = function() {
             player.pause()
@@ -75,6 +85,7 @@ function MusicPlayer() {
             setGlobalState("musicPlayerIsPlaying", false)
         }
         player.onplaying = function() {
+            setIsSkip(false)
             setGlobalState("musicPlayerIsPaused", false)
             progressbarHandler()
         }
@@ -82,7 +93,7 @@ function MusicPlayer() {
     }, [])
 
     return (
-        <div className="music-player-block" style={beatmap.title !== undefined ? {display: 'block'} : {display: 'none'}} data-musicplayer-isplaying={isPlaying ? true : false}>
+        <div className="music-player-block" style={beatmap.title !== undefined ? {display: 'block'} : {display: 'none'}} data-musicplayer-skip={isSkip} data-musicplayer-isplaying={isPlaying ? true : false}>
             <audio preload="metadata" src={"https://b.ppy.sh/preview/0.mp3"} id="musicPlayerAudio"></audio>
             <div className="music-player-head" style={{ "--bg": "center / cover no-repeat url(https://assets.ppy.sh/beatmaps/"+beatmap.id+"/covers/cover@2x.jpg?1622784772)" }}>
                 <img alt="" src={"https://assets.ppy.sh/beatmaps/"+beatmap.id+"/covers/list@2x.jpg?1622784772"}></img>

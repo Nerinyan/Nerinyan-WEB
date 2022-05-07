@@ -104,6 +104,8 @@ export async function getApiData(append=true){
         setGlobalState("apiURL", "https://ko.nerinyan.moe")
     }
 
+    console.log(`request - ${JSON.stringify(apiJson)}`)
+
     try {
         await axios.get(
             `${apiURL}/search`, {

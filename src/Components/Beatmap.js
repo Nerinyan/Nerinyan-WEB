@@ -230,6 +230,11 @@ function Beatmap({ bmap }) {
                                         <i className="fa-solid fa-video"></i>
                                     </Tooltip>
                                 }
+                                {bmap.storyboard && 
+                                    <Tooltip placement="top" title={"This beatmap contains storyboard."}>
+                                        <i className="fa-solid fa-clapperboard"></i>
+                                    </Tooltip>
+                                }
                             </div>
                         </div>
                     </li>

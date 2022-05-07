@@ -44,7 +44,7 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
             "min": 0,
             "max": 0
         },
-        "sort": "",
+        "sort": "ranked_desc",
         "page": "0",
         "query": ""
     },
