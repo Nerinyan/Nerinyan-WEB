@@ -111,7 +111,7 @@ export async function getApiData(append=true){
             `${apiURL}/search`, {
                 params: {
                     b64: btoa(JSON.stringify(apiJson)),
-                    ps: 210
+                    ps: 60
                 }
             }
         ).then(function (response) {

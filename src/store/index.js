@@ -3,7 +3,7 @@ import { createGlobalState } from "react-hooks-global-state"
 const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
     loading: true,
     apiErrorCount: 0,
-    apiURL: "https://xiiov.com",
+    apiURL: "https://testapi.nerinyan.moe",
     apiJson: {
         "extra": "",
         "ranked": "",

@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment } from "react"
 import { Beatmap, GeneralMixins } from "../Components"
-import { useGlobalState } from '../store'
+import { getGlobalState, useGlobalState } from '../store'
 
 function Beatmaps() {
     const [apiResult] = useGlobalState("apiResult")
@@ -8,12 +8,15 @@ function Beatmaps() {
 
     function scrollHandler() {
         const documentData = document.documentElement
-        if (documentData.scrollTop + documentData.clientHeight + (documentData.clientHeight*1.6) >= documentData.scrollHeight && !loading) {
+        if (documentData.scrollTop + documentData.clientHeight + (documentData.clientHeight*1.6) >= documentData.scrollHeight && !getGlobalState('loading')) {
             GeneralMixins.getApiData()
         }
     }
 
-    const renderBeatmaps = apiResult.map((bmap) => <li key={bmap.id}><Beatmap bmap={bmap}/></li>)
+    let renderBeatmaps = []
+    apiResult.forEach((bmap, index) => {
+        renderBeatmaps.push(<li key={index}><Beatmap bmap={bmap}/></li>)
+    })
 
     useEffect(() => {
         window.addEventListener("scroll", scrollHandler) // Add scroll Event
