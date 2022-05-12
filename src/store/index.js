@@ -1,6 +1,7 @@
 import { createGlobalState } from "react-hooks-global-state"
 
 const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
+    firstLoad: true,
     loading: true,
     apiErrorCount: 0,
     apiURL: "https://testapi.nerinyan.moe",

@@ -1,6 +1,7 @@
 body { background: #282c2f !important; }
 #root { background: #282c2f;}
 
+/* General Variable */
 :root {
     --base-hue: 200;
     --base-hue-deg: 200deg;
@@ -109,8 +110,6 @@ body { background: #282c2f !important; }
     --nsfw-color: hsl(var(--hsl-orange-2));
 }
 
-div.container { margin: 0 auto; max-width: 1200px; }
-
 /* Ranked status color */
 .RANKED { background-color: var(--status-ranked-bg); color: var(--status-ranked-color); }
 .LOVED { background-color: var(--status-loved-bg); color: var(--status-loved-color); }
@@ -118,6 +117,8 @@ div.container { margin: 0 auto; max-width: 1200px; }
 .PENDING { background-color: var(--status-pending-bg); color: var(--status-pending-color); }
 .GRAVEYARD { background-color: var(--status-graveyard-bg); color: var(--status-graveyard-color); }
 .NSFW { background-color: #1c2123; color: #deb945; }
+.VIDEO { background-color: hsl(var(--hsl-purple-1)); }
+.STORYBOARD { background-color: hsl(var(--hsl-red-1)); }
 
 /* osu icon */
 .faa { font-family: osuFonts; font-style: normal; font-weight: 550; }
@@ -129,9 +130,25 @@ div.container { margin: 0 auto; max-width: 1200px; }
 /* Version Rating */
 span.beatmap-version-rating { height: 18px; color: var(--text-color); font-weight: bold; font-size: 0.9em; background-color: var(--bg-color); padding: 0.1em 0.5em; border-radius: 12px 12px; }
 
+/* Tooltip */
 .ant-tooltip-content .ant-tooltip-inner { border-radius: 8px; background-color: rgb(0 0 0 / 90%); }
 .version-tooltip { max-width: 400px !important; }
 .version-tooltip .ant-tooltip-content .ant-tooltip-inner { padding: 18px 20px !important; }
 .ant-progress-circle .ant-progress-text { color: rgba(255,255,255,.85) !important; }
 .ant-progress-circle-trail { stroke: hsl(var(--hsl-b4)) !important; }
 .download-url-copied { animation: copy-anime 750ms; transition: transform 200ms cubic-bezier(0.85, 0.1, 0.22, 1.07); }
+
+/* Resposive Web Css */
+nav > div { width: 75vw; }
+div.container { margin: 0 auto; max-width: 70vw; }
+@media (max-width: 60000px) {
+    ul.beatmap-list > li { width: calc(100% / 3) !important; }
+}
+@media (max-width: 1920px) {
+    ul.beatmap-list > li { width: 50% !important; }
+}
+@media (max-width: 1024px) {
+    nav > div { width: 90vw !important; }
+    div.container { max-width: 85vw !important; }
+    ul.beatmap-list > li { width: 100% !important; }
+}

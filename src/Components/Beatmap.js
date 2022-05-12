@@ -183,11 +183,25 @@ function Beatmap({ bmap }) {
                         <div className="card-header-beatmapinfo">
                             <ul>
                                 <li className="card-header-status">
+                                    {bmap.video && 
+                                        <div className="ranked-status VIDEO">
+                                            <Tooltip placement="top" title={"This beatmap contains video."}>
+                                                <i className="fa-solid fa-video"></i>
+                                            </Tooltip>
+                                        </div>
+                                    }
+                                    {bmap.storyboard && 
+                                        <div className="ranked-status STORYBOARD">
+                                            <Tooltip placement="top" title={"This beatmap contains storyboard."}>
+                                                <i className="fa-solid fa-clapperboard"></i>
+                                            </Tooltip>
+                                        </div>
+                                    }
                                     <div className={"ranked-status " + GeneralMixins.convertRankedStatusToText(bmap.ranked)}>
                                         {GeneralMixins.convertRankedStatusToText(bmap.ranked)}
                                     </div>
                                     {bmap.nsfw &&
-                                        <div className={"nsfw"}>
+                                        <div className={"NSFW"}>
                                             EXPLICIT
                                         </div>
                                     }
@@ -222,19 +236,9 @@ function Beatmap({ bmap }) {
                                 <Tooltip placement="top" title={"BPM: " + GeneralMixins.addCommas(parseFloat(bmap.bpm))}>
                                     <i className="fa-solid fa-music-note"></i> {GeneralMixins.addCommas(parseFloat(bmap.bpm))}
                                 </Tooltip>
-                                <Tooltip placement="top" title={"Beatmaps count: " + GeneralMixins.addCommas(bmap.beatmaps.length)}>
+                                {/* <Tooltip placement="top" title={"Beatmaps count: " + GeneralMixins.addCommas(bmap.beatmaps.length)}>
                                     <i className="fa-solid fa-clipboard-list"></i> {GeneralMixins.addCommas(bmap.beatmaps.length)}
-                                </Tooltip>
-                                {bmap.video && 
-                                    <Tooltip placement="top" title={"This beatmap contains video."}>
-                                        <i className="fa-solid fa-video"></i>
-                                    </Tooltip>
-                                }
-                                {bmap.storyboard && 
-                                    <Tooltip placement="top" title={"This beatmap contains storyboard."}>
-                                        <i className="fa-solid fa-clapperboard"></i>
-                                    </Tooltip>
-                                }
+                                </Tooltip> */}
                             </div>
                         </div>
                     </li>

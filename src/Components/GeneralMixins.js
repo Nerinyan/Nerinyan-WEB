@@ -137,6 +137,7 @@ export async function getApiData(append=true){
         
     setGlobalState("apiJson", temp)
     setGlobalState("loading", false)
+    if (getGlobalState("firstLoad")) setGlobalState("firstLoad", false)
 
     if (getGlobalState("apiResult").length < 1) { 
         return true

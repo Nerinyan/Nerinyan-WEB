@@ -90,6 +90,7 @@ function Searchbar() {
     function searchbarOptionChangeHandler(event, target, value) {
         event.stopPropagation()
         event.preventDefault()
+        if (apiJson[target] === value) return
         apiJson[target] = value
 
         setTmp(new Date().getMilliseconds())
