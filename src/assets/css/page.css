@@ -119,6 +119,16 @@ div.beatmap-list-loading { font-size: 20px; width: 100vw; height: 100vh; backgro
 div.beatmap-list-loading > * { color: white; }
 div.beatmap-list-loading > i { margin-bottom: 0.5em; font-size: 3em; animation: loading-spinner 2000ms ease-in-out infinite; }
 
+
+/* Download Page */
+div.download-page { display: flex; height: 90vh; flex-direction: column; justify-content: center; align-items: center; position: relative; }
+div.download-page div.owo { display: flex; flex-direction: column; align-items: center; }
+div.download-page div.owo h1 { color: white; margin-bottom: 20px; font-size: 32px; }
+div.download-page div.owo h2 { color: rgb(196, 196, 196); font-size: 18px; margin: 0; }
+div.download-page button { position: absolute; display: flex; height: 50px; width: 500px; align-items: center; justify-content: center; font-family: TmoneyRoundWindRegular!important; border: none; background: transparent; color: black; font-size: 18px; border-radius: 12px; transition: all 150ms ease-in-out; cursor: pointer; left: 50%; top: 50%; transform: translate(-50%, 300%); }
+div.download-page button:hover { color: #b9ff6d; }
+
+
 /* MusicPlayer */
 div.music-player-block { transform: translateY(500px); border-radius: 12px; box-shadow: 0 0 10px black; position: fixed; bottom: 3vh; right: 2.5vw; z-index: 3; min-width: 400px; max-width: 400px; transition: all 200ms ease; }
 div.music-player-block[data-musicplayer-isplaying=false] { animation: musicPlayer forwards 4s; }

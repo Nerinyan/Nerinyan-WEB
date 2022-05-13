@@ -1,22 +1,17 @@
 import React from "react"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
-import { Navbar, Searchbar, MusicPlayer } from './Components'
-import { Beatmaps } from './Pages'
+import { Beatmaps, Download } from './Pages'
 
 function App() {
     return(
-    <BrowserRouter>
-        <Navbar/>
-        <div className="container">
-            <Searchbar/>
+        <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Navigate to="/main" />}/>
                 <Route path="/main" element={<Beatmaps />}/>
+                <Route path="/d/:beatmapsetid" element={<Download />}/>
             </Routes>
-        </div>
-        <MusicPlayer/>
-    </BrowserRouter>
-  );
+        </BrowserRouter>
+    );
 }
 
 export default App

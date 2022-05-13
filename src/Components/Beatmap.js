@@ -143,13 +143,13 @@ function Beatmap({ bmap }) {
         switch (noVideo) {
             case true:
                 window.open(
-                    GeneralMixins.generateDownloadURL(bmap.id),
+                    `https://nerinyan.moe/d/${bmap.id}?novideo=1`,
                     '_blank'
                 )
                 break;
             default:
                 window.open(
-                    GeneralMixins.generateDownloadURL(bmap.id, false),
+                    `https://nerinyan.moe/d/${bmap.id}`,
                     '_blank'
                 )
                 break;
@@ -176,7 +176,7 @@ function Beatmap({ bmap }) {
                         e.stopPropagation()
                         e.preventDefault()
                         window.open(
-                            GeneralMixins.generateDownloadURL(bmap.id),
+                            `https://nerinyan.moe/d/${bmap.id}`,
                             '_blank'
                         )
                     }} className="card-header" style={{ "--bg": "center / cover no-repeat url(https://assets.ppy.sh/beatmaps/"+bmap.id+"/covers/cover.jpg?1622784772" }}>
@@ -244,7 +244,7 @@ function Beatmap({ bmap }) {
                     </li>
                     <li className="beatmap-buttons">
                         <Tooltip placement="top" title={"Copy download url"}>
-                            <CopyToClipboard text={GeneralMixins.generateDownloadURL(bmap.id)} onCopy={() => clipboardHandler()}>
+                            <CopyToClipboard text={`https://nerinyan.moe/d/${bmap.id}`} onCopy={() => clipboardHandler()}>
                                 <button>
                                     <i className={isCopied ? "download-url-copied fa-solid fa-badge-check" : "fa-solid fa-copy"}></i>
                                 </button>
