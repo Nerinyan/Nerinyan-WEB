@@ -148,7 +148,7 @@ export async function getApiData(append=true){
 
 export function generateDownloadURL(bid, hasVideo=true){
     var downloadURL = `https://api.nerinyan.moe/d/${bid}`
-    if (hasVideo) {
+    if (!hasVideo) {
         downloadURL += "?noVideo=1"
     }
     return downloadURL

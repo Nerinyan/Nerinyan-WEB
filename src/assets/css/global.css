@@ -5,6 +5,12 @@ body { background: #282c2f !important; }
 :root {
     --base-hue: 200;
     --base-hue-deg: 200deg;
+    --hsl-white-1: 0,0%,100%;
+    --hsl-white-2: 0,0%,80%;
+    --hsl-white-3: 0,0%,70%;
+    --hsl-white-4: 0,0%,60%;
+    --hsl-white-5: 0,0%,50%;
+    --hsl-white-6: 0,0%,40%;
     --hsl-p: var(--base-hue),100%,50%;
     --hsl-h1: var(--base-hue),100%,70%;
     --hsl-h2: var(--base-hue),50%,45%;

@@ -1,7 +1,7 @@
 import React from "react"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import { Navbar, Searchbar, MusicPlayer } from './Components'
-import { Beatmaps, TsetD } from './Pages'
+import { Beatmaps } from './Pages'
 
 function App() {
     return(
@@ -12,7 +12,6 @@ function App() {
             <Routes>
                 <Route path="/" element={<Navigate to="/main" />}/>
                 <Route path="/main" element={<Beatmaps />}/>
-                <Route path="/2" element={<TsetD />}/>
             </Routes>
         </div>
         <MusicPlayer/>

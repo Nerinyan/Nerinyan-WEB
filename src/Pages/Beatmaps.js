@@ -39,6 +39,9 @@ function Beatmaps() {
                 <ul className="beatmap-list">
                     {renderBeatmaps}
                 </ul>
+                <a href="#top" className="backToTop">
+                    <i className="fa-solid fa-circle-arrow-up"></i>
+                </a>
                 <div data-loading={loading && firstLoad} className="beatmap-list-loading" style={{display: (loading ? '' : 'none')}}>
                     <i className="fa-duotone fa-spinner"></i>
                     <p>Loading</p>

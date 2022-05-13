@@ -144,7 +144,7 @@ function Searchbar() {
 
     return (
         <Fragment>
-            <Input onChange={searchbarChangeHandler} placeholder="Search...." />
+            <Input className={"searchbar-input"} onChange={searchbarChangeHandler} placeholder="Search...." allowClear="true"/>
             <ul className="searchbar-options">
                 <li className="searchbar-option">
                     <strong>Mode</strong>
