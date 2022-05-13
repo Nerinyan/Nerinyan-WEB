@@ -9,6 +9,21 @@ const difficultyColorSpectrum = scaleLinear().domain([0.1, 1.25, 2, 2.5, 3.3, 4.
     .range(['#4290FB', '#4FC0FF', '#4FFFD5', '#7CFF4F', '#F6F05C', '#FF8068', '#FF4E6F', '#C645B8', '#6563DE', '#18158E', '#000000'])
     .interpolate(interpolateRgb.gamma(2.2))
 
+export function convertMode(mode) {
+    switch (Number(mode)) {
+        case 0:
+            return "osu!"
+        case 1:
+            return "taiko"
+        case 2:
+            return "catch"
+        case 3:
+            return "mania"
+        default:
+            return "osu!"
+    }
+}
+
 export function convertRankedStatusToText(ranked) {
     var temp
     switch (ranked) {
@@ -38,6 +53,48 @@ export function convertRankedStatusToText(ranked) {
             break
     }
     return temp
+}
+
+export function convertStatus(status) {
+    switch (Number(status)) {
+        case 4:
+            return "Loved"
+        case 3:
+            return "Qualified"
+        case 2:
+            return "Approved"
+        case 1:
+            return "Ranked"
+        case 0:
+            return "Pending"
+        case -1:
+            return "WIP"
+        case -2:
+            return "Graveyard"
+        default:
+            return "Ranked"
+    }
+}
+
+export function convertStatusWithIcon(status) {
+    switch (Number(status)) {
+        case 4:
+            return "💟 Loved"
+        case 3:
+            return "✅ Qualified"
+        case 2:
+            return "🔥 Approved"
+        case 1:
+            return "⏫ Ranked"
+        case 0:
+            return "❔ Pending"
+        case -1:
+            return "🛠️ WIP"
+        case -2:
+            return "⚰️ Graveyard"
+        default:
+            return "⏫ Ranked"
+    }
 }
 
 export function addCommas(nStr) {
@@ -89,7 +146,72 @@ export function modeToicon(mode){
     }
 }
 
-export async function getApiData(append=true){
+
+export function getUserRequestParams(searchParams) {
+    setGlobalState('loading', true)
+    var apiJson = getGlobalState('apiJson')
+
+    // Creator
+    // if (searchParams.get("creator") !== null) tempApiJon.creator = Number(searchParams.get("creator")) API 서버에서 지원 안함(?)
+
+    // Extra
+    if (searchParams.get("e") !== null) {
+        if (searchParams.get("e") === "video") apiJson.extra = "video"
+        else if (searchParams.get("e") === "storyboard") apiJson.extra = "storyboard"
+        else if (searchParams.get("e") === "storyboard.video" || searchParams.get("e") === "video.storyboard") apiJson.extra = "storyboard.video"
+    } 
+
+    // Mode
+    if (searchParams.get("m") !== null) {
+        if (searchParams.get("m") === "-1" || searchParams.get("m") === "any") apiJson.m = ""
+        else if (searchParams.get("m") === "0" || searchParams.get("m") === "osu") apiJson.m = "0"
+        else if (searchParams.get("m") === "1" || searchParams.get("m") === "taiko") apiJson.m = "1"
+        else if (searchParams.get("m") === "2" || searchParams.get("m") === "catch") apiJson.m = "2"
+        else if (searchParams.get("m") === "3" || searchParams.get("m") === "mania") apiJson.m = "3"
+    }
+
+    // Categories (status)
+    if (searchParams.get("s") !== null) {
+        if (searchParams.get("s") === "any") apiJson.ranked = "any"
+        else if (searchParams.get("s") === "ranked") apiJson.ranked = "ranked"
+        else if (searchParams.get("s") === "qualified") apiJson.ranked = "qualified"
+        else if (searchParams.get("s") === "loved") apiJson.ranked = "loved"
+        else if (searchParams.get("s") === "pending") apiJson.ranked = "pending"
+        else if (searchParams.get("s") === "graveyard") apiJson.ranked = "graveyard"
+    }
+
+    // Sort by
+    if (searchParams.get("sort") !== null) {
+        if (searchParams.get("sort") === "title_desc") apiJson.sort = "title_desc"
+        else if (searchParams.get("sort") === "title_asc") apiJson.sort = "title_asc"
+        else if (searchParams.get("sort") === "artist_desc") apiJson.sort = "artist_desc"
+        else if (searchParams.get("sort") === "artist_asc") apiJson.sort = "artist_asc"
+        else if (searchParams.get("sort") === "difficulty_desc") apiJson.sort = "difficulty_desc"
+        else if (searchParams.get("sort") === "difficulty_asc") apiJson.sort = "difficulty_asc"
+        else if (searchParams.get("sort") === "ranked_desc") apiJson.sort = ""
+        else if (searchParams.get("sort") === "ranked_asc") apiJson.sort = "ranked_asc"
+        else if (searchParams.get("sort") === "updated_desc") apiJson.sort = "updated_desc"
+        else if (searchParams.get("sort") === "updated_asc") apiJson.sort = "updated_asc"
+        else if (searchParams.get("sort") === "plays_desc") apiJson.sort = "plays_desc"
+        else if (searchParams.get("sort") === "plays_asc") apiJson.sort = "plays_asc"
+        else if (searchParams.get("sort") === "favourites_desc") apiJson.sort = "favourites_desc"
+        else if (searchParams.get("sort") === "favourites_asc") apiJson.sort = "favourites_asc"
+    }
+
+    // Explicit Content (nsfw)
+    if (searchParams.get("nsfw") !== null) {
+        if (searchParams.get("nsfw") === "1") apiJson.nsfw = "true"
+        else if (searchParams.get("nsfw") === "0") apiJson.nsfw = "false"
+    }
+
+    if (searchParams.get("mid") !== null) apiJson.mi = searchParams.get("mid")
+    
+    setGlobalState("apiJson", apiJson)
+    getApiData() // get Beatmap Data From Nerinyan API
+    setGlobalState('loading', false)
+}
+
+export async function getApiData(append=true) {
     var apiErrorCount = getGlobalState("apiErrorCount")
     var apiURL = getGlobalState("apiURL")
     var apiJson = getGlobalState("apiJson")

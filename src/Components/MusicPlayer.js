@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react"
 import { setGlobalState, useGlobalState } from '../store'
-import LazyLoad from "react-lazyload"
 import { Slider } from 'antd'
 
 // eslint-disable-next-line no-unused-vars

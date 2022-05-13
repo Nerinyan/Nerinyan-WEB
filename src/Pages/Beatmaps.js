@@ -1,11 +1,13 @@
 import React, { useEffect, Fragment } from "react"
-import { Beatmap, GeneralMixins } from "../Components"
+import { useSearchParams } from "react-router-dom"
+import { Navbar, Searchbar, Beatmap, GeneralMixins, MusicPlayer } from "../Components"
 import { getGlobalState, useGlobalState } from '../store'
 
 function Beatmaps() {
     const [apiResult] = useGlobalState("apiResult")
     const [loading] = useGlobalState("loading")
     const [firstLoad] = useGlobalState("firstLoad")
+    const [searchParams] = useSearchParams()
 
     function scrollHandler() {
         const documentData = document.documentElement
@@ -20,6 +22,7 @@ function Beatmaps() {
     })
 
     useEffect(() => {
+        GeneralMixins.getUserRequestParams(searchParams)
         window.addEventListener("scroll", scrollHandler) // Add scroll Event
         return () => {
           window.removeEventListener("scroll", scrollHandler) // Delete scroll Event
@@ -36,15 +39,20 @@ function Beatmaps() {
     else {
         return (
             <Fragment>
-                <ul className="beatmap-list">
-                    {renderBeatmaps}
-                </ul>
-                <a href="#top" className="backToTop">
-                    <i className="fa-solid fa-circle-arrow-up"></i>
-                </a>
-                <div data-loading={loading && firstLoad} className="beatmap-list-loading" style={{display: (loading ? '' : 'none')}}>
-                    <i className="fa-duotone fa-spinner"></i>
-                    <p>Loading</p>
+                <Navbar />
+                <div className="container">
+                    <Searchbar />
+                    <ul className="beatmap-list">
+                        {renderBeatmaps}
+                    </ul>
+                    <a href="#top" className="backToTop">
+                        <i className="fa-solid fa-circle-arrow-up"></i>
+                    </a>
+                    <div data-loading={loading && firstLoad} className="beatmap-list-loading" style={{display: (loading ? '' : 'none')}}>
+                        <i className="fa-duotone fa-spinner"></i>
+                        <p>Loading</p>
+                    </div>
+                    <MusicPlayer />
                 </div>
             </Fragment>
         )
