@@ -4,7 +4,7 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
     firstLoad: true,
     loading: true,
     apiErrorCount: 0,
-    apiURL: "https://testapi.nerinyan.moe",
+    apiURL: "https://api.nerinyan.moe",
     apiJson: {
         "extra": "",
         "ranked": "",

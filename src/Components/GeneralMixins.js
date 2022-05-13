@@ -101,7 +101,7 @@ export async function getApiData(append=true){
     setGlobalState("loading", true)
 
     if (apiErrorCount > 3) {
-        setGlobalState("apiURL", "https://ko.nerinyan.moe")
+        setGlobalState("apiURL", "https://ko2.nerinyan.moe")
     }
 
     console.log(`request - ${JSON.stringify(apiJson)}`)
@@ -147,7 +147,7 @@ export async function getApiData(append=true){
 }
 
 export function generateDownloadURL(bid, hasVideo=true){
-    var downloadURL = `https://api.nerinyan.moe/d/${bid}`
+    var downloadURL = `https://proxy.nerinyan.moe/d/${bid}`
     if (!hasVideo) {
         downloadURL += "?noVideo=1"
     }
