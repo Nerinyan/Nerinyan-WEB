@@ -1,5 +1,5 @@
 # osu-Beatmap-Mirror | Nerinyan
-Nerinyan is osu! beatmap mirror written by react-js
+Nerinyan is osu! beatmap mirror written by next-js
 
 ## Api Server
 [osu-Beatmap-Mirror-API (archived)](https://github.com/zeee2/osu-Beatmap-Mirror-API) \
