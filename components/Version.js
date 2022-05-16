@@ -1,13 +1,14 @@
-import React, { Fragment } from "react"
-import { Tooltip, Progress } from 'antd'
-import { ReactComponent as TotalLength } from '../assets/images/total_length.svg'
-import { ReactComponent as SliderCount } from '../assets/images/count_sliders.svg'
-import { ReactComponent as CircleCount } from '../assets/images/count_circles.svg'
-import { ReactComponent as BPM } from '../assets/images/bpm.svg'
-import { GeneralMixins } from '../Components'
+import Image from 'next/image'
+import TotalLength from '../assets/image/total_length.svg'
+import SliderCount from '../assets/image/count_sliders.svg'
+import CircleCount from '../assets/image/count_circles.svg'
+import BPM from '../assets/image/bpm.svg'
+import { GeneralMixins } from '../components'
 
-function Version({ mode, ver, isCollapse }) {
-    var iconWidth, iconHeight = '20px'
+import { Tooltip, Progress } from 'antd'
+
+export default function Version({ mode, ver, isCollapse }) {
+    var iconSize = Number(20)
 
     function format(percentage) {
         var perc = percentage / 10
@@ -19,33 +20,36 @@ function Version({ mode, ver, isCollapse }) {
     }
 
     return (
-        <Fragment>
+        <>
             <Tooltip overlayClassName={"version-tooltip"} placement="top" title={
                 <div className="beatmap-version-tooltip-single">
                     <div className="beatmap-version-tooltip-info-header">
                         {GeneralMixins.modeToicon(ver.mode_int)}
-                        <span className="beatmap-version-rating" style={{ '--bg-color': GeneralMixins.getDiffColor(ver.difficulty_rating), '--text-color': ver.difficulty_rating > 7 ? '#d2d2d2' : '#393939'}}><i className="fas fa-star"/>{GeneralMixins.addCommas(ver.difficulty_rating.toFixed(2))}</span>
+                        <span className="beatmap-version-rating" style={{ '--bg-color': GeneralMixins.getDiffColor(ver.difficulty_rating), '--text-color': ver.difficulty_rating > 7 ? '#d2d2d2' : '#393939'}}>
+                            <i className="fas fa-star"/>
+                            {GeneralMixins.addCommas(ver.difficulty_rating.toFixed(2))}
+                        </span>
                         <span>{ver.version}</span>
                     </div>
                     <ul className="beatmap-version-tooltip-info-middle">
                         <Tooltip placement="top" title={"Total length"}>
                             <li>
-                                <TotalLength width={iconWidth} height={iconHeight}/><span>{GeneralMixins.secondsToTime(ver.total_length)}</span>
+                                <Image src={TotalLength} width={iconSize} height={iconSize} /><span>{GeneralMixins.secondsToTime(ver.total_length)}</span>
                             </li>
                         </Tooltip>
                         <Tooltip placement="top" title={"BPM"}>
                             <li>
-                                <BPM width={iconWidth} height={iconHeight}/><span>{parseFloat(ver.bpm)}</span>
+                                <Image src={BPM} width={iconSize} height={iconSize} /><span>{parseFloat(ver.bpm)}</span>
                             </li>
                         </Tooltip>
                         <Tooltip placement="top" title={"Circle count"}>
                             <li>
-                                <CircleCount width={iconWidth} height={iconHeight}/><span>{GeneralMixins.addCommas(ver.count_circles)}</span>
+                                <Image src={CircleCount} width={iconSize} height={iconSize} /><span>{GeneralMixins.addCommas(ver.count_circles)}</span>
                             </li>
                         </Tooltip>
                         <Tooltip placement="top" title={"Slider count"}>
                             <li>
-                                <SliderCount width={iconWidth} height={iconHeight}/><span>{GeneralMixins.addCommas(ver.count_sliders)}</span>
+                                <Image src={SliderCount} width={iconSize} height={iconSize} /><span>{GeneralMixins.addCommas(ver.count_sliders)}</span>
                             </li>
                         </Tooltip>
                     </ul>
@@ -69,7 +73,7 @@ function Version({ mode, ver, isCollapse }) {
                     <div className="beatmap-version-single" style={{ '--bg-color': GeneralMixins.getDiffColor(ver.difficulty_rating), '--text-color': ver.difficulty_rating > 7 ? '#d2d2d2' : '#393939'}}></div>
                 }
                 {!isCollapse &&
-                    <Fragment>
+                    <>
                         <div>
                             {GeneralMixins.modeToicon(ver.mode_int)}
                             <span className="beatmap-version-rating" style={{ '--bg-color': GeneralMixins.getDiffColor(ver.difficulty_rating), '--text-color': ver.difficulty_rating > 7 ? '#d2d2d2' : '#393939'}}><i className="fas fa-star"/>{GeneralMixins.addCommas(ver.difficulty_rating.toFixed(2))}</span>
@@ -87,11 +91,9 @@ function Version({ mode, ver, isCollapse }) {
                                 Preview
                             </button>
                         </div>
-                    </Fragment>
+                    </>
                 }
             </Tooltip>
-        </Fragment>
+        </>
     )
 }
-
-export default Version

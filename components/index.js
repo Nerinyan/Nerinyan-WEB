@@ -5,4 +5,5 @@ import Beatmap from './Beatmap'
 import Version from './Version'
 import MusicPlayer from './MusicPlayer'
 
-export { GeneralMixins, Navbar, Searchbar, Beatmap, Version, MusicPlayer }
+// export { GeneralMixins, Navbar, Searchbar, Beatmap, Version, MusicPlayer }
+export { GeneralMixins, Navbar, MusicPlayer, Searchbar, Beatmap, Version }

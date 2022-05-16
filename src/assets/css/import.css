@@ -1,5 +1,0 @@
-@font-face { font-family: 'TmoneyRoundWindRegular'; src: url('../webfonts/TmoneyRoundWindRegular.woff2') format('woff'); font-weight: normal; font-style: normal; }
-@font-face { font-family: 'osuFonts'; src: url('../webfonts/extra.6f1f24ae.woff2') format("woff"); }
-@import url(reset.css);
-@import url(global.css);
-@import url(page.css);
