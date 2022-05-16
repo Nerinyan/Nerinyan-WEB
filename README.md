@@ -1,23 +1,25 @@
-# Static export example
+# osu-Beatmap-Mirror | Nerinyan
+Nerinyan is osu! beatmap mirror written by next-js
 
-This example show how to export to static HTML files your Next.js application fetching data from an API to generate a dynamic list of pages.
+## Api Server
+[osu-Beatmap-Mirror-API (archived)](https://github.com/zeee2/osu-Beatmap-Mirror-API) \
+[osu-Beatmap-Mirror-APIV2 (archived)](https://github.com/zeee2/osu-BeatmapMirror-ApiV2) \
+[Nerinyan-API (latest)](https://github.com/Nerinyan/Nerinyan-API)
 
-When trying to run `npm start` it will build and export your pages into the `out` folder and serve them on `localhost:5000`.
 
-## Deploy your own
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-static-export)
+## Features
+- A design similar to the osu! website
+- Easy-to-use ui
+- Easy-to-manipulate search options
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-static-export)
+## Support This Project
+- [Toss](http://toss.me/zeee2)
 
-## How to use
+## Preview
+<!-- ![Preview Image](https://i.imgur.com/MxPuVsS.png) -->
+NOT YET
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-static-export with-static-export-app
-# or
-yarn create next-app --example with-static-export with-static-export-app
-# or
-pnpm create next-app -- --example with-static-export with-static-export-app
-```
+## License
+Copyright © 2022 [ZEEE](https://github.com/zeee2)\
+This project is licensed under the [GPL-3.0 License](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)).  Please see [the license file](LICENSE) for more information.
