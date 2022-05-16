@@ -10,7 +10,7 @@ const difficultyColorSpectrum = scaleLinear().domain([0.1, 1.25, 2, 2.5, 3.3, 4.
     .interpolate(interpolateRgb.gamma(2.2))
 
 export function convertMode(mode) {
-    switch (Number(mode)) {
+    switch (mode) {
         case 0:
             return "osu!"
         case 1:

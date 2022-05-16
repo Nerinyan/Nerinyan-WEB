@@ -22,7 +22,7 @@ span.searchbar-input > span.ant-input-suffix > .anticon.ant-input-clear-icon { c
 ul.searchbar-options { display: flex; flex-wrap: wrap; }
 ul.searchbar-options li.searchbar-option { display: flex; flex-direction: column; padding: 0.25em 0.5em; }
 ul.searchbar-options li.searchbar-option > strong { color: hsl(var(--hsl-l1)); }
-ul.searchbar-options li.searchbar-option > ul { display: flex; flex-direction: row; }
+ul.searchbar-options li.searchbar-option > ul { display: flex; flex-direction: row; flex-wrap: wrap; }
 ul.searchbar-options li.searchbar-option > ul > li { padding: 0.1em 0.25em; cursor: pointer; }
 ul.searchbar-options li.searchbar-option > ul > li > p { color: hsl(var(--hsl-white-5)); transition: color 200ms ease-in-out; margin: 0; }
 ul.searchbar-options li.searchbar-option > ul > li:hover > p { color: hsl(var(--hsl-l1)); }
