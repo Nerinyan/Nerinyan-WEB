@@ -63,7 +63,6 @@ export default function MusicPlayer() {
     }
 
     function Timer() { 
-        console.log('g222222')
         if (playingPercent < 100) {
             timer = setTimeout(function () {progressbarHandler()})
         }

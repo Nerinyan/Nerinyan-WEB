@@ -9,6 +9,8 @@ import { getGlobalState } from '../../store'
 function Download({ BEATMAPDATA }) {
     const router = useRouter()
 
+    if (router.isFallback) return <div>Loading...</div>
+
     function generateDESC() {
         var desc = `${GeneralMixins.convertStatus(BEATMAPDATA.ranked)} osu! beatmap by ${BEATMAPDATA.creator}.\n`
         desc += `${GeneralMixins.convertStatusWithIcon(BEATMAPDATA.ranked)} · 📚 ${BEATMAPDATA.beatmaps.length} Difficulties · 🎵 ${Math.round(parseFloat(BEATMAPDATA.bpm))} · ❤️ ${BEATMAPDATA.favourite_count}\n\n` 
@@ -28,7 +30,6 @@ function Download({ BEATMAPDATA }) {
 
 
     useEffect(() => {
-        console.log(BEATMAPDATA)
         if (router.query.novideo) console.log(router.query.novideo)
     })
     
@@ -46,7 +47,7 @@ function Download({ BEATMAPDATA }) {
                     <meta property="og:image" content={`https://b.ppy.sh/thumb/${BEATMAPDATA.id}l.jpg`} />
                     <meta property="twitter:image" content={`https://b.ppy.sh/thumb/${BEATMAPDATA.id}l.jpg}`} />
                     <meta property="vk:image" content={`https://b.ppy.sh/thumb/${BEATMAPDATA.id}l.jpg`} />
-                    <meta httpEquiv="refresh" content={`0; url=${generateDownloadURL}`} />
+                    <meta httpEquiv="refresh" content={`0; url=${generateDownloadURL()}`} />
                 </Head>
                 <div className="download-page">
                     <div className="owo">
@@ -67,10 +68,13 @@ function Download({ BEATMAPDATA }) {
 
 Download.getInitialProps = async function(context) {
     const id = context.query.id
-    const response = await axios.get(
-      `${getGlobalState("apiURL")}/search?q=${id}&option=s`
-    )
-    if (response.data.length > 0) return {BEATMAPDATA: response.data[0]}
+    console.log(id)
+    if (id !== null) {
+        const response = await axios.get(
+        `${getGlobalState("apiURL")}/search?q=${id}&option=s`
+        )
+        if (response.data.length > 0) return {BEATMAPDATA: response.data[0]}
+    }
   }
 
 export default Download

@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import TotalLength from '../assets/image/total_length.svg'
 import SliderCount from '../assets/image/count_sliders.svg'
 import CircleCount from '../assets/image/count_circles.svg'
@@ -34,17 +33,17 @@ export default function Version({ mode, ver, isCollapse }) {
                     <ul className="beatmap-version-tooltip-info-middle">
                         <Tooltip placement="top" title={"Total length"}>
                             <li>
-                                <Image src={TotalLength} width={iconSize} height={iconSize} /><span>{GeneralMixins.secondsToTime(ver.total_length)}</span>
+                                <img src={require('../assets/image/total_length.svg')} width={iconSize} height={iconSize} /><span>{GeneralMixins.secondsToTime(ver.total_length)}</span>
                             </li>
                         </Tooltip>
                         <Tooltip placement="top" title={"BPM"}>
                             <li>
-                                <Image src={BPM} width={iconSize} height={iconSize} /><span>{parseFloat(ver.bpm)}</span>
+                                <img src={BPM} width={iconSize} height={iconSize} /><span>{parseFloat(ver.bpm)}</span>
                             </li>
                         </Tooltip>
                         <Tooltip placement="top" title={"Circle count"}>
                             <li>
-                                <Image src={CircleCount} width={iconSize} height={iconSize} /><span>{GeneralMixins.addCommas(ver.count_circles)}</span>
+                                <img src={CircleCount} width={iconSize} height={iconSize} /><span>{GeneralMixins.addCommas(ver.count_circles)}</span>
                             </li>
                         </Tooltip>
                         <Tooltip placement="top" title={"Slider count"}>
