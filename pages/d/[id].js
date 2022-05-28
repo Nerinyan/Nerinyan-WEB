@@ -70,7 +70,6 @@ function Download({ BEATMAPDATA }) {
 
 Download.getInitialProps = async function(context) {
     const id = context.query.id
-    console.log(id)
     if (id !== null) {
         const response = await axios.get(
         `${getGlobalState("apiURL")}/search?q=${id}&option=s`
