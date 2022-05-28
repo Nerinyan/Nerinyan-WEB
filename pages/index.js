@@ -1,10 +1,12 @@
 import Head from 'next/head'
-import React, { useEffect } from "react"
+import React from "react"
 import { useRouter } from 'next/router'
 import { Searchbar, Beatmap, GeneralMixins, MusicPlayer } from "../components"
 import { getGlobalState, useGlobalState } from '../store'
 
 export default function IndexPage({ postList }) {
+  const { useEffect } = React
+  
   const [apiResult] = useGlobalState("apiResult")
   const [loading] = useGlobalState("loading")
   const [firstLoad] = useGlobalState("firstLoad")

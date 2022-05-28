@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { setGlobalState, useGlobalState } from '../store'
 import { Slider } from 'antd'
 
@@ -6,6 +6,8 @@ import { Slider } from 'antd'
 
 
 export default function MusicPlayer() {
+    const { useState, useEffect } = React
+    
     var test = 0
     var test2 = 0
     var timer

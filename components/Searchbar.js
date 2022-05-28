@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { setGlobalState, useGlobalState } from '../store'
 import { Input } from 'antd'
 import { GeneralMixins } from "."
@@ -6,6 +6,8 @@ import { GeneralMixins } from "."
 var delay = null;
 
 export default function Searchbar() {
+    const { useState, useEffect } = React
+    
     const [apiJson] = useGlobalState("apiJson")
     const [tmp, setTmp] = useState(0)
 

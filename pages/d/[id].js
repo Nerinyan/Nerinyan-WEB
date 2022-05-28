@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import Head from 'next/head'
 import { useRouter } from "next/router"
 import axios from "axios"
@@ -7,6 +7,8 @@ import { GeneralMixins } from "../../components"
 import { getGlobalState } from '../../store'
 
 function Download({ BEATMAPDATA }) {
+    const { useEffect } = React
+    
     const router = useRouter()
 
     if (router.isFallback) return <div>Loading...</div>

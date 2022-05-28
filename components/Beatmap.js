@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import Link from "next/link"
 import { setGlobalState, useGlobalState } from '../store'
 import LazyLoad from 'react-lazyload'
@@ -7,6 +7,8 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { GeneralMixins, Version } from '.'
 
 export default function Beatmap({ bmap }) {
+    const { useState, useEffect } = React
+    
     const [isCollapse, setCollapse] = useState(true)
     const [isCopied, setIsCopied] = useState(false)
     const [versionsSTD, setVersionsSTD] = useState([])
