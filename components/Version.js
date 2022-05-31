@@ -1,7 +1,4 @@
-import TotalLength from '../assets/image/total_length.svg'
-import SliderCount from '../assets/image/count_sliders.svg'
-import CircleCount from '../assets/image/count_circles.svg'
-import BPM from '../assets/image/bpm.svg'
+import Image from 'next/image'
 import { GeneralMixins } from '../components'
 
 import { Tooltip, Progress } from 'antd'
@@ -9,6 +6,9 @@ import { Tooltip, Progress } from 'antd'
 export default function Version({ mode, ver, isCollapse }) {
     var iconSize = Number(20)
 
+    const IMGLOADER = ({ src, width }) => {
+        return `https://raw.githubusercontent.com/Nerinyan/Nerinyan-WEB/main/assets/image/total_length.svg`
+    }
     function format(percentage) {
         var perc = percentage / 10
         return perc
@@ -33,22 +33,22 @@ export default function Version({ mode, ver, isCollapse }) {
                     <ul className="beatmap-version-tooltip-info-middle">
                         <Tooltip placement="top" title={"Total length"}>
                             <li>
-                                <img src={require('../assets/image/total_length.svg')} width={iconSize} height={iconSize} /><span>{GeneralMixins.secondsToTime(ver.total_length)}</span>
+                                <Image loader={IMGLOADER} src="total_length.svg" width={iconSize} height={iconSize} /><span>{GeneralMixins.secondsToTime(ver.total_length)}</span>
                             </li>
                         </Tooltip>
                         <Tooltip placement="top" title={"BPM"}>
                             <li>
-                                <img src={BPM} width={iconSize} height={iconSize} /><span>{parseFloat(ver.bpm)}</span>
+                                <Image loader={IMGLOADER} src="bpm.svg" width={iconSize} height={iconSize} /><span>{parseFloat(ver.bpm)}</span>
                             </li>
                         </Tooltip>
                         <Tooltip placement="top" title={"Circle count"}>
                             <li>
-                                <img src={CircleCount} width={iconSize} height={iconSize} /><span>{GeneralMixins.addCommas(ver.count_circles)}</span>
+                                <Image loader={IMGLOADER} src="count_circles.svg" width={iconSize} height={iconSize} /><span>{GeneralMixins.addCommas(ver.count_circles)}</span>
                             </li>
                         </Tooltip>
                         <Tooltip placement="top" title={"Slider count"}>
                             <li>
-                                <Image src={SliderCount} width={iconSize} height={iconSize} /><span>{GeneralMixins.addCommas(ver.count_sliders)}</span>
+                                <Image loader={IMGLOADER} src="count_sliders.svg" width={iconSize} height={iconSize} /><span>{GeneralMixins.addCommas(ver.count_sliders)}</span>
                             </li>
                         </Tooltip>
                     </ul>

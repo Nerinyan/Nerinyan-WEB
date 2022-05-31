@@ -19,6 +19,7 @@ export default function MusicPlayer() {
     const [isPlaying] = useGlobalState("musicPlayerIsPlaying")
     const [isPaused] = useGlobalState("musicPlayerIsPaused")
     const [beatmap] = useGlobalState("musicPlayerBeatmap")
+    const [tmp, setTmp] = useState(0)
 
     timer2 = setTimeout(function () {
         if (isPaused === true && isPlaying === false) {
@@ -51,7 +52,6 @@ export default function MusicPlayer() {
         const player = document.getElementById("musicPlayerAudio")
         var current = value / 10
         setPlayingPercent(current)
-        test = current
         player.currentTime = current
         timer = null
     }
@@ -60,23 +60,19 @@ export default function MusicPlayer() {
         const player = document.getElementById("musicPlayerAudio")
         var increment = 10 / player.duration
         setPlayingPercent(Math.min(increment * player.currentTime * 10, 100))
-        test = Math.min(increment * player.currentTime * 10, 100)
         Timer()
     }
 
     function Timer() { 
-        if (playingPercent < 100) {
-            timer = setTimeout(function () {progressbarHandler()})
-        }
+        if (playingPercent < 100) timer = setTimeout(function () {progressbarHandler()})
+        else timer = null
     }
 
     function getVolumeOnLocalStroage() {
         if (localStorage.getItem("musicPlayerVolume") !== null) {
-            test2 = localStorage.getItem("musicPlayerVolume") * 100
             return setVolume(localStorage.getItem("musicPlayerVolume") * 100)
         }
         else {
-            test2 = 25
             return setVolume(25)
         }
     }
@@ -114,14 +110,14 @@ export default function MusicPlayer() {
             </div>
             <div className="music-player-body">
                 <div className="music-player-controller">
-                    <Slider className={"music-player-progress"} trackStyle={{height: "10px", transition: "width 10ms ease"}} handleStyle={{display: 'none'}} value={test} tipFormatter={null} defaultValue={0} onChange={progressbarControlHandler} />
+                    <Slider className={"music-player-progress"} trackStyle={{height: "10px", transition: "width 10ms ease"}} handleStyle={{display: 'none'}} value={playingPercent} tipFormatter={null} defaultValue={0} onChange={progressbarControlHandler} />
                     <button onClick={(e) => {playerToggleHandler(e)}}>
                         <i className={"fa-duotone fa-" + (!isPaused ? "pause" : "play")}></i>
                     </button>
                     <div className="music-player-volume-controller">
                         <i className="fa-solid fa-volume-low"></i>
                         {/* <Slider trackStyle={{height: "7.5px"}} handleStyle={{display: 'none'}} tipFormatter={null} defaultValue={test2} onChange={volumeHandler} /> */}
-                        <Slider trackStyle={{height: "7.5px"}} handleStyle={{display: 'none'}} tipFormatter={null} defaultValue={20} />
+                        <Slider trackStyle={{height: "7.5px"}} handleStyle={{display: 'none'}} tipFormatter={null} defaultValue={volume} onChange={volumeHandler} />
                         <i className="fa-solid fa-volume-high"></i>
                     </div>
                 </div>
