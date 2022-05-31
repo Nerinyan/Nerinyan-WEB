@@ -1,13 +1,11 @@
-import React from "react"
+import React, { Fragment, useState, useEffect } from "react"
 import { setGlobalState, useGlobalState } from '../store'
 import { Input } from 'antd'
 import { GeneralMixins } from "."
 
 var delay = null;
 
-export default function Searchbar() {
-    const { useState, useEffect } = React
-    
+function Searchbar() {
     const [apiJson] = useGlobalState("apiJson")
     const [tmp, setTmp] = useState(0)
 
@@ -81,7 +79,7 @@ export default function Searchbar() {
     }
 
     return (
-        <>
+        <Fragment>
             <Input className={"searchbar-input"} onChange={searchbarChangeHandler} placeholder="Search...." allowClear="true"/>
             <ul className="searchbar-options">
                 <li className="searchbar-option">
@@ -183,6 +181,8 @@ export default function Searchbar() {
                     </ul>
                 </li>
             </ul>
-        </>
+        </Fragment>
     )
 }
+
+export default Searchbar

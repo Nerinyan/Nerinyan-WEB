@@ -1,25 +1,17 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { setGlobalState, useGlobalState } from '../store'
 import { Slider } from 'antd'
 
 // eslint-disable-next-line no-unused-vars
+var timer
+var timer2
 
-
-export default function MusicPlayer() {
-    const { useState, useEffect } = React
-    
-    var test = 0
-    var test2 = 0
-    var timer
-    var timer2
-    
+function MusicPlayer() {
     const [playingPercent, setPlayingPercent] = useState(0)
     const [isSkip, setIsSkip] = useState(false)
-    const [volume, setVolume] = useState(0)
     const [isPlaying] = useGlobalState("musicPlayerIsPlaying")
     const [isPaused] = useGlobalState("musicPlayerIsPaused")
     const [beatmap] = useGlobalState("musicPlayerBeatmap")
-    const [tmp, setTmp] = useState(0)
 
     timer2 = setTimeout(function () {
         if (isPaused === true && isPlaying === false) {
@@ -64,21 +56,22 @@ export default function MusicPlayer() {
     }
 
     function Timer() { 
-        if (playingPercent < 100) timer = setTimeout(function () {progressbarHandler()})
-        else timer = null
+        if (playingPercent < 100) {
+            timer = setTimeout(function () {progressbarHandler()})
+        }
     }
 
     function getVolumeOnLocalStroage() {
         if (localStorage.getItem("musicPlayerVolume") !== null) {
-            return setVolume(localStorage.getItem("musicPlayerVolume") * 100)
+            return localStorage.getItem("musicPlayerVolume") * 100
         }
         else {
-            return setVolume(25)
+            return 25
         }
     }
 
     useEffect(() => {
-        getVolumeOnLocalStroage()
+
         const player = document.getElementById("musicPlayerAudio")
         player.onerror = function() {
             player.pause()
@@ -116,8 +109,7 @@ export default function MusicPlayer() {
                     </button>
                     <div className="music-player-volume-controller">
                         <i className="fa-solid fa-volume-low"></i>
-                        {/* <Slider trackStyle={{height: "7.5px"}} handleStyle={{display: 'none'}} tipFormatter={null} defaultValue={test2} onChange={volumeHandler} /> */}
-                        <Slider trackStyle={{height: "7.5px"}} handleStyle={{display: 'none'}} tipFormatter={null} defaultValue={volume} onChange={volumeHandler} />
+                        <Slider trackStyle={{height: "7.5px"}} handleStyle={{display: 'none'}} tipFormatter={null} defaultValue={getVolumeOnLocalStroage()} onChange={volumeHandler} />
                         <i className="fa-solid fa-volume-high"></i>
                     </div>
                 </div>
@@ -125,3 +117,5 @@ export default function MusicPlayer() {
         </div>
     )
 }
+
+export default MusicPlayer

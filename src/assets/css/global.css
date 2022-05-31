@@ -1,5 +1,5 @@
 body { background: #282c2f !important; }
-#__next { background: #282c2f;}
+#root { background: #282c2f;}
 
 /* General Variable */
 :root {
