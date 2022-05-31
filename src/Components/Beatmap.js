@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react"
-import Link from "next/link"
+import React, { Fragment, useState, useEffect } from "react"
+import { Link } from "react-router-dom"
 import { setGlobalState, useGlobalState } from '../store'
 import LazyLoad from 'react-lazyload'
 import { Tooltip } from 'antd'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { GeneralMixins, Version } from '.'
+import { GeneralMixins, Version } from '../Components'
 
-export default function Beatmap({ bmap }) {
+function Beatmap({ bmap }) {
     const [isCollapse, setCollapse] = useState(true)
     const [isCopied, setIsCopied] = useState(false)
     const [versionsSTD, setVersionsSTD] = useState([])
@@ -169,9 +169,9 @@ export default function Beatmap({ bmap }) {
     }, [])
 
     return (
-        <>
+        <Fragment>
             <div id={bmap.id} className="beatmap-single" data-isplaying={musicPlayerIsPlaying && musicPlayerBeatmap.id === bmap.id ? true : false}>
-                <LazyLoad height={136} offset={300} style={{background: "url(" + require('../assets/image/beatmaps-default.png') + ")"}}>
+                <LazyLoad height={136} offset={300} style={{background: "url(" + require('../assets/images/beatmaps-default.png') + ")"}}>
                     <div onClick={(e) => {
                         e.stopPropagation()
                         e.preventDefault()
@@ -224,7 +224,7 @@ export default function Beatmap({ bmap }) {
                 </LazyLoad>
                 <ul className="card-main">
                     <li className="beatmap-info">
-                        <span>mapped by <Link href={"/main?creator="+bmap.user_id}>{bmap.creator}</Link></span>
+                        <span>mapped by <Link to={"/main?creator="+bmap.user_id}>{bmap.creator}</Link></span>
                         <div className="card-header-info">
                             <div className="card-haeder-stats">
                                 <Tooltip placement="top" title={"Favorites count: " + GeneralMixins.addCommas(bmap.favourite_count)}>
@@ -276,6 +276,8 @@ export default function Beatmap({ bmap }) {
                     </li>
                 </ul>
             </div>
-        </>
+        </Fragment>
     )
 }
+
+export default Beatmap
