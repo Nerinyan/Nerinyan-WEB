@@ -222,36 +222,46 @@ export async function getApiData(append=true) {
 
     setGlobalState("loading", true)
 
-    if (apiErrorCount > 3) {
-        setGlobalState("apiURL", "https://ko2.nerinyan.moe")
-    }
+
 
     console.log(`request - ${JSON.stringify(apiJson)}`)
 
-    try {
-        await axios.get(
-            `${apiURL}/search`, {
-                params: {
-                    b64: btoa(JSON.stringify(apiJson)),
-                    ps: 60
+    for (let i = 0; i < 5; i++) {
+        if (apiErrorCount > 2 || i > 2) {
+            setGlobalState("apiURL", "https://ko2.nerinyan.moe")
+            apiURL = "https://ko2.nerinyan.moe"
+        }
+        try{
+            await axios.get(
+                `${apiURL}/search`, {
+                    params: {
+                        b64: btoa(JSON.stringify(apiJson)),
+                        ps: 60
+                    }
                 }
-            }
-        ).then(function (response) {
-            if (Data.length < 1) {
-                setGlobalState("apiResult", response.data)
-                Data = response.data
-            } else {
-                for (var bmp in response.data) {
-                    Data.push(response.data[bmp])
+            ).then(function (response) {
+                if (Data.length < 1) {
+                    setGlobalState("apiResult", response.data)
+                    Data = response.data
+                } else {
+                    for (var bmp in response.data) {
+                        Data.push(response.data[bmp])
+                    }
+                    setGlobalState("apiResult", Data)
                 }
-                setGlobalState("apiResult", Data)
-            }
-        })
+
+            })
+        }
+        catch (e) {
+            var tempErrorCount = apiErrorCount
+            setGlobalState("apiErrorCount", ++tempErrorCount)
+            console.log(e.message)
+            continue;
+        }
+        break;
     }
-    catch(e) {
-        var tempErrorCount = apiErrorCount
-        setGlobalState("apiErrorCount", ++tempErrorCount)
-    }
+
+
 
     var temp = apiJson
     var tempPage = Number(temp.page)
