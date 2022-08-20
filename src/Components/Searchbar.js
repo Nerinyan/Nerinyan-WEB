@@ -7,6 +7,7 @@ var delay = null;
 
 function Searchbar() {
     const [apiJson] = useGlobalState("apiJson")
+    const [detailSearch] = useGlobalState("detailSearch")
     const [tmp, setTmp] = useState(0)
 
     useEffect(() => {
@@ -21,6 +22,12 @@ function Searchbar() {
         delay = setTimeout(function() {
             requestNewBeatmapData(false)
         }, 500)
+    }
+
+    function searchbarTypeHandler(event, target) {
+        event.stopPropagation()
+        event.preventDefault()
+        setGlobalState("detailSearch", target)
     }
 
     function searchbarOptionChangeHandler(event, target, value) {
@@ -81,6 +88,14 @@ function Searchbar() {
     return (
         <Fragment>
             <Input className={"searchbar-input"} onChange={searchbarChangeHandler} placeholder="Search...." allowClear="true"/>
+            <ul className="searchbar-type-selector">
+                <li data-active={detailSearch === true ? false : true} onClick={(e) => searchbarTypeHandler(e, false)}>
+                   <p>Search</p> 
+                </li>
+                <li data-active={detailSearch === true ? true : false} onClick={(e) => searchbarTypeHandler(e, true)}>
+                   <p>Detail Search</p> 
+                </li>
+            </ul>
             <ul className="searchbar-options">
                 <li className="searchbar-option">
                     <strong>Mode</strong>
@@ -181,6 +196,7 @@ function Searchbar() {
                     </ul>
                 </li>
             </ul>
+
         </Fragment>
     )
 }
