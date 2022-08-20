@@ -4,11 +4,12 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
     firstLoad: true,
     loading: true,
     apiErrorCount: 0,
+    detailSearch: false,
     apiURL: "https://api.nerinyan.moe",
     apiJson: {
         "extra": "",
         "ranked": "",
-        "nsfw": "",
+        "nsfw": "false",
         "video": "",
         "storyboard": "",
         "option": "",

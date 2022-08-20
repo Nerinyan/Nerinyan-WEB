@@ -9,6 +9,11 @@ const difficultyColorSpectrum = scaleLinear().domain([0.1, 1.25, 2, 2.5, 3.3, 4.
     .range(['#4290FB', '#4FC0FF', '#4FFFD5', '#7CFF4F', '#F6F05C', '#FF8068', '#FF4E6F', '#C645B8', '#6563DE', '#18158E', '#000000'])
     .interpolate(interpolateRgb.gamma(2.2))
 
+const difficultyTextColorSpectrum = scaleLinear().domain([0.1, 1.25, 2, 2.5, 3.3, 4.2, 4.9, 5.8, 6.7, 7.7, 9])
+    .clamp(true)
+    .range(['#393939', '#393939', '#393939', '#393939', '#393939', '#393939', '#0e0e0e', '#000000', '#000000', '#000000', '#c5c5c5'])
+    .interpolate(interpolateRgb.gamma(2.2))
+
 export function convertMode(mode) {
     switch (Number(mode)) {
         case 0:
@@ -124,6 +129,13 @@ export function secondsToTime(time){
     return ret
 }
 
+export function getDiffTextColor(rating) {
+    rating += 0
+    if (rating < 0.1) return '#393939';
+    if (rating >= 9) return '#d2d2d2';
+    return difficultyTextColorSpectrum(rating);
+}
+
 export function getDiffColor(rating) {
     rating += 0
     if (rating < 0.1) return '#AAAAAA';
@@ -211,6 +223,30 @@ export function getUserRequestParams(searchParams) {
     setGlobalState('loading', false)
 }
 
+export async function getApiDataJustOne() {
+    var apiURL = getGlobalState("apiURL")
+    var apiJson = getGlobalState("apiJson")
+
+    var DATA = []
+
+    try {
+        await axios.get(
+            `${apiURL}/search`, {
+                params: {
+                    b64: btoa(JSON.stringify(apiJson)),
+                    ps: 10
+                }
+            }
+        ).then(function (response) {
+            DATA = response.data
+        })
+    }
+    catch(e) {
+    }
+
+    return DATA
+}
+
 export async function getApiData(append=true) {
     var apiErrorCount = getGlobalState("apiErrorCount")
     var apiURL = getGlobalState("apiURL")
@@ -220,11 +256,11 @@ export async function getApiData(append=true) {
         Data = []
     }
 
-    setGlobalState("loading", true)
-
-    if (apiErrorCount > 3) {
-        setGlobalState("apiURL", "https://ko2.nerinyan.moe")
+    if (Data.length < (parseInt(apiJson.page) * 60)) {
+        return false
     }
+
+    setGlobalState("loading", true)
 
     console.log(`request - ${JSON.stringify(apiJson)}`)
 
