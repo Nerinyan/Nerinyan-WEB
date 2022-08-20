@@ -23,7 +23,7 @@ function Navbar() {
                             </a>
                         </li>
                         <li>
-                            <a href="mailto:nerina@nerina.pw">
+                            <a href="mailto:admin@nerinyan.moe">
                                 <i className="fa-solid fa-circle-x"></i>
                                 DMCA
                             </a>
