@@ -1,14 +1,24 @@
 import React, { Fragment, useState, useEffect } from "react"
+import { useSpring  , animated } from 'react-spring'
 import { setGlobalState, useGlobalState } from '../store'
-import { Input } from 'antd'
+import { Input, Slider } from 'antd'
 import { GeneralMixins } from "."
 
 var delay = null;
 
+
 function Searchbar() {
     const [apiJson] = useGlobalState("apiJson")
+    const [detailSearchTmp] = useGlobalState("detailSearchTmp")
     const [detailSearch] = useGlobalState("detailSearch")
     const [tmp, setTmp] = useState(0)
+    const [detailSearchChange, setDetailSearchChange] = useState(false)
+
+    const { x } = useSpring({
+        from: { x: 0 },
+        x: detailSearch ? 1 : 0,
+        config: { duration: 100 },
+      })
 
     useEffect(() => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -27,7 +37,40 @@ function Searchbar() {
     function searchbarTypeHandler(event, target) {
         event.stopPropagation()
         event.preventDefault()
+
+        if (target !== true) {
+            apiJson.ar.min = 0
+            apiJson.ar.max = 0
+            apiJson.cs.min = 0
+            apiJson.cs.max = 0
+            apiJson.accuracy.min = 0
+            apiJson.accuracy.max = 0
+            apiJson.drain.min = 0
+            apiJson.drain.max = 0
+            apiJson.bpm.min = 0
+            apiJson.bpm.max = 0
+            apiJson.difficultyRating.min = 0
+            apiJson.difficultyRating.max = 0
+        }
+        if (target === true) {
+            apiJson.ar.min = detailSearchTmp.ar.min
+            apiJson.ar.max = detailSearchTmp.ar.max
+            apiJson.cs.min = detailSearchTmp.cs.min
+            apiJson.cs.max = detailSearchTmp.cs.max
+            apiJson.accuracy.min = detailSearchTmp.accuracy.min
+            apiJson.accuracy.max = detailSearchTmp.accuracy.max
+            apiJson.drain.min = detailSearchTmp.drain.min
+            apiJson.drain.max = detailSearchTmp.drain.max
+            apiJson.bpm.min = detailSearchTmp.bpm.min
+            apiJson.bpm.max = detailSearchTmp.bpm.max
+            apiJson.difficultyRating.min = detailSearchTmp.difficultyRating.min
+            apiJson.difficultyRating.max = detailSearchTmp.difficultyRating.max
+        }
+
+        console.log(detailSearchTmp)
+
         setGlobalState("detailSearch", target)
+        requestNewBeatmapData(false)
     }
 
     function searchbarOptionChangeHandler(event, target, value) {
@@ -72,6 +115,91 @@ function Searchbar() {
 
         setTmp(new Date().getMilliseconds())
 
+        requestNewBeatmapData(false)    
+    }
+
+    const detailSearchbarValueHandlerForAR = (value) => {
+        apiJson.ar.min = value[0]
+        apiJson.ar.max = value[1]
+
+        detailSearchTmp.ar.min = value[0]
+        detailSearchTmp.ar.max = value[1]
+    }
+
+    const detailSearchbarValueHandlerForCS = (value) => {
+        apiJson.cs.min = value[0]
+        apiJson.cs.max = value[1]
+
+        detailSearchTmp.cs.min = value[0]
+        detailSearchTmp.cs.max = value[1]
+    }
+
+    const detailSearchbarValueHandlerForOD = (value) => {
+        apiJson.accuracy.min = value[0]
+        apiJson.accuracy.max = value[1]
+
+        detailSearchTmp.accuracy.min = value[0]
+        detailSearchTmp.accuracy.max = value[1]
+    }
+
+    const detailSearchbarValueHandlerForHP = (value) => {
+        apiJson.drain.min = value[0]
+        apiJson.drain.max = value[1]
+
+        detailSearchTmp.drain.min = value[0]
+        detailSearchTmp.drain.max = value[1]
+    }
+
+    const detailSearchbarValueHandlerForBPM = (value) => {
+        apiJson.bpm.min = value[0]
+        apiJson.bpm.max = value[1]
+
+        detailSearchTmp.bpm.min = value[0]
+        detailSearchTmp.bpm.max = value[1]
+    }
+
+    const detailSearchbarValueHandlerForSR = (value) => {
+        apiJson.difficultyRating.min = value[0]
+        apiJson.difficultyRating.max = value[1]
+
+        detailSearchTmp.difficultyRating.min = value[0]
+        detailSearchTmp.difficultyRating.max = value[1]
+    }
+
+    const detailSearchbarValueAfterChangeHandler = (value) => {
+        setDetailSearchChange(true)
+        clearTimeout(delay)
+        delay = setTimeout(function() {
+            requestNewBeatmapData(false)
+        }, 800)
+    }
+
+    function searchbarDetailOptionsReset() {
+        apiJson.ar.min = 0
+        apiJson.ar.max = 0
+        apiJson.cs.min = 0
+        apiJson.cs.max = 0
+        apiJson.accuracy.min = 0
+        apiJson.accuracy.max = 0
+        apiJson.drain.min = 0
+        apiJson.drain.max = 0
+        apiJson.bpm.min = 0
+        apiJson.bpm.max = 0
+        apiJson.difficultyRating.min = 0
+        apiJson.difficultyRating.max = 0
+        detailSearchTmp.ar.min = 0
+        detailSearchTmp.ar.max = 0
+        detailSearchTmp.cs.min = 0
+        detailSearchTmp.cs.max = 0
+        detailSearchTmp.accuracy.min = 0
+        detailSearchTmp.accuracy.max = 0
+        detailSearchTmp.drain.min = 0
+        detailSearchTmp.drain.max = 0
+        detailSearchTmp.bpm.min = 0
+        detailSearchTmp.bpm.max = 0
+        detailSearchTmp.difficultyRating.min = 0
+        detailSearchTmp.difficultyRating.max = 0
+
         requestNewBeatmapData(false)
     }
 
@@ -86,7 +214,7 @@ function Searchbar() {
     }
 
     return (
-        <Fragment>
+        <div className="searchbar-block">
             <Input className={"searchbar-input"} onChange={searchbarChangeHandler} placeholder="Search...." allowClear="true"/>
             <ul className="searchbar-type-selector">
                 <li data-active={detailSearch === true ? false : true} onClick={(e) => searchbarTypeHandler(e, false)}>
@@ -196,8 +324,41 @@ function Searchbar() {
                     </ul>
                 </li>
             </ul>
-
-        </Fragment>
+            <animated.ul 
+                className="searchbar-detail-options"
+                data-active={detailSearch === true ? true : false}
+                style={{
+                opacity: x.to({ range: [0, 1], output: [0, 1] }),
+                height: x.to({ range: [0, 1], output: [0, 125] })
+                }}
+            >
+                <li className="searchbar-option">
+                    <strong>AR</strong>
+                    <Slider range step={0.1} onAfterChange={detailSearchbarValueAfterChangeHandler} onChange={detailSearchbarValueHandlerForAR} defaultValue={[0, 10]} max={10}/>
+                </li>
+                <li className="searchbar-option">
+                    <strong>CS</strong>
+                    <Slider range step={0.1} onAfterChange={detailSearchbarValueAfterChangeHandler} onChange={detailSearchbarValueHandlerForCS} defaultValue={[0, 10]} max={10}/>
+                </li>
+                <li className="searchbar-option">
+                    <strong>OD</strong>
+                    <Slider range step={0.1} onAfterChange={detailSearchbarValueAfterChangeHandler} onChange={detailSearchbarValueHandlerForOD} defaultValue={[0, 10]} max={10}/>
+                </li>
+                <li className="searchbar-option">
+                    <strong>HP</strong>
+                    <Slider range step={0.1} onAfterChange={detailSearchbarValueAfterChangeHandler} onChange={detailSearchbarValueHandlerForHP} defaultValue={[0, 10]} max={10}/>
+                </li>
+                <li className="searchbar-option">
+                    <strong>BPM</strong>
+                    <Slider range step={1} onAfterChange={detailSearchbarValueAfterChangeHandler} onChange={detailSearchbarValueHandlerForBPM} defaultValue={[0, 500]} max={500}/>
+                </li>
+                <li className="searchbar-option">
+                    <strong>Star Rating</strong>
+                    <Slider range step={0.1} onAfterChange={detailSearchbarValueAfterChangeHandler} onChange={detailSearchbarValueHandlerForSR} defaultValue={[0, 11]} max={11}/>
+                </li>
+            </animated.ul>
+            {/* <p className="searchbar-detail-reset" data-show={detailSearchChange === true ? true : false} onClick={(e) => searchbarDetailOptionsReset()}>Reset</p> */}
+        </div>
     )
 }
 
