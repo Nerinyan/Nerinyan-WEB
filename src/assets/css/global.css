@@ -156,5 +156,12 @@ div.container { margin: 0 auto; max-width: 70vw; }
 @media (max-width: 1024px) {
     nav > div { width: 90vw !important; }
     div.container { max-width: 85vw !important; }
+    ul.searchbar-type-selector li { width: 300px !important; }
     ul.beatmap-list > li { width: 100% !important; }
+}
+@media (max-width: 860px) {
+    ul.searchbar-type-selector li { width: 200px !important; }
+}
+@media (max-width: 500px) {
+    ul.searchbar-type-selector li { width: 140px !important; }
 }

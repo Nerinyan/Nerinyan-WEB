@@ -329,7 +329,6 @@ function Searchbar() {
                 data-active={detailSearch === true ? true : false}
                 style={{
                 opacity: x.to({ range: [0, 1], output: [0, 1] }),
-                height: x.to({ range: [0, 1], output: [0, 125] })
                 }}
             >
                 <li className="searchbar-option">
