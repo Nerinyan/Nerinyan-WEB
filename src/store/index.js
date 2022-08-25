@@ -4,11 +4,38 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
     firstLoad: true,
     loading: true,
     apiErrorCount: 0,
+    detailSearch: false,
     apiURL: "https://api.nerinyan.moe",
+    detailSearchTmp: {
+        "difficultyRating": {
+            "min": 0,
+            "max": 0
+        },
+        "accuracy": {
+            "min": 0,
+            "max": 0
+        },
+        "ar": {
+            "min": 0,
+            "max": 0
+        },
+        "cs": {
+            "min": 0,
+            "max": 0
+        },
+        "drain": {
+            "min": 0,
+            "max": 0
+        },
+        "bpm": {
+            "min": 0,
+            "max": 0
+        }
+    },
     apiJson: {
         "extra": "",
         "ranked": "",
-        "nsfw": "",
+        "nsfw": "false",
         "video": "",
         "storyboard": "",
         "option": "",
