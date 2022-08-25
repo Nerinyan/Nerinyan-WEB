@@ -144,6 +144,15 @@ span.beatmap-version-rating { height: 18px; color: var(--text-color); font-weigh
 .ant-progress-circle-trail { stroke: hsl(var(--hsl-b4)) !important; }
 .download-url-copied { animation: copy-anime 750ms; transition: transform 200ms cubic-bezier(0.85, 0.1, 0.22, 1.07); }
 
+/* Alert */
+/* .ant-message { height: 100vh !important; } */
+.ant-message > div { height: 100vh !important; }
+.ant-message > div > .ant-message-notice { position: absolute; bottom: 10px; left: 10px; }
+.ant-message-notice-content { background-color: hsl(var(--hsl-b3)) !important; }
+.ant-message-notice-content > div > span:nth-of-type(2) { color: white !important; }
+.anticon-loading > span { color: hsl(var(--hsl-blue-1)); }
+.anticon-check-circle > span { color: hsl(var(--hsl-green-1)) !important; }
+
 /* Resposive Web Css */
 nav > div { width: 75vw; }
 div.container { margin: 0 auto; max-width: 70vw; }
