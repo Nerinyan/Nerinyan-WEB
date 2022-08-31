@@ -2,12 +2,14 @@ import React, { useEffect, Fragment } from "react"
 import { useSearchParams } from "react-router-dom"
 import { Navbar, Searchbar, Beatmap, GeneralMixins, MusicPlayer } from "../Components"
 import { getGlobalState, useGlobalState } from '../store'
+import { message } from 'antd' 
 
 function Beatmaps() {
     const [apiResult] = useGlobalState("apiResult")
     const [loading] = useGlobalState("loading")
     const [firstLoad] = useGlobalState("firstLoad")
     const [searchParams] = useSearchParams()
+    const AlertKey = 'alertMsg'
 
     function scrollHandler() {
         const documentData = document.documentElement
@@ -30,33 +32,43 @@ function Beatmaps() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    if (loading && firstLoad) return (
-        <div data-loading={loading && firstLoad} className="beatmap-list-loading" style={{display: (loading ? '' : 'none')}}>
-            <i className="fa-duotone fa-spinner"></i>
-            <p>Loading</p>
-        </div>
-    )
-    else {
-        return (
-            <Fragment>
-                <Navbar />
-                <div className="container">
-                    <Searchbar />
-                    <ul className="beatmap-list">
-                        {renderBeatmaps}
-                    </ul>
-                    <a href="#top" className="backToTop">
-                        <i className="fa-solid fa-circle-arrow-up"></i>
-                    </a>
-                    <div data-loading={loading && firstLoad} className="beatmap-list-loading" style={{display: (loading ? '' : 'none')}}>
-                        <i className="fa-duotone fa-spinner"></i>
-                        <p>Loading</p>
-                    </div>
-                    <MusicPlayer />
-                </div>
-            </Fragment>
-        )
+    const LoadingAlertHandler = () => {
+        if (loading === true) {
+            message.loading({
+                content: 'Loading...',
+                AlertKey,
+                duration: loading ? 1 : 0,
+            })
+        }
+        if (loading !== true) {
+            message.success({
+                content: 'Loaded!',
+                AlertKey,
+                duration: 2,
+            })
+        }
     }
+
+    useEffect(() => {
+        LoadingAlertHandler()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [loading])
+
+    return (
+        <Fragment>
+            <Navbar />
+            <div className="container">
+                <Searchbar />
+                <ul className="beatmap-list">
+                    {renderBeatmaps}
+                </ul>
+                <a href="#top" className="backToTop">
+                    <i className="fa-solid fa-circle-arrow-up"></i>
+                </a>
+                <MusicPlayer />
+            </div>
+        </Fragment>
+    )
 }
 
 export default Beatmaps

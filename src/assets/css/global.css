@@ -137,12 +137,21 @@ body { background: #282c2f !important; }
 span.beatmap-version-rating { height: 18px; color: var(--text-color); font-weight: bold; font-size: 0.9em; background-color: var(--bg-color); padding: 0.1em 0.5em; border-radius: 12px 12px; }
 
 /* Tooltip */
-.ant-tooltip-content .ant-tooltip-inner { border-radius: 8px; background-color: rgb(0 0 0 / 90%); }
+.ant-tooltip-content .ant-tooltip-inner { border-radius: 8px; background-color: rgb(0 0 0 / 90%); text-align: center; }
 .version-tooltip { max-width: 400px !important; }
 .version-tooltip .ant-tooltip-content .ant-tooltip-inner { padding: 18px 20px !important; }
 .ant-progress-circle .ant-progress-text { color: rgba(255,255,255,.85) !important; }
 .ant-progress-circle-trail { stroke: hsl(var(--hsl-b4)) !important; }
 .download-url-copied { animation: copy-anime 750ms; transition: transform 200ms cubic-bezier(0.85, 0.1, 0.22, 1.07); }
+
+/* Alert */
+/* .ant-message { height: 100vh !important; } */
+.ant-message > div { height: 100vh !important; }
+.ant-message > div > .ant-message-notice { position: absolute; bottom: 10px; left: 10px; }
+.ant-message-notice-content { background-color: hsl(var(--hsl-b3)) !important; }
+.ant-message-notice-content > div > span:nth-of-type(2) { color: white !important; }
+.anticon-loading > span { color: hsl(var(--hsl-blue-1)); }
+.anticon-check-circle > span { color: hsl(var(--hsl-green-1)) !important; }
 
 /* Resposive Web Css */
 nav > div { width: 75vw; }
