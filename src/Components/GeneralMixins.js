@@ -316,10 +316,17 @@ export async function getApiData(append=true) {
     }
 }
 
-export function generateDownloadURL(bid, hasVideo=true){
+export function generateDownloadURL(bid, hasVideo=true, nobg=false, nohitsound=false){
     var downloadURL = `https://proxy.nerinyan.moe/d/${bid}`
     if (!hasVideo) {
         downloadURL += "?noVideo=1"
+    }
+    if (nobg && nohitsound) {
+        downloadURL += "?noBg=1&noHitsound=1"
+    } else if (nobg) {
+        downloadURL += "?noBg=1"
+    } else if (nohitsound) {
+        downloadURL += "?noHitsound=1"
     }
     return downloadURL
 }

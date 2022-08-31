@@ -13,7 +13,17 @@ function Download() {
             if (searchParams.novideo === 'true' || searchParams.novideo === '1') setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid, false))
             else setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid))
         }
-        setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid))
+        if (searchParams.nobg !== null) {
+            if ((searchParams.nobg === 'true' || searchParams.nobg === '1') && (searchParams.nohitsound !== null || searchParams.nohitsound === 'true' || searchParams.nohitsound === '1')) setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid, false, true, true))
+            else if ((searchParams.nobg === 'true' || searchParams.nobg === '1') && (searchParams.nohitsound === null || searchParams.nohitsound === 'false' || searchParams.nohitsound === '0')) setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid, false, true, false))
+            else setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid))
+        }
+        if (searchParams.nohitsound !== null) {
+            if ((searchParams.nohitsound === 'true' || searchParams.nohitsound === '1') && (searchParams.nobg !== null || searchParams.nobg === 'true' || searchParams.nobg === '1')) setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid, false, true, true))
+            else if ((searchParams.nohitsound === 'true' || searchParams.nohitsound === '1') && (searchParams.nobg === null || searchParams.nobg === 'false' || searchParams.nobg === '0')) setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid, false, false, true))
+            else setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid))
+        }
+        if (searchParams.novideo === null && searchParams.nohitsound === null && searchParams.nobg === null) setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid))
     }, [])
 
     return (

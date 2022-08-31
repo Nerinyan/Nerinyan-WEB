@@ -154,6 +154,51 @@ function Beatmap({ bmap }) {
                 )
                 break;
         }
+
+        switch (noBg) {
+            case true:
+                if (noHitsound) {
+                    window.open(
+                        `https://nerinyan.moe/d/${bmap.id}?nobg=1&nohitsound=1`,
+                        '_blank'
+                    )
+                    break;
+                } else {
+                    window.open(
+                        `https://nerinyan.moe/d/${bmap.id}?nobg=1`,
+                        '_blank'
+                    )
+                    break;
+                }
+            default:
+                window.open(
+                    `https://nerinyan.moe/d/${bmap.id}`,
+                    '_blank'
+                )
+                break;
+        }
+        switch (noHitsound) {
+            case true:
+                if (noBg) {
+                    window.open(
+                        `https://nerinyan.moe/d/${bmap.id}?nobg=1&nohitsound=1`,
+                        '_blank'
+                    )
+                    break;
+                } else {
+                    window.open(
+                        `https://nerinyan.moe/d/${bmap.id}?nohitsound=1`,
+                        '_blank'
+                    )
+                    break;
+                }
+            default:
+                window.open(
+                    `https://nerinyan.moe/d/${bmap.id}`,
+                    '_blank'
+                )
+                break;
+        }
     }
 
     function clipboardHandler() {
