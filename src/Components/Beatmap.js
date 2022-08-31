@@ -141,7 +141,7 @@ function Beatmap({ bmap }) {
         e.preventDefault()
         
         if (noBg && noHitsound) window.open(`${document.location.origin}/d/${bmap.id}?nobg=1&nohitsound=1`, '_blank')
-        else if (noBg) window.open(`${document.location.origin}/d/${bmap.id}?nobg=1&nohitsound=1`, '_blank')
+        else if (noBg) window.open(`${document.location.origin}/d/${bmap.id}?nobg=1`, '_blank')
         else if (noHitsound) window.open(`${document.location.origin}/d/${bmap.id}?nohitsound=1`, '_blank')
         else if (noVideo) window.open(`${document.location.origin}/d/${bmap.id}?novideo=1`, '_blank')
         else window.open(`${document.location.origin}/d/${bmap.id}`, '_blank')
@@ -254,7 +254,7 @@ function Beatmap({ bmap }) {
                             </Tooltip>
                         }
                         <Tooltip placement="top" title={"Download beatmap without Background Image"}>
-                            <button onClick={(e) => {downloadHander(e, false, true)}}>
+                            <button onClick={(e) => {downloadHander(e, false, true, false)}}>
                                 <i className="fa-solid fa-image-slash"></i>
                             </button>
                         </Tooltip>
