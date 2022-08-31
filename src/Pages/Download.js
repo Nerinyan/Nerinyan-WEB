@@ -9,21 +9,21 @@ function Download() {
     const [dlURL, setDlURL] = useState('')
 
     useEffect(() => {
-        if (searchParams.novideo !== null) {
-            if (searchParams.novideo === 'true' || searchParams.novideo === '1') setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid, false))
-            else setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid))
+        if (searchParams.get('nobg') !== null || searchParams.get('nohitsound') !== null || searchParams.get('novideo') !== null) {
+            // nobg nohitsound
+            if ((searchParams.get('nobg') === 'true' || searchParams.get('nobg') === '1') && (searchParams.get('nohitsound') === 'true' || searchParams.get('nohitsound') === '1'))
+                setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid, true, true, true))
+            // nobg
+            else if ((searchParams.get('nobg') === 'true' || searchParams.get('nobg') === '1') && (searchParams.get('nohitsound') !== 'true' || searchParams.get('nohitsound') !== '1' || searchParams.get('nohitsound') !== null))
+                setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid, true, true, false))
+            // nohitsound
+            else if ((searchParams.get('nohitsound') === 'true' || searchParams.get('nohitsound') === '1') && (searchParams.get('nobg') !== 'true' || searchParams.get('nobg') !== '1' || searchParams.get('nobg') !== null))
+                setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid, true, false, true))
+            // no video
+            else if (searchParams.get('novideo') === 'true' || searchParams.get('novideo') === "1")
+                setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid, false))
         }
-        if (searchParams.nobg !== null) {
-            if ((searchParams.nobg === 'true' || searchParams.nobg === '1') && (searchParams.nohitsound !== null || searchParams.nohitsound === 'true' || searchParams.nohitsound === '1')) setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid, false, true, true))
-            else if ((searchParams.nobg === 'true' || searchParams.nobg === '1') && (searchParams.nohitsound === null || searchParams.nohitsound === 'false' || searchParams.nohitsound === '0')) setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid, false, true, false))
-            else setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid))
-        }
-        if (searchParams.nohitsound !== null) {
-            if ((searchParams.nohitsound === 'true' || searchParams.nohitsound === '1') && (searchParams.nobg !== null || searchParams.nobg === 'true' || searchParams.nobg === '1')) setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid, false, true, true))
-            else if ((searchParams.nohitsound === 'true' || searchParams.nohitsound === '1') && (searchParams.nobg === null || searchParams.nobg === 'false' || searchParams.nobg === '0')) setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid, false, false, true))
-            else setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid))
-        }
-        if (searchParams.novideo === null && searchParams.nohitsound === null && searchParams.nobg === null) setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid))
+        else if (searchParams.get('novideo') === null && searchParams.get('nobg') === null && searchParams.get('nohitsound') === null) setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid))
     }, [])
 
     return (
