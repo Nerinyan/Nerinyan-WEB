@@ -140,65 +140,10 @@ function Beatmap({ bmap }) {
         e.stopPropagation()
         e.preventDefault()
         
-        switch (noVideo) {
-            case true:
-                window.open(
-                    `https://nerinyan.moe/d/${bmap.id}?novideo=1`,
-                    '_blank'
-                )
-                break;
-            default:
-                window.open(
-                    `https://nerinyan.moe/d/${bmap.id}`,
-                    '_blank'
-                )
-                break;
-        }
-
-        switch (noBg) {
-            case true:
-                if (noHitsound) {
-                    window.open(
-                        `https://nerinyan.moe/d/${bmap.id}?nobg=1&nohitsound=1`,
-                        '_blank'
-                    )
-                    break;
-                } else {
-                    window.open(
-                        `https://nerinyan.moe/d/${bmap.id}?nobg=1`,
-                        '_blank'
-                    )
-                    break;
-                }
-            default:
-                window.open(
-                    `https://nerinyan.moe/d/${bmap.id}`,
-                    '_blank'
-                )
-                break;
-        }
-        switch (noHitsound) {
-            case true:
-                if (noBg) {
-                    window.open(
-                        `https://nerinyan.moe/d/${bmap.id}?nobg=1&nohitsound=1`,
-                        '_blank'
-                    )
-                    break;
-                } else {
-                    window.open(
-                        `https://nerinyan.moe/d/${bmap.id}?nohitsound=1`,
-                        '_blank'
-                    )
-                    break;
-                }
-            default:
-                window.open(
-                    `https://nerinyan.moe/d/${bmap.id}`,
-                    '_blank'
-                )
-                break;
-        }
+        if (noBg && noHitsound) window.open(`${document.location.origin}/d/${bmap.id}?nobg=1&nohitsound=1`, '_blank')
+        else if (noBg) window.open(`${document.location.origin}/d/${bmap.id}?nobg=1&nohitsound=1`, '_blank')
+        else if (noHitsound) window.open(`${document.location.origin}/d/${bmap.id}?nohitsound=1`, '_blank')
+        else if (noVideo) window.open(`${document.location.origin}/d/${bmap.id}?novideo=1`, '_blank')
     }
 
     function clipboardHandler() {
