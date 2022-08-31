@@ -136,7 +136,7 @@ function Beatmap({ bmap }) {
         }
     }
 
-    function downloadHander(e, noVideo=false) {
+    function downloadHander(e, noVideo=false, noBg=false, noHitsound=false) {
         e.stopPropagation()
         e.preventDefault()
         
@@ -262,6 +262,22 @@ function Beatmap({ bmap }) {
                                 </button>
                             </Tooltip>
                         }
+                        <Tooltip placement="top" title={"Download beatmap without Background Image"}>
+                            <button onClick={(e) => {downloadHander(e, false, true)}}>
+                                <i className="fa-solid fa-image-slash"></i>
+                            </button>
+                        </Tooltip>
+                        <Tooltip placement="top" title={"Download beatmap without Hitsound"}>
+                            <button onClick={(e) => {downloadHander(e, false, false, true)}}>
+                                <i className="fa-solid fa-music-note-slash"></i>
+                            </button>
+                        </Tooltip>
+                        <Tooltip placement="top" title={"Download beatmap without Background Image and Hitsound"}>
+                            <button onClick={(e) => {downloadHander(e, false, true, true)}}>
+                                <i className="fa-solid fa-image-slash"></i>
+                                <i className="fa-solid fa-music-note-slash"></i>
+                            </button>
+                        </Tooltip>
                     </li>
                     <li className="beatmap-list">
                         <div>
