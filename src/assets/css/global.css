@@ -153,6 +153,12 @@ span.beatmap-version-rating { height: 18px; color: var(--text-color); font-weigh
 .anticon-loading > span { color: hsl(var(--hsl-blue-1)); }
 .anticon-check-circle > span { color: hsl(var(--hsl-green-1)) !important; }
 
+/* Notification */
+.ant-notification-notice { background-color: hsl(var(--hsl-b3)) !important; }
+.ant-notification-notice-message, .ant-notification-notice-description { color: white !important; }
+.ant-notification-notice-close-x { color: white !important; }
+.ant-notification-notice-description { white-space: break-spaces; }
+
 /* Resposive Web Css */
 nav > div { width: 75vw; }
 div.container { margin: 0 auto; max-width: 70vw; }

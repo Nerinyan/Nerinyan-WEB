@@ -2,13 +2,14 @@ import React, { useEffect, Fragment } from "react"
 import { useSearchParams } from "react-router-dom"
 import { Navbar, Searchbar, Beatmap, GeneralMixins, MusicPlayer } from "../Components"
 import { getGlobalState, useGlobalState } from '../store'
-import { message } from 'antd' 
+import { message, notification } from 'antd' 
 
 function Beatmaps() {
     const [apiResult] = useGlobalState("apiResult")
     const [loading] = useGlobalState("loading")
     const [firstLoad] = useGlobalState("firstLoad")
     const [searchParams] = useSearchParams()
+    var sendtime = 0
     const AlertKey = 'alertMsg'
 
     function scrollHandler() {
@@ -49,10 +50,29 @@ function Beatmaps() {
         }
     }
 
+    const GetNotification = () => {
+        const noti = GeneralMixins.getNotificationFromSubAPI()
+        noti.then((val) => {
+            if (Boolean(val.visible) === true) {
+                notification[val.type]({
+                    message: val.message,
+                    description: val.description,
+                    duration: 0
+                });
+            }
+        })
+        console.log("Notification Loaded.")
+    }
+
+
     useEffect(() => {
         LoadingAlertHandler()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loading])
+
+    useEffect(() =>{
+        GetNotification()
+    }, [])
 
     return (
         <Fragment>

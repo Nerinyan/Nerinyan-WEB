@@ -332,3 +332,19 @@ export function genegratePreviewURL(bid){
     var previewURL = `https://osu.pages.dev/preview#${bid}`
     return previewURL
 }
+
+export async function getNotificationFromSubAPI(){
+    var apiSubURL = getGlobalState("apiSubURL")
+    var noti = {}
+    try{
+        await axios.get(
+            `${apiSubURL}/notification`
+        ).then(function (response) {
+            noti = response.data
+            // setGlobalState("notification", response.data)
+        })
+    } catch (e) {
+        setGlobalState("notification", {"error": e})
+    }
+    return noti
+}

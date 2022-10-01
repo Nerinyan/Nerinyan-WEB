@@ -4,8 +4,10 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
     firstLoad: true,
     loading: true,
     apiErrorCount: 0,
+    notification: {},
     detailSearch: false,
     apiURL: "https://api.nerinyan.moe",
+    apiSubURL: "https://subapi.nerinyan.moe",
     detailSearchTmp: {
         "difficultyRating": {
             "min": 0,
