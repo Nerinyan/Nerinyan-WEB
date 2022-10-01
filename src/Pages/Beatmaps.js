@@ -56,8 +56,7 @@ function Beatmaps() {
             if (Boolean(val.visible) === true) {
                 notification[val.type]({
                     message: val.message,
-                    description: val.description,
-                    duration: 0
+                    description: val.description
                 });
             }
         })
