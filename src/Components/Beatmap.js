@@ -144,6 +144,7 @@ function Beatmap({ bmap }) {
         else if (noBg) window.open(`${document.location.origin}/d/${bmap.id}?nobg=1`, '_blank')
         else if (noHitsound) window.open(`${document.location.origin}/d/${bmap.id}?nohitsound=1`, '_blank')
         else if (noVideo) window.open(`${document.location.origin}/d/${bmap.id}?novideo=1`, '_blank')
+        else window.open(`${document.location.origin}/d/${bmap.id}`, '_blank')
     }
 
     function clipboardHandler() {
