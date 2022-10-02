@@ -8,9 +8,12 @@ var delay = null;
 
 
 function Searchbar() {
+    const { Search } = Input
+
     const [apiJson] = useGlobalState("apiJson")
     const [detailSearchTmp] = useGlobalState("detailSearchTmp")
     const [detailSearch] = useGlobalState("detailSearch")
+
     const [tmp, setTmp] = useState(0)
     const [detailSearchChange, setDetailSearchChange] = useState(false)
 
@@ -24,14 +27,21 @@ function Searchbar() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    function searchHandler(val, event) {
+        event.stopPropagation()
+        event.preventDefault()
+        
+        requestNewBeatmapData(false)
+        searchParamHandler("q", apiJson.query)
+    }
+
     function searchbarChangeHandler(event) {
         event.stopPropagation()
         event.preventDefault()
-        clearTimeout(delay)
         apiJson.query = event.target.value
-        delay = setTimeout(function() {
-            requestNewBeatmapData(false)
-        }, 500)
+        
+        setTmp(new Date().getMilliseconds())
+        // searchParamHandler("q", apiJson.query)
     }
 
     function searchbarTypeHandler(event, target) {
@@ -67,20 +77,62 @@ function Searchbar() {
             apiJson.difficultyRating.max = detailSearchTmp.difficultyRating.max
         }
 
-        console.log(detailSearchTmp)
-
         setGlobalState("detailSearch", target)
         requestNewBeatmapData(false)
+    }
+
+    function searchParamHandler(target, value) {
+        var uri = "/main"
+        console.log(value)
+        if (window.location.search === "") {
+            uri += `?${target}=${value}`    
+        } else {
+            var tmp = window.location.search.replace("?", "").split("&")
+            var searchs = []
+
+            tmp.map(v => {
+                if (v.includes(`${target}=`)) searchs.push(`${target}=${value}`)
+                else searchs.push(v)
+            })
+
+            if (!window.location.search.includes(`${target}=`)) {
+                searchs.push(`${target}=${value}`)
+            }
+            
+            searchs.map((v, k) => {
+                if (k === 0) uri += "?"
+                else uri += "&"
+                uri += v
+            })
+        }
+
+        window.history.replaceState("", document.title, uri);
     }
 
     function searchbarOptionChangeHandler(event, target, value) {
         event.stopPropagation()
         event.preventDefault()
-        if (apiJson[target] === value) return
-        apiJson[target] = value
+        if (target === "ranked") {
+            if (value === "all" || value === "") apiJson[target] = value
+            else {
+                apiJson[target] = apiJson[target].replace('all', '')
+                if (apiJson[target].includes(value)) {
+                    if (apiJson[target][apiJson[target].indexOf(value) - 1] === ',')
+                        apiJson[target] = apiJson[target].replace(`,${value}`, "")
+                    else apiJson[target] = apiJson[target].replace(value, "")
+                } else {
+                    if (apiJson[target] === "") apiJson[target] += value
+                    else apiJson[target] += `,${value}`
+                    
+                }
+            }
+        } else {
+            if (apiJson[target] === value) return
+            apiJson[target] = value
+        }
 
         setTmp(new Date().getMilliseconds())
-
+        searchParamHandler(target === "ranked" ? "s" : target, apiJson[target])
         requestNewBeatmapData(false)
     }
 
@@ -93,7 +145,7 @@ function Searchbar() {
         } else apiJson.sort = `${target}_desc`
 
         setTmp(new Date().getMilliseconds())
-
+        searchParamHandler('sort', apiJson.sort === "ranked_desc" ? "": apiJson.sort )
         requestNewBeatmapData(false)
     }
 
@@ -114,7 +166,7 @@ function Searchbar() {
         else apiJson.extra = 'storyboard'
 
         setTmp(new Date().getMilliseconds())
-
+        searchParamHandler('e', apiJson.extra)
         requestNewBeatmapData(false)    
     }
 
@@ -174,6 +226,7 @@ function Searchbar() {
         }, 800)
     }
 
+    // TODO: Detail search Reset
     function searchbarDetailOptionsReset() {
         apiJson.ar.min = 0
         apiJson.ar.max = 0
@@ -215,7 +268,7 @@ function Searchbar() {
 
     return (
         <div className="searchbar-block">
-            <Input className={"searchbar-input"} onChange={searchbarChangeHandler} placeholder="Search...." allowClear="true"/>
+            <Search className={"searchbar-input"} onSearch={searchHandler} onChange={searchbarChangeHandler} size="large" enterButton="Search" placeholder="Search...." allowClear="true" value={apiJson.query}/>
             <ul className="searchbar-type-selector">
                 <li data-active={detailSearch === true ? false : true} onClick={(e) => searchbarTypeHandler(e, false)}>
                    <p>Search</p> 
@@ -248,23 +301,29 @@ function Searchbar() {
                 <li className="searchbar-option">
                     <strong>Categories</strong>
                     <ul>
-                        <li onClick={(e) => searchbarOptionChangeHandler(e, 'ranked', 'any')}>
-                            <p data-active={(apiJson.ranked === 'any' || apiJson.ranked === '') ? true : false}>Any</p>
+                        <li onClick={(e) => searchbarOptionChangeHandler(e, 'ranked', 'all')}>
+                            <p data-active={(apiJson.ranked === 'all') ? true : false}>Any</p>
+                        </li>
+                        <li onClick={(e) => searchbarOptionChangeHandler(e, 'ranked', '')}>
+                            <p data-active={(apiJson.ranked === '' || apiJson.ranked === '') ? true : false}>Has Leaderboard</p>
                         </li>
                         <li onClick={(e) => searchbarOptionChangeHandler(e, 'ranked', 'ranked')}>
-                            <p data-active={apiJson.ranked === 'ranked' ? true : false}>Ranked</p>
+                            <p data-active={apiJson.ranked.includes('ranked') ? true : false}>Ranked</p>
                         </li>
                         <li onClick={(e) => searchbarOptionChangeHandler(e, 'ranked', 'qualified')}>
-                            <p data-active={apiJson.ranked === 'qualified' ? true : false}>Qualified</p>
+                            <p data-active={apiJson.ranked.includes('qualified') ? true : false}>Qualified</p>
                         </li>
                         <li onClick={(e) => searchbarOptionChangeHandler(e, 'ranked', 'loved')}>
-                            <p data-active={apiJson.ranked === 'loved' ? true : false}>Loved</p>
+                            <p data-active={apiJson.ranked.includes('loved') ? true : false}>Loved</p>
                         </li>
                         <li onClick={(e) => searchbarOptionChangeHandler(e, 'ranked', 'pending')}>
-                            <p data-active={apiJson.ranked === 'pending' ? true : false}>Pending</p>
+                            <p data-active={apiJson.ranked.includes('pending') ? true : false}>Pending</p>
+                        </li>
+                        <li onClick={(e) => searchbarOptionChangeHandler(e, 'ranked', 'wip')}>
+                            <p data-active={apiJson.ranked.includes('wip') ? true : false}>Wip</p>
                         </li>
                         <li onClick={(e) => searchbarOptionChangeHandler(e, 'ranked', 'graveyard')}>
-                            <p data-active={apiJson.ranked === 'graveyard' ? true : false}>Graveyard</p>
+                            <p data-active={apiJson.ranked.includes('graveyard') ? true : false}>Graveyard</p>
                         </li>
                     </ul>
                 </li>
