@@ -9,7 +9,6 @@ function Beatmaps() {
     const [loading] = useGlobalState("loading")
     const [firstLoad] = useGlobalState("firstLoad")
     const [searchParams] = useSearchParams()
-    var sendtime = 0
     const AlertKey = 'alertMsg'
 
     function scrollHandler() {
@@ -81,9 +80,13 @@ function Beatmaps() {
                 <ul className="beatmap-list">
                     {renderBeatmaps}
                 </ul>
-                <a href="#top" className="backToTop">
+                <p href="#top" className="backToTop" onClick={(e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    window.scrollTo({top: 0, behavior: 'smooth'})
+                }}>
                     <i className="fa-solid fa-circle-arrow-up"></i>
-                </a>
+                </p>
                 <MusicPlayer />
             </div>
         </Fragment>

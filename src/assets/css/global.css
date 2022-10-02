@@ -122,6 +122,7 @@ body { background: #282c2f !important; }
 .QUALIFIED { background-color: var(--status-qualified-bg); color: var(--status-qualified-color); }
 .PENDING { background-color: var(--status-pending-bg); color: var(--status-pending-color); }
 .GRAVEYARD { background-color: var(--status-graveyard-bg); color: var(--status-graveyard-color); }
+.WIP { background-color: var(--status-wip-bg); color: var(--status-wip-color); }
 .NSFW { background-color: #1c2123; color: #deb945; }
 .VIDEO { background-color: hsl(var(--hsl-purple-1)); }
 .STORYBOARD { background-color: hsl(var(--hsl-red-1)); }
@@ -158,6 +159,15 @@ span.beatmap-version-rating { height: 18px; color: var(--text-color); font-weigh
 .ant-notification-notice-message, .ant-notification-notice-description { color: white !important; }
 .ant-notification-notice-close-x { color: white !important; }
 .ant-notification-notice-description { white-space: break-spaces; }
+
+/* Searchbar */
+.ant-input-affix-wrapper { border-radius: 12px 0 0 12px !important; background-color: hsl(var(--hsl-b2)) !important; border: none !important; }
+.ant-input { color: white !important; background-color: transparent !important; }
+.ant-input-lg, .ant-btn-lg { font-size: 14px !important; }
+.ant-btn-primary { background-color: hsl(var(--hsl-l4)) !important; }
+.anticon.ant-input-clear-icon { color: rgba(255,255,255,.5) !important; }
+.ant-input-group-addon { border-radius: 0 12px 12px 0 !important; border: none !important; background-color: transparent !important; }
+.ant-input-search-button { border: none !important; border-radius: 0 12px 12px 0 !important; height: 38px !important; }
 
 /* Resposive Web Css */
 nav > div { width: 75vw; }

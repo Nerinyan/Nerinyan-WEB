@@ -37,7 +37,7 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
     apiJson: {
         "extra": "",
         "ranked": "",
-        "nsfw": "false",
+        "nsfw": "true",
         "video": "",
         "storyboard": "",
         "option": "",

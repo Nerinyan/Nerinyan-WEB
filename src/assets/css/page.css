@@ -54,8 +54,9 @@ p.searchbar-detail-reset:hover { background-color: hsl(var(--hsl-l3)); }
 /* ul.searchbar-detail-options[data-active=false] { display: none; } */
 
 /* Back To Top Button */
-a.backToTop { display: flex; position: fixed; right: 0; bottom: 0; width: 50px; height: 50px; z-index: 12561; font-size: 2.5em; }
-a.backToTop > i { width: 50px; height: 50px; color: white; }
+p.backToTop { cursor: pointer; display: flex; position: fixed; right: 20px; bottom: 20px; z-index: 12561; font-size: 3.5em; margin: 0; }
+p.backToTop > i { color: white; transition: color 250ms ease-in-out; }
+p.backToTop > i:hover { color: hsl(var(--hsl-darkorange-2)); }
 
 
 /* Beatmap Page */
