@@ -18,11 +18,20 @@ function Beatmap({ bmap }) {
     const [musicPlayerIsPaused] = useGlobalState("musicPlayerIsPaused")
     const [musicPlayerBeatmap] = useGlobalState("musicPlayerBeatmap")
     const IconList = ["faa fa-extra-mode-osu", "faa fa-extra-mode-taiko", "faa fa-extra-mode-furits", "faa fa-extra-mode-mania"]
+
+    const [globalNoVideo] = useGlobalState("globalNoVideo")
+    const [globalNoBg] = useGlobalState("globalNoBg")
+    const [globalNoHitsound] = useGlobalState("globalNoHitsound")
+    const [globalNoStoryboard] = useGlobalState("globalNoStoryboard")
+
     const [dropdownOpen, setDropdownOpen] = useState(false)
-    const [noVideo, setNoVideo] = useState(false)
-    const [noBg, setNoBg] = useState(false)
-    const [noHitsound, setNoHitsound] = useState(false)
-    const [noStoryboard, setNoStoryboard] = useState(false)
+
+    const [noVideo, setNoVideo] = useState(globalNoVideo)
+    const [noBg, setNoBg] = useState(globalNoBg)
+    const [noHitsound, setNoHitsound] = useState(globalNoHitsound)
+    const [noStoryboard, setNoStoryboard] = useState(globalNoStoryboard)
+    
+    const [tmp, setTmp] = useState(0)
 
     function generateVersionListElement() {
         var result = []
@@ -174,6 +183,14 @@ function Beatmap({ bmap }) {
         sortBeatmaps()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    useEffect(() => {
+        setNoVideo(globalNoVideo)
+        setNoBg(globalNoBg)
+        setNoHitsound(globalNoHitsound)
+        setNoStoryboard(globalNoStoryboard)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [globalNoVideo, globalNoBg, globalNoHitsound, globalNoStoryboard])
 
     const menu = (
         <Menu
