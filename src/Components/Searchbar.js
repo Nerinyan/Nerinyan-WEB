@@ -1,5 +1,5 @@
-import React, { Fragment, useState, useEffect } from "react"
-import { useSpring  , animated } from 'react-spring'
+import React, { useState, useEffect } from "react"
+import { useSpring, animated } from 'react-spring'
 import { setGlobalState, useGlobalState } from '../store'
 import { Input, Slider } from 'antd'
 import { GeneralMixins } from "."

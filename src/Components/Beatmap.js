@@ -325,7 +325,6 @@ function Beatmap({ bmap }) {
                             <button onClick={(e) => {
                                 e.stopPropagation()
                                 e.preventDefault()
-                                if (noBg)
                                 window.open(
                                     `https://osu.ppy.sh/beatmapsets/${bmap.id}`,
                                     '_blank'

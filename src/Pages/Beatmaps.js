@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react"
+import React, { useEffect, Fragment } from "react"
 import { useSearchParams } from "react-router-dom"
 import { Navbar, Searchbar, Beatmap, GeneralMixins, MusicPlayer } from "../Components"
 import { getGlobalState, useGlobalState } from '../store'
@@ -8,7 +8,6 @@ function Beatmaps() {
     const [apiResult] = useGlobalState("apiResult")
     const [noResult] = useGlobalState("noResult")
     const [loading] = useGlobalState("loading")
-    const [firstLoad] = useGlobalState("firstLoad")
     const [searchParams] = useSearchParams()
     const AlertKey = 'alertMsg'
 
@@ -50,10 +49,6 @@ function Beatmaps() {
         console.log("Notification Loaded.")
     }
 
-    const TestBmapRenderer = () => {
-        return <ul className="beatmap-list" id="beatmap_list">{renderBeatmaps}</ul>
-      }
-
     let renderBeatmaps = []
     apiResult.forEach((bmap, index) => {
         renderBeatmaps.push(<li key={index}><Beatmap bmap={bmap}/></li>)
@@ -80,10 +75,18 @@ function Beatmaps() {
             <div className="container">
                 <Searchbar/>
                 <ul className="beatmap-list">
-                    {renderBeatmaps}
+                    {noResult &&
+                        <li className="notfound">
+                            <p>
+                                Oops... <br/>
+                                Search results do not exist :(
+                            </p>
+                        </li>
+                    }
+                    {!noResult &&
+                        renderBeatmaps
+                    }
                 </ul>
-                
-                <TestBmapRenderer />
                 <p href="#top" className="backToTop" onClick={(e) => {
                     e.stopPropagation()
                     e.preventDefault()
