@@ -9,21 +9,17 @@ function Download() {
     const [dlURL, setDlURL] = useState('')
 
     useEffect(() => {
-        if (searchParams.get('nobg') !== null || searchParams.get('nohitsound') !== null || searchParams.get('novideo') !== null) {
-            // nobg nohitsound
-            if ((searchParams.get('nobg') === 'true' || searchParams.get('nobg') === '1') && (searchParams.get('nohitsound') === 'true' || searchParams.get('nohitsound') === '1'))
-                setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid, true, true, true))
-            // nobg
-            else if ((searchParams.get('nobg') === 'true' || searchParams.get('nobg') === '1') && (searchParams.get('nohitsound') !== 'true' || searchParams.get('nohitsound') !== '1' || searchParams.get('nohitsound') !== null))
-                setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid, true, true, false))
-            // nohitsound
-            else if ((searchParams.get('nohitsound') === 'true' || searchParams.get('nohitsound') === '1') && (searchParams.get('nobg') !== 'true' || searchParams.get('nobg') !== '1' || searchParams.get('nobg') !== null))
-                setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid, true, false, true))
-            // no video
-            else if (searchParams.get('novideo') === 'true' || searchParams.get('novideo') === "1")
-                setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid, false))
-        }
-        else if (searchParams.get('novideo') === null && searchParams.get('nobg') === null && searchParams.get('nohitsound') === null) setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid))
+        var trueList = ['true', '1']
+        var noVideo = searchParams.get('novideo')
+        var noBg = searchParams.get('nobg')
+        var noHitsound = searchParams.get('nohitsound')
+        var noStoryboard = searchParams.get('nostoryboard')
+
+        var paramList = [trueList.includes(noVideo), trueList.includes(noBg), trueList.includes(noHitsound), trueList.includes(noStoryboard)]
+
+        if (noVideo !== null || noBg !== null || noHitsound !== null || noStoryboard !== null) {
+            setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid, paramList))
+        } else setDlURL(GeneralMixins.generateDownloadURL(beatmapsetid))
     }, [])
 
     return (

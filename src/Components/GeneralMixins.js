@@ -158,7 +158,6 @@ export function modeToicon(mode){
     }
 }
 
-
 export function getUserRequestParams(searchParams) {
     setGlobalState('loading', true)
     var apiJson = getGlobalState('apiJson')
@@ -217,13 +216,12 @@ export function getUserRequestParams(searchParams) {
             }
             
             var tmp = ""
-            status_list.map(v => {
-                if (searchParams.get("s").includes(v)) {
+            status_list.map(function (v) {
+                if (status.includes(v)) {
                     if (tmp !== "") tmp += ','
-                    tmp += v
+                    return tmp += v
                 }
             })
-            console.log(tmp)
 
             apiJson.ranked = tmp
             params.push({'s': status})
@@ -321,39 +319,13 @@ export function getUserRequestParams(searchParams) {
     setGlobalState("apiJson", apiJson)
     getApiData() // get Beatmap Data From Nerinyan API
     setGlobalState('loading', false)
-
     return uri
-}
-
-export async function getApiDataJustOne() {
-    var apiURL = getGlobalState("apiURL")
-    var apiJson = getGlobalState("apiJson")
-
-    var DATA = []
-
-    try {
-        await axios.get(
-            `${apiURL}/search`, {
-                params: {
-                    b64: btoa(JSON.stringify(apiJson)),
-                    ps: 10
-                }
-            }
-        ).then(function (response) {
-            DATA = response.data
-        })
-    }
-    catch(e) {
-    }
-
-    return DATA
 }
 
 export async function getApiData(append=true) {
     var apiErrorCount = getGlobalState("apiErrorCount")
     var apiURL = getGlobalState("apiURL")
     var apiJson = getGlobalState("apiJson")
-
     if (append === false) {
         Data = []
     }
@@ -361,11 +333,8 @@ export async function getApiData(append=true) {
     if (Data.length < (parseInt(apiJson.page) * 60)) {
         return false
     }
-
     setGlobalState("loading", true)
-
     console.log(`request - ${JSON.stringify(apiJson)}`)
-
     setGlobalState("apiURL", "https://api.nerinyan.moe")
     apiURL = "https://api.nerinyan.moe"
     for (let i = 0; i < 5; i++) {
@@ -381,6 +350,7 @@ export async function getApiData(append=true) {
                         ps: 60
                     }
                 }
+            // eslint-disable-next-line no-loop-func
             ).then(function (response) {
                 if (Data.length < 1) {
                     setGlobalState("apiResult", response.data)
@@ -391,7 +361,6 @@ export async function getApiData(append=true) {
                     }
                     setGlobalState("apiResult", Data)
                 }
-
             })
         }
         catch (e) {
@@ -402,9 +371,6 @@ export async function getApiData(append=true) {
         }
         break;
     }
-
-
-
     var temp = apiJson
     var tempPage = Number(temp.page)
     temp.page = String(++tempPage)
@@ -412,7 +378,6 @@ export async function getApiData(append=true) {
     setGlobalState("apiJson", temp)
     setGlobalState("loading", false)
     if (getGlobalState("firstLoad")) setGlobalState("firstLoad", false)
-
     if (getGlobalState("apiResult").length < 1) { 
         return true
     } else {
@@ -420,16 +385,18 @@ export async function getApiData(append=true) {
     }
 }
 
-export function generateDownloadURL(bid, hasVideo=true, nobg=false, nohitsound=false){
+export function generateDownloadURL(bid, noList=[]){
     // console.log(nobg, nohitsound)
+    var params = ['noVideo', 'noBg', 'noHitsound', 'noStoryboard']
     var downloadURL = `https://proxy.nerinyan.moe/d/${bid}`
-    if (!hasVideo) {
-        downloadURL += "?noVideo=1"
-    }
-    if (nobg && nohitsound) downloadURL += "?noBg=1&noHitsound=1"
-    else if (nobg) downloadURL += "?noBg=1"
-    else if (nohitsound) downloadURL += "?noHitsound=1"
-    return downloadURL
+    var parameter = ""
+    params.map(function (param, i) {
+        if (noList[i]) {
+            if (parameter.length === 0) parameter += `?${param}=1`
+            else parameter += `&${param}=1`
+        }
+    })
+    return downloadURL + parameter
 }
 
 export function genegratePreviewURL(bid){
