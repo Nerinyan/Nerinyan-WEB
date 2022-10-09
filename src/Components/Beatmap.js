@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { setGlobalState, useGlobalState } from '../store'
 import LazyLoad from 'react-lazyload'
-import { Tooltip } from 'antd'
+import { Tooltip, Switch, Dropdown, Menu, message } from 'antd'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { GeneralMixins, Version } from '../Components'
 
@@ -18,6 +18,11 @@ function Beatmap({ bmap }) {
     const [musicPlayerIsPaused] = useGlobalState("musicPlayerIsPaused")
     const [musicPlayerBeatmap] = useGlobalState("musicPlayerBeatmap")
     const IconList = ["faa fa-extra-mode-osu", "faa fa-extra-mode-taiko", "faa fa-extra-mode-furits", "faa fa-extra-mode-mania"]
+    const [dropdownOpen, setDropdownOpen] = useState(false)
+    const [noVideo, setNoVideo] = useState(false)
+    const [noBg, setNoBg] = useState(false)
+    const [noHitsound, setNoHitsound] = useState(false)
+    const [noStoryboard, setNoStoryboard] = useState(false)
 
     function generateVersionListElement() {
         var result = []
@@ -136,16 +141,27 @@ function Beatmap({ bmap }) {
         }
     }
 
-    function downloadHander(e, noVideo=false, noBg=false, noHitsound=false) {
+    function downloadHander(e) {
         e.stopPropagation()
         e.preventDefault()
         
-        if (noBg && noHitsound) window.open(`${document.location.origin}/d/${bmap.id}?nobg=1&nohitsound=1`, '_blank')
-        else if (noBg) window.open(`${document.location.origin}/d/${bmap.id}?nobg=1`, '_blank')
-        else if (noHitsound) window.open(`${document.location.origin}/d/${bmap.id}?nohitsound=1`, '_blank')
-        else if (noVideo) window.open(`${document.location.origin}/d/${bmap.id}?novideo=1`, '_blank')
-        else window.open(`${document.location.origin}/d/${bmap.id}`, '_blank')
+        var url = `${document.location.origin}/d/${bmap.id}`
+        var urlList = []
+        if (noVideo || noBg || noHitsound || noStoryboard) url += "?"
+        if (noVideo) urlList.push("novideo=1")
+        if (noBg) urlList.push("nobg=1")
+        if (noHitsound) urlList.push("nohitsound=1")
+        if (noStoryboard) urlList.push("nostoryboard=1")
+        urlList.map(function (param, i) {
+            if (urlList[0] === param) url += `${param}`           
+            else url += `&${param}`           
+        })
+        window.open(url, '_blank')
     }
+
+    const handleOpenChange = (flag) => {
+        setDropdownOpen(flag);
+    };
 
     function clipboardHandler() {
         setIsCopied(true)
@@ -159,18 +175,66 @@ function Beatmap({ bmap }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    const menu = (
+        <Menu
+          items={[
+            {
+                label: (
+                  <Tooltip placement="top" title={bmap.video ? "This option sets Video's existence." : "This option sets Video's existence.\n But, This beatmap not contains video."}>
+                      <Switch disabled={bmap.video ? false : true} checked={noVideo} onChange={(e) => {
+                            setNoVideo(e)
+                            message.info(noVideo ? "Video is included in osz." : "Video will not included in osz!")
+                      }} />
+                      No Video
+                  </Tooltip>
+                ),
+                key: '1',
+            },
+            {
+                label: (
+                    <Tooltip placement="top" title={"This option sets BG's existence."}>
+                        <Switch checked={noBg} onChange={(e) => {
+                            setNoBg(e)
+                            message.info(noBg ? "Background image is included in osz." : "Background image will not included in osz!")
+                        }} />
+                        No BG
+                    </Tooltip>
+                ),
+                key: '2',
+            },
+            {
+                label: (
+                    <Tooltip placement="top" title={"This option sets Hitsound's existence."}>
+                        <Switch checked={noHitsound} onChange={(e) => {
+                            setNoHitsound(e)
+                            message.info(noHitsound ? "Hitsound are included in osz." : "Hitsound will not included in osz!")
+                        }} />
+                        No Hitsound
+                    </Tooltip>
+                ),
+                key: '3',
+            },
+            {
+                label: (
+                    <Tooltip placement="top" title={"This option sets Storyboard's existence."}>
+                        <Switch checked={noStoryboard} onChange={(e) => {
+                            setNoStoryboard(e)
+                            message.info(noStoryboard ? "Storyboard is included in osz." : "Storyboard will not included in osz!")
+                        }} />
+                        No Storyboard
+                    </Tooltip>
+                ),
+                key: '4',
+            },
+          ]}
+        />
+    )
+
     return (
         <Fragment>
             <div id={bmap.id} className="beatmap-single" data-isplaying={musicPlayerIsPlaying && musicPlayerBeatmap.id === bmap.id ? true : false}>
                 <LazyLoad height={136} offset={300} style={{background: "url(" + require('../assets/images/beatmaps-default.png') + ")"}}>
-                    <div onClick={(e) => {
-                        e.stopPropagation()
-                        e.preventDefault()
-                        window.open(
-                            `https://nerinyan.moe/d/${bmap.id}`,
-                            '_blank'
-                        )
-                    }} className="card-header" style={{ "--bg": "center / cover no-repeat url(https://assets.ppy.sh/beatmaps/"+bmap.id+"/covers/cover.jpg?1622784772" }}>
+                    <div className="card-header" style={{ "--bg": "center / cover no-repeat url(https://assets.ppy.sh/beatmaps/"+bmap.id+"/covers/cover.jpg?1622784772" }}>
                         <div className="card-header-beatmapinfo">
                             <ul>
                                 <li className="card-header-status">
@@ -227,9 +291,9 @@ function Beatmap({ bmap }) {
                                 <Tooltip placement="top" title={"BPM: " + GeneralMixins.addCommas(parseFloat(bmap.bpm))}>
                                     <i className="fa-solid fa-music-note"></i> {GeneralMixins.addCommas(parseFloat(bmap.bpm))}
                                 </Tooltip>
-                                {/* <Tooltip placement="top" title={"Beatmaps count: " + GeneralMixins.addCommas(bmap.beatmaps.length)}>
+                                <Tooltip placement="top" title={"Beatmaps count: " + GeneralMixins.addCommas(bmap.beatmaps.length)}>
                                     <i className="fa-solid fa-clipboard-list"></i> {GeneralMixins.addCommas(bmap.beatmaps.length)}
-                                </Tooltip> */}
+                                </Tooltip>
                             </div>
                         </div>
                     </li>
@@ -241,32 +305,33 @@ function Beatmap({ bmap }) {
                                 </button>
                             </CopyToClipboard>
                         </Tooltip>
-                        <Tooltip placement="top" title={"Download beatmap" + (bmap.video ? ' with video' : '')}>
-                            <button onClick={(e) => {downloadHander(e)}}>
-                                <i className="fa-solid fa-arrow-down-to-bracket"></i>
+                        <Dropdown.Button  placement="bottom" onClick={(e) => {downloadHander(e)}} overlay={menu} onOpenChange={handleOpenChange} open={dropdownOpen}>
+                            <i className="fa-solid fa-arrow-down-to-bracket"></i> Download
+                        </Dropdown.Button>
+                        <Tooltip placement="top" title={"Download beatmap background image"}>
+                            <button onClick={(e) => {
+                                e.stopPropagation()
+                                e.preventDefault()
+                                window.open(
+                                    `https://api.nerinyan.moe/bg/-${bmap.id}`,
+                                    '_blank'
+                                )
+                            }}>
+                                <i className="fa-solid fa-image"></i>
+                                <p>BG</p>
                             </button>
                         </Tooltip>
-                        {bmap.video && 
-                            <Tooltip placement="top" title={"Download beatmap without video"}>
-                                <button onClick={(e) => {downloadHander(e, true)}}>
-                                    <i className="fa-solid fa-video-slash"></i>
-                                </button>
-                            </Tooltip>
-                        }
-                        <Tooltip placement="top" title={"Download beatmap without Background Image"}>
-                            <button onClick={(e) => {downloadHander(e, false, true, false)}}>
-                                <i className="fa-solid fa-image-slash"></i>
-                            </button>
-                        </Tooltip>
-                        <Tooltip placement="top" title={"Download beatmap without Hitsound"}>
-                            <button onClick={(e) => {downloadHander(e, false, false, true)}}>
-                                <i className="fa-solid fa-music-note-slash"></i>
-                            </button>
-                        </Tooltip>
-                        <Tooltip placement="top" title={"Download beatmap without Background Image and Hitsound"}>
-                            <button onClick={(e) => {downloadHander(e, false, true, true)}}>
-                                <i className="fa-solid fa-image-slash"></i>
-                                <i className="fa-solid fa-music-note-slash"></i>
+                        <Tooltip placement="top" title={"Go to osu! beatmap page"}>
+                            <button onClick={(e) => {
+                                e.stopPropagation()
+                                e.preventDefault()
+                                if (noBg)
+                                window.open(
+                                    `https://osu.ppy.sh/beatmapsets/${bmap.id}`,
+                                    '_blank'
+                                )
+                            }}>
+                                <i className="fa-solid fa-arrow-up-right-from-square"></i>
                             </button>
                         </Tooltip>
                     </li>
