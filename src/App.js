@@ -1,7 +1,6 @@
 import React from "react"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import { Beatmaps, Download } from './Pages'
-import { message } from 'antd'
 
 function App() {
     return(

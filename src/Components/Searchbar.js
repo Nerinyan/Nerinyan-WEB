@@ -1,5 +1,5 @@
-import React, { Fragment, useState, useEffect } from "react"
-import { useSpring  , animated } from 'react-spring'
+import React, { useState, useEffect } from "react"
+import { useSpring, animated } from 'react-spring'
 import { setGlobalState, useGlobalState } from '../store'
 import { Input, Slider } from 'antd'
 import { GeneralMixins } from "."
@@ -16,6 +16,11 @@ function Searchbar() {
 
     const [tmp, setTmp] = useState(0)
     const [detailSearchChange, setDetailSearchChange] = useState(false)
+
+    const [globalNoVideo] = useGlobalState("globalNoVideo")
+    const [globalNoBg] = useGlobalState("globalNoBg")
+    const [globalNoHitsound] = useGlobalState("globalNoHitsound")
+    const [globalNoStoryboard] = useGlobalState("globalNoStoryboard")
 
     const { x } = useSpring({
         from: { x: 0 },
@@ -170,6 +175,29 @@ function Searchbar() {
         setTmp(new Date().getMilliseconds())
         searchParamHandler('e', apiJson.extra)
         requestNewBeatmapData(false)    
+    }
+
+    function searchbarOptionChangeHandlerForDlOptions(event, target) {
+        event.stopPropagation()
+        event.preventDefault()
+        switch (target) {
+            case "video":
+                setGlobalState("globalNoVideo", !globalNoVideo)
+                break
+            case "background":
+                setGlobalState("globalNoBg", !globalNoBg)
+                break
+            case "hitsound":
+                setGlobalState("globalNoHitsound", !globalNoHitsound)
+                break
+            case "storyboard":
+                setGlobalState("globalNoStoryboard", !globalNoStoryboard)
+                break
+            default:
+                break
+        }
+
+        setTmp(new Date().getMilliseconds())
     }
 
     const detailSearchbarValueHandlerForAR = (value) => {
@@ -381,6 +409,23 @@ function Searchbar() {
                         <li onClick={(e) => searchbarOptionChangeHandlerForSortBy(e, 'favourites')}>
                             <p data-active={apiJson.sort.includes('favourites') ? true : false}>Favourites</p>
                             <i data-asc={apiJson.sort.includes('favourites') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down" style={{display: (apiJson.sort.includes('favourites') ? '' : 'none')}}></i>
+                        </li>
+                    </ul>
+                </li>
+                <li className="searchbar-option">
+                    <strong>Download Options</strong>
+                    <ul>
+                        <li onClick={(e) => searchbarOptionChangeHandlerForDlOptions(e, 'video')}>
+                            <p data-active={globalNoVideo ? true : false}>No Video</p>
+                        </li>
+                        <li onClick={(e) => searchbarOptionChangeHandlerForDlOptions(e, 'background')}>
+                            <p data-active={globalNoBg ? true : false}>No Background</p>
+                        </li>
+                        <li onClick={(e) => searchbarOptionChangeHandlerForDlOptions(e, 'hitsound')}>
+                            <p data-active={globalNoHitsound ? true : false}>No Hitsound</p>
+                        </li>
+                        <li onClick={(e) => searchbarOptionChangeHandlerForDlOptions(e, 'storyboard')}>
+                            <p data-active={globalNoStoryboard ? true : false}>No Storyboard</p>
                         </li>
                     </ul>
                 </li>

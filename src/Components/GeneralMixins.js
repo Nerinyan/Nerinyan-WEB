@@ -362,8 +362,10 @@ export async function getApiData(append=true) {
                     setGlobalState("apiResult", Data)
                 }
             })
+            setGlobalState("noResult", false)
         }
         catch (e) {
+            setGlobalState("noResult", true)
             var tempErrorCount = apiErrorCount
             setGlobalState("apiErrorCount", ++tempErrorCount)
             console.log(e.message)

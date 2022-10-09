@@ -11,6 +11,10 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
     detailSearch: false,
     apiURL: "https://api.nerinyan.moe",
     apiSubURL: "https://subapi.nerinyan.moe",
+    globalNoVideo: false,
+    globalNoBg: false,
+    globalNoHitsound: false,
+    globalNoStoryboard: false,
     detailSearchTmp: {
         "difficultyRating": {
             "min": 0,
