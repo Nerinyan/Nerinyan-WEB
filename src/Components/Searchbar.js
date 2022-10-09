@@ -78,7 +78,7 @@ function Searchbar() {
         }
 
         setGlobalState("detailSearch", target)
-        requestNewBeatmapData(false)
+        setTimeout(() => { requestNewBeatmapData(false) }, 250);
     }
 
     function searchParamHandler(target, value) {
@@ -123,8 +123,10 @@ function Searchbar() {
                 } else {
                     if (apiJson[target] === "") apiJson[target] += value
                     else apiJson[target] += `,${value}`
-                    
                 }
+                do {
+                    if (apiJson[target][0] === ",") apiJson[target] = apiJson[target].slice(1)
+                } while (apiJson[target][0] === ",")
             }
         } else {
             if (apiJson[target] === value) return
