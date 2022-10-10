@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import { scaleLinear, interpolateRgb } from 'd3'
 import { setGlobalState, getGlobalState } from '../store'
 import axios from "axios"

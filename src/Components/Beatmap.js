@@ -37,18 +37,31 @@ function Beatmap({ bmap }) {
         var result = []
         VersionList.forEach((version, index) => {
             if (version.length > 0) {
-                result.push(
-                    <div key={index} className="version-list-single">
-                        <i className={IconList[index]}></i>
-                        <ul>
-                            {version.map((ver, index) => (
-                                <li key={ver.id}>
-                                    <Version mode={index} ver={ver} isCollapse={true}/>
+                if (version.length <= 10) {
+                    result.push(
+                        <div key={index} className="version-list-single">
+                            <i className={IconList[index]}></i>
+                            <ul>
+                                {version.map((ver, index) => (
+                                    <li key={ver.id}>
+                                        <Version mode={index} ver={ver} isCollapse={true}/>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )
+                } else {
+                    result.push(
+                        <div key={index} className="version-list-single">
+                            <i className={IconList[index]}></i>
+                            <ul>
+                                <li>
+                                    <span>{version.length}</span>
                                 </li>
-                            ))}
-                        </ul>
-                    </div>
-                )
+                            </ul>
+                        </div>
+                    )
+                }
             }
         })
         return result
@@ -307,9 +320,6 @@ function Beatmap({ bmap }) {
                                 </Tooltip>
                                 <Tooltip placement="top" title={"BPM: " + GeneralMixins.addCommas(parseFloat(bmap.bpm))}>
                                     <i className="fa-solid fa-music-note"></i> {GeneralMixins.addCommas(parseFloat(bmap.bpm))}
-                                </Tooltip>
-                                <Tooltip placement="top" title={"Beatmaps count: " + GeneralMixins.addCommas(bmap.beatmaps.length)}>
-                                    <i className="fa-solid fa-clipboard-list"></i> {GeneralMixins.addCommas(bmap.beatmaps.length)}
                                 </Tooltip>
                             </div>
                         </div>

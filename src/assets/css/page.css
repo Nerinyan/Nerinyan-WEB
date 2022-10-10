@@ -70,7 +70,7 @@ ul.beatmap-list > li.notfound > p { font-size: 1.5em; text-align: center; color:
 div.beatmap-single { border-radius: 5px; box-shadow: hsl(var(--hsl-b6)) 0 0 5px; width: 100%; position: relative; padding-top: 0; text-align: left; margin: 0; overflow: hidden; }
 div.beatmap-single:hover { box-shadow: hsl(var(--hsl-b6)) 0 0 10px; }
 div.beatmap-single:hover::after { width: 5px; }
-div.beatmap-single::after { display: block; position: absolute; top: 0; right: 0; width: 0px; height: 100%; content: ''; background-color: hsl(var(--hsl-darkorange-1)); transition: width 150ms ease; }
+div.beatmap-single::after { display: block; position: absolute; top: 0; right: 0; width: 0px; height: 100%; content: ''; background-color: hsl(var(--hsl-l3)); transition: width 150ms ease; }
 div.beatmap-single[data-isplaying=true]::after { width: 5px; }
 div.beatmap-single div.card-header { background: center / cover no-repeat linear-gradient(to right, #00000099, #ffe4e100), var(--bg); width: 100%; height: 136px; padding: 8px; display: flex; flex-direction: column; justify-content: space-between; }
 div.beatmap-single div.card-header div.card-header-beatmapinfo { width: 100%; z-index: 2; }
@@ -99,14 +99,15 @@ div.beatmap-single ul.card-main li.beatmap-info div.card-header-info div.card-ha
 div.beatmap-single ul.card-main li.beatmap-info div button { cursor: pointer; border: none; background: transparent; color: hsl(var(--hsl-darkorange-1)); border: solid 1px transparent; transition: border 150ms ease-in-out, color 150ms ease-in-out; }
 div.beatmap-single ul.card-main li.beatmap-info div button:hover { color: hsl(var(--hsl-orange-1)); border: solid 1px hsl(var(--hsl-orange-1)); }
 div.beatmap-single ul.card-main li.beatmap-buttons { display: flex; flex-direction: row; justify-content: center; background: hsl(var(--hsl-b5)); font-size: 0.95em; padding: 7.5px 2.5px; border-top: hsl(var(--hsl-b2)) 2px solid; border-radius: 0 0 5px 5px; }
-div.beatmap-single ul.card-main li.beatmap-buttons > button, div.beatmap-single ul.card-main li.beatmap-buttons > div.ant-btn-group.ant-dropdown-button { background-color: hsl(var(--hsl-orange-1)); color: hsl(var(--hsl-b4)); border: none; border-radius: 10px; padding: 0 1em; cursor: pointer; display: flex; align-items: center; justify-content: center; height: 25px; }
+div.beatmap-single ul.card-main li.beatmap-buttons > button, div.beatmap-single ul.card-main li.beatmap-buttons > div.ant-btn-group.ant-dropdown-button { transition: background-color 200ms ease-in-out; background-color: hsl(var(--hsl-b2)); color: hsl(var(--hsl-white-1)); border: none; border-radius: 10px; padding: 0 1em; cursor: pointer; display: flex; align-items: center; justify-content: center; height: 25px; }
+div.beatmap-single ul.card-main li.beatmap-buttons > button:hover, div.beatmap-single ul.card-main li.beatmap-buttons > div.ant-btn-group.ant-dropdown-button:hover { background-color: hsl(var(--hsl-b1)); }
 div.beatmap-single ul.card-main li.beatmap-buttons > div.ant-btn-group.ant-dropdown-button { padding: 0 0 0 1em; }
-div.beatmap-single ul.card-main li.beatmap-buttons > div.ant-btn-group.ant-dropdown-button > button { color: hsl(var(--hsl-b4)); height: 25px; background-color: transparent; font-weight: bold; padding: 0; margin-right: 0.5em; }
-div.beatmap-single ul.card-main li.beatmap-buttons > div.ant-btn-group.ant-dropdown-button > button:hover { color: hsl(var(--hsl-b4)); }
-div.beatmap-single ul.card-main li.beatmap-buttons > div.ant-btn-group.ant-dropdown-button > button.ant-dropdown-trigger { background-color: hsl(var(--hsl-orange-3)); border-radius: 0 12px 12px 0; margin-right: 0; }
+div.beatmap-single ul.card-main li.beatmap-buttons > div.ant-btn-group.ant-dropdown-button > button { color: hsl(var(--hsl-white-1)); height: 25px; background-color: transparent; font-weight: 500; padding: 0; margin-right: 0.5em; }
+div.beatmap-single ul.card-main li.beatmap-buttons > div.ant-btn-group.ant-dropdown-button > button:hover { color: hsl(var(--hsl-white-1)); }
+div.beatmap-single ul.card-main li.beatmap-buttons > div.ant-btn-group.ant-dropdown-button > button.ant-dropdown-trigger { background-color: hsl(200, 10%, 40%); border-radius: 0 10px 10px 0; margin-right: 0; }
 div.beatmap-single ul.card-main li.beatmap-buttons > div.ant-btn-group.ant-dropdown-button > button > i { margin-right: 0.25em; }
 div.beatmap-single ul.card-main li.beatmap-buttons > button:not(:last-child), div.beatmap-single ul.card-main li.beatmap-buttons > div.ant-btn-group.ant-dropdown-button { margin-right: 0.5em; }
-div.beatmap-single ul.card-main li.beatmap-buttons > button > p { margin-bottom: 0; margin-left: 0.25em; font-weight: bold; }
+div.beatmap-single ul.card-main li.beatmap-buttons > button > p { margin-bottom: 0; margin-left: 0.25em; font-weight: 500; }
 /* div.beatmap-single ul.card-main li.beatmap-buttons > hr { width: 5px; height: 25px; border: none; background-color: hsl(var(--hsl-b2)); border-radius: 12px; margin: 0 5px; margin-right: 10px; } */
 div.beatmap-single ul.card-main li.beatmap-list { background: hsl(var(--hsl-b4)); font-size: 0.95em; padding: 7.5px 2.5px; border-top: hsl(var(--hsl-b2)) 2px solid; border-radius: 0 0 5px 5px; }
 div.beatmap-single ul.card-main li.beatmap-list > div { display: flex; flex-direction: row; }
@@ -173,19 +174,20 @@ div.music-player-block div.music-player-head > div.music-player-info { display: 
 div.music-player-block div.music-player-head > div.music-player-info span.title { font-size: 1.3em; font-weight: bold; line-height: 1.2; margin-bottom: 0.25em; display: block; width: 230px; text-overflow: ellipsis; overflow-x: hidden; }
 div.music-player-block div.music-player-body { border-radius: 0 0 12px 12px; background: hsl(var(--hsl-b3)); }
 div.music-player-block div.music-player-body div.music-player-controller { display: flex; flex-direction: row; justify-content: space-between; padding: 10px 10px; }
-div.music-player-block div.music-player-body div.music-player-controller div.music-player-progress { width: 50%; }
-div.music-player-block div.music-player-body div.music-player-controller div.music-player-progress div.ant-slider-rail { height: 10px; background: hsl(var(--hsl-darkorange-2)); }
-div.music-player-block div.music-player-body div.music-player-controller div.music-player-progress div.ant-slider-track { background: hsl(var(--hsl-orange-1)); }
-div.music-player-block div.music-player-body div.music-player-controller button { margin: 0 auto; cursor: pointer; width: 30px; height: 30px; border: none; background: white; color: hsl(var(--hsl-darkorange-3)); border-radius: 8px; transition: background 200ms ease; }
-div.music-player-block div.music-player-body div.music-player-controller button:hover { background: hsl(var(--hsl-orange-1)); }
+div.music-player-block div.music-player-body div.music-player-controller div.music-player-progress { width: 50%; display: flex !important; align-items: center !important; }
+div.music-player-block div.music-player-body div.music-player-controller div.music-player-progress div.ant-slider-rail { height: 10px; background: hsl(var(--hsl-l4)); }
+div.music-player-block div.music-player-body div.music-player-controller div.music-player-progress div.ant-slider-track { background: hsl(var(--hsl-l1)); }
+div.music-player-block div.music-player-body div.music-player-controller button { margin: 0 auto; cursor: pointer; width: 30px; height: 30px; border: none; background: hsl(var(--hsl-b1)); color: hsl(var(--hsl-white-1)); border-radius: 8px; transition: background 200ms ease; }
+div.music-player-block div.music-player-body div.music-player-controller button:hover { background: hsl(var(--hsl-l4)); }
 div.music-player-block div.music-player-body div.music-player-controller div.music-player-volume-controller { display: flex; width: 30%; align-items: center; }
+div.music-player-block div.music-player-body div.music-player-controller div.music-player-volume-controller > i { color: white; }
 div.music-player-block div.music-player-body div.music-player-controller div.music-player-volume-controller > div { width: 100%; color: white; }
-div.music-player-block div.music-player-body div.music-player-controller div.music-player-volume-controller > div div.ant-slider-rail { height: 7.5px; background: hsl(var(--hsl-darkorange-2)); }
-div.music-player-block div.music-player-body div.music-player-controller div.music-player-volume-controller > div div.ant-slider-track { background: hsl(var(--hsl-orange-1)); }
+div.music-player-block div.music-player-body div.music-player-controller div.music-player-volume-controller > div div.ant-slider-rail { height: 7.5px; background: hsl(var(--hsl-l4)); }
+div.music-player-block div.music-player-body div.music-player-controller div.music-player-volume-controller > div div.ant-slider-track { background: hsl(var(--hsl-l1)); }
 
 @keyframes copy-anime {
     0% { transform: scale(0.25); }
-    75% { transform: scale(1.5); color: hsl(var(--hsl-orange-1)); }
+    75% { transform: scale(1.5); color: hsl(var(--hsl-l3)); }
     100% { transform: scale(1); }
 }
 

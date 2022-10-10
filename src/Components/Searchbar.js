@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react"
 import { useSpring, animated } from 'react-spring'
 import { setGlobalState, useGlobalState } from '../store'
@@ -95,19 +96,23 @@ function Searchbar() {
             var tmp = window.location.search.replace("?", "").split("&")
             var searchs = []
 
-            tmp.map(v => {
-                if (v.includes(`${target}=`)) searchs.push(`${target}=${value}`)
-                else searchs.push(v)
-            })
+            tmp.map(function (v) {
+                    if (v.includes(`${target}=`))
+                        return searchs.push(`${target}=${value}`)
+                    else
+                        return searchs.push(v)
+                })
 
             if (!window.location.search.includes(`${target}=`)) {
                 searchs.push(`${target}=${value}`)
             }
             
-            searchs.map((v, k) => {
-                if (k === 0) uri += "?"
-                else uri += "&"
-                uri += v
+            searchs.map(function (v, k) {
+                if (k === 0)
+                    uri += "?"
+                else
+                    uri += "&"
+                return uri += v
             })
         }
 
