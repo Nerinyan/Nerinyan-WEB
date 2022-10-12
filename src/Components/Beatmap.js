@@ -261,7 +261,7 @@ function Beatmap({ bmap }) {
             },
             {
                 label: (
-                    <Tooltip placement="top" title={"Test"}>
+                    <Tooltip placement="top" title={"Append This beatmap to Download list"}>
                         <Switch checked={zipAppend} onChange={(e) => {
                             if (e) {
                                 var paramList = []
