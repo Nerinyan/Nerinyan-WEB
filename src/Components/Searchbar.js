@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react"
 import { useSpring, animated } from 'react-spring'
-import { setGlobalState, useGlobalState } from '../store'
-import { Input, Slider } from 'antd'
+import { getGlobalState, setGlobalState, useGlobalState } from '../store'
+import { Input, Slider, message } from 'antd'
 import { GeneralMixins } from "."
 
 var delay = null;
@@ -22,6 +22,8 @@ function Searchbar() {
     const [globalNoBg] = useGlobalState("globalNoBg")
     const [globalNoHitsound] = useGlobalState("globalNoHitsound")
     const [globalNoStoryboard] = useGlobalState("globalNoStoryboard")
+
+    const [zipList] = useGlobalState("zipList")
 
     const { x } = useSpring({
         from: { x: 0 },
@@ -203,6 +205,36 @@ function Searchbar() {
         }
 
         setTmp(new Date().getMilliseconds())
+    }
+
+    function zipDownloadHandler(e, selectedOnly=true) {
+        e.stopPropagation()
+        e.preventDefault()
+        if (zipList.length === 0 && selectedOnly) {
+            return message.warning("Not Seleceted to download")
+        }
+        if (!selectedOnly) {
+            message.info("Please wait to download ...", 10)
+            var paramList = []
+            if (globalNoVideo) paramList.push(true)
+            else paramList.push(false)
+            if (globalNoBg) paramList.push(true)
+            else paramList.push(false)
+            if (globalNoHitsound) paramList.push(true)
+            else paramList.push(false)
+            if (globalNoStoryboard) paramList.push(true)
+            else paramList.push(false)
+            var tmp = []
+            getGlobalState("apiResult").map(function(bmap, i) {
+                if (i < 30) {
+                    var url = GeneralMixins.generateDownloadURL(bmap.id, paramList)
+                    var bname = `${bmap.id} ${bmap.artist} - ${bmap.title}.osz`
+                    tmp.push({'name': bname, 'url': url})
+                }
+            })
+            setGlobalState("zipList", tmp)
+        }
+        GeneralMixins.zipDownloadHandler()
     }
 
     const detailSearchbarValueHandlerForAR = (value) => {
@@ -431,6 +463,17 @@ function Searchbar() {
                         </li>
                         <li onClick={(e) => searchbarOptionChangeHandlerForDlOptions(e, 'storyboard')}>
                             <p data-active={globalNoStoryboard ? true : false}>No Storyboard</p>
+                        </li>
+                    </ul>
+                </li>
+                <li className="searchbar-option">
+                    <strong>Zip Download (Beta)</strong>
+                    <ul>
+                        <li onClick={(e) => zipDownloadHandler(e)}>
+                            <p>Seleted Download</p>
+                        </li>
+                        <li onClick={(e) => zipDownloadHandler(e, false)}>
+                            <p>All Download</p>
                         </li>
                     </ul>
                 </li>

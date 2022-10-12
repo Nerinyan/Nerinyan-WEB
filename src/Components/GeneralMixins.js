@@ -2,6 +2,8 @@
 import { scaleLinear, interpolateRgb } from 'd3'
 import { setGlobalState, getGlobalState } from '../store'
 import axios from "axios"
+import JSZip from "jszip"
+import { saveAs } from "file-saver"
 
 var Data = []
 
@@ -421,4 +423,35 @@ export async function getNotificationFromSubAPI(){
         setGlobalState("notification", {"error": e})
     }
     return noti
+}
+
+export async function zipDownloadHandler(event) {
+    const zip = new JSZip()
+    
+    const download = (item) => {
+        //download single file as blob and add it to zip archive
+        return axios.get(item.url, { responseType: "blob" }).then((resp) => {
+            zip.file(item.name, resp.data)
+        })
+    }
+    
+    //call this function to download all files as ZIP archive
+    const downloadAll = () => {
+        console.log(getGlobalState("zipList"))
+        const ZIPNAME = ["PPAP", "Cookiezi", "NerinyanZip", "NerinyanZip", 'NerinyanZip', "NerinyanZip", "NerinyanZip", "NerinyanZip"]
+        const arrOfFiles = getGlobalState("zipList").map((item) => download(item)) //create array of promises
+        Promise.all(arrOfFiles)
+            .then(() => {
+                //when all promises resolved - save zip file
+                zip.generateAsync({ type: "blob" }).then(function (blob) {
+                    saveAs(blob, `${ZIPNAME[Math.floor(Math.random()*ZIPNAME.length)]}.zip`)
+                })
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+    downloadAll()
+    setGlobalState("zipList", [])
 }
