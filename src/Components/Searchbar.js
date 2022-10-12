@@ -213,8 +213,8 @@ function Searchbar() {
         if (zipList.length === 0 && selectedOnly) {
             return message.warning("Not Seleceted to download")
         }
+        message.info("Please wait to download ...", 10)
         if (!selectedOnly) {
-            message.info("Please wait to download ...", 10)
             var paramList = []
             if (globalNoVideo) paramList.push(true)
             else paramList.push(false)
