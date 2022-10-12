@@ -439,13 +439,14 @@ export async function zipDownloadHandler(event) {
     //call this function to download all files as ZIP archive
     const downloadAll = () => {
         console.log(getGlobalState("zipList"))
-        const ZIPNAME = ["PPAP", "Cookiezi", "NerinyanZip", "NerinyanZip", 'NerinyanZip', "NerinyanZip", "NerinyanZip", "NerinyanZip"]
+        var tmp = new Date()
+        const ZIPNAME = `${tmp.getFullYear()}${tmp.getMonth() + 1}${tmp.getDate()} ${tmp.getHours()}:${tmp.getMinutes()}:${tmp.getSeconds()}_${getGlobalState("zipList").length}`
         const arrOfFiles = getGlobalState("zipList").map((item) => download(item)) //create array of promises
         Promise.all(arrOfFiles)
             .then(() => {
                 //when all promises resolved - save zip file
                 zip.generateAsync({ type: "blob" }).then(function (blob) {
-                    saveAs(blob, `${ZIPNAME[Math.floor(Math.random()*ZIPNAME.length)]}.zip`)
+                    saveAs(blob, `${ZIPNAME}.zip`)
                 })
             })
             .catch((err) => {
