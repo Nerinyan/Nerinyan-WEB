@@ -1,8 +1,8 @@
 import React, { Fragment, useState, useEffect } from "react"
 import { Link } from "react-router-dom"
-import { setGlobalState, useGlobalState } from '../store'
+import { getGlobalState, setGlobalState, useGlobalState } from '../store'
 import LazyLoad from 'react-lazyload'
-import { Tooltip, Switch, Dropdown, Menu, message } from 'antd'
+import { Tooltip, Switch, Dropdown, Menu, message, Checkbox } from 'antd'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { GeneralMixins, Version } from '../Components'
 
@@ -23,6 +23,9 @@ function Beatmap({ bmap }) {
     const [globalNoBg] = useGlobalState("globalNoBg")
     const [globalNoHitsound] = useGlobalState("globalNoHitsound")
     const [globalNoStoryboard] = useGlobalState("globalNoStoryboard")
+
+    const [zipList] = useGlobalState("zipList")
+    const [zipAppend, setZipAppend] = useState(false)
 
     const [dropdownOpen, setDropdownOpen] = useState(false)
 
@@ -163,7 +166,7 @@ function Beatmap({ bmap }) {
         }
     }
 
-    function downloadHander(e) {
+    function downloadHandler(e) {
         e.stopPropagation()
         e.preventDefault()
         
@@ -256,6 +259,34 @@ function Beatmap({ bmap }) {
                 ),
                 key: '4',
             },
+            {
+                label: (
+                    <Tooltip placement="top" title={"Append This beatmap to Download list"}>
+                        <Switch checked={zipAppend} onChange={(e) => {
+                            if (e) {
+                                var paramList = []
+                                if (noVideo) paramList.push(true)
+                                else paramList.push(false)
+                                if (noBg) paramList.push(true)
+                                else paramList.push(false)
+                                if (noHitsound) paramList.push(true)
+                                else paramList.push(false)
+                                if (noStoryboard) paramList.push(true)
+                                else paramList.push(false)
+                                var url = GeneralMixins.generateDownloadURL(bmap.id, paramList)
+                                var bname = `${bmap.id} ${bmap.artist} - ${bmap.title}.osz`
+                                zipList.push({'name': bname, 'url': url})
+                                setZipAppend(true)
+                            } else {
+                                return setZipAppend(false)
+                            }
+                            console.log("test ->", zipList)
+                        }} />
+                        Append Download list
+                    </Tooltip>
+                ),
+                key: '5',
+            },
           ]}
         />
     )
@@ -332,7 +363,7 @@ function Beatmap({ bmap }) {
                                 </button>
                             </CopyToClipboard>
                         </Tooltip>
-                        <Dropdown.Button  placement="bottom" onClick={(e) => {downloadHander(e)}} overlay={menu} onOpenChange={handleOpenChange} open={dropdownOpen}>
+                        <Dropdown.Button  placement="bottom" onClick={(e) => {downloadHandler(e)}} overlay={menu} onOpenChange={handleOpenChange} open={dropdownOpen}>
                             <i className="fa-solid fa-arrow-down-to-bracket"></i> Download
                         </Dropdown.Button>
                         <Tooltip placement="top" title={"Download beatmap background image"}>

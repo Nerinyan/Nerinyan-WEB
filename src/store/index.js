@@ -8,6 +8,7 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
     notification: {},
     bmapIndex: 0,
     renderBeatmaps: [],
+    zipList: [],
     detailSearch: false,
     apiURL: "https://api.nerinyan.moe",
     apiSubURL: "https://subapi.nerinyan.moe",
