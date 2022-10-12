@@ -4,6 +4,7 @@ import { setGlobalState, getGlobalState } from '../store'
 import axios from "axios"
 import JSZip from "jszip"
 import { saveAs } from "file-saver"
+import { message } from 'antd'
 
 var Data = []
 
@@ -449,6 +450,7 @@ export async function zipDownloadHandler(event) {
             })
             .catch((err) => {
                 console.log(err)
+                message.warning(`Error!\n Please send this error log to our discord server ->\n ${err}`)
             })
     }
 
