@@ -426,25 +426,41 @@ export async function getNotificationFromSubAPI(){
     return noti
 }
 
+export async function getInfo(){
+    var apiURL = getGlobalState("apiURL")
+    var ko2apiURL = getGlobalState("ko2apiURL")
+    var tmp = []
+    await axios.get(
+        `${apiURL}/status`
+    ).then(function (response) {
+        tmp.push({"main": response.data})
+    })
+    await axios.get(
+        `${ko2apiURL}/status`
+    ).then(function (response) {
+        tmp.push({"sub": response.data})
+    })
+    setGlobalState("Info", tmp)
+    console.log(getGlobalState("Info"))
+    return tmp
+}
+
 export async function zipDownloadHandler(event) {
     const zip = new JSZip()
     
     const download = (item) => {
-        //download single file as blob and add it to zip archive
         return axios.get(item.url, { responseType: "blob" }).then((resp) => {
             zip.file(item.name, resp.data)
         })
     }
     
-    //call this function to download all files as ZIP archive
     const downloadAll = () => {
         console.log(getGlobalState("zipList"))
         var tmp = new Date()
         const ZIPNAME = `${tmp.getFullYear()}${tmp.getMonth() + 1}${tmp.getDate()} ${tmp.getHours()}:${tmp.getMinutes()}:${tmp.getSeconds()}_${getGlobalState("zipList").length}`
-        const arrOfFiles = getGlobalState("zipList").map((item) => download(item)) //create array of promises
+        const arrOfFiles = getGlobalState("zipList").map(download) //create array of promises
         Promise.all(arrOfFiles)
             .then(() => {
-                //when all promises resolved - save zip file
                 zip.generateAsync({ type: "blob" }).then(function (blob) {
                     saveAs(blob, `${ZIPNAME}.zip`)
                 })
