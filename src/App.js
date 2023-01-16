@@ -1,6 +1,6 @@
 import React from "react"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
-import { Beatmaps, Download } from './Pages'
+import { Beatmaps, Download, Info } from './Pages'
 
 function App() {
     return(
@@ -9,6 +9,7 @@ function App() {
                 <Route path="/" element={<Navigate to="/main" />}/>
                 <Route path="/main" element={<Beatmaps />}/>
                 <Route path="/d/:beatmapsetid" element={<Download />}/>
+                <Route path="/info" element={<Info />}/>
             </Routes>
         </BrowserRouter>
     );

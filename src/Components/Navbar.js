@@ -34,6 +34,13 @@ function Navbar() {
                                 Discord
                             </a>
                         </li>
+                        <li>
+                            <Link to="/info">
+                                <i className="fa-solid fa-circle-info"></i>
+                                Info/status
+                            </Link>
+                        </li>
+                        
                     </ul>
                 </div>
             </nav>
