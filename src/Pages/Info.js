@@ -6,6 +6,7 @@ import axios from "axios"
 function Info() {
     // const [Info] = useGlobalState("Info")
     const [Info, setInfo] = useState({})
+    const [SubInfo, setSubInfo] = useState({})
     const [Load, setLoad] = useState(true)
 
     useEffect(() => {
@@ -16,6 +17,13 @@ function Info() {
             ).then(function (response) {
                 setInfo(response.data)
             })
+
+            apiURL = getGlobalState("ko2apiURL")
+            axios.get(
+                `${apiURL}/status`
+            ).then(function (response) {
+                setSubInfo(response.data)
+            })
             setLoad(false)
         }, 2000);
     }, [])
@@ -25,26 +33,50 @@ function Info() {
             <Navbar />
             <div className="container">
                 {!Load && 
-                <div className="info-Single">
-                    <ul className="info-page">
-                        <li>
-                            <h3>Threads Count</h3>
-                            <p>{Info.CpuThreadCount}</p>
-                        </li>
-                        <li>
-                            <h3>Running Goroutine Count</h3>
-                            <p>{GeneralMixins.addCommas(String(Info.RunningGoroutineCount))}</p>
-                        </li>
-                        <li>
-                            <h3>Api Count</h3>
-                            <p>{GeneralMixins.addCommas(String(Info.apiCount))}</p>
-                        </li>
-                        <li>
-                            <h3><i className="fa-solid fa-database"></i> Storage</h3>
-                            <p>{GeneralMixins.addCommas(String(Info.fileCount))} files ({Info.fileSize})</p>
-                        </li>
-                    </ul>
-                    <a href="https://stats.uptimerobot.com/MA71nc2rxK">Click here to check Api Status</a>
+                <div className="info-container">
+                    <div className="info-Single">
+                        <ul className="info-page">
+                            <li>
+                                <h3>Threads Count</h3>
+                                <p>{Info.CpuThreadCount}</p>
+                            </li>
+                            <li>
+                                <h3>Running Goroutine Count</h3>
+                                <p>{GeneralMixins.addCommas(String(Info.RunningGoroutineCount))}</p>
+                            </li>
+                            <li>
+                                <h3>Api Count</h3>
+                                <p>{GeneralMixins.addCommas(String(Info.apiCount))}</p>
+                            </li>
+                            <li>
+                                <h3><i className="fa-solid fa-database"></i> Storage</h3>
+                                <p>{GeneralMixins.addCommas(String(Info.fileCount))} files ({Info.fileSize})</p>
+                            </li>
+                        </ul>
+                        <a href="https://stats.uptimerobot.com/MA71nc2rxK">Main API Server</a>
+                    </div>
+                    
+                    <div className="info-Single">
+                        <ul className="info-page">
+                            <li>
+                                <h3>Threads Count</h3>
+                                <p>{SubInfo.CpuThreadCount}</p>
+                            </li>
+                            <li>
+                                <h3>Running Goroutine Count</h3>
+                                <p>{GeneralMixins.addCommas(String(SubInfo.RunningGoroutineCount))}</p>
+                            </li>
+                            <li>
+                                <h3>Api Count</h3>
+                                <p>{GeneralMixins.addCommas(String(SubInfo.apiCount))}</p>
+                            </li>
+                            <li>
+                                <h3><i className="fa-solid fa-database"></i> Storage</h3>
+                                <p>{GeneralMixins.addCommas(String(SubInfo.fileCount))} files ({SubInfo.fileSize})</p>
+                            </li>
+                        </ul>
+                        <a href="https://stats.uptimerobot.com/MA71nc2rxK">Ko2 API Server</a>
+                    </div>
                 </div>
                 }
             </div>

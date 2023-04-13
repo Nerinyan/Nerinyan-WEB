@@ -11,6 +11,7 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
     zipList: [],
     Info: [],
     detailSearch: false,
+    downloadDirect: false,
     apiURL: "https://api.nerinyan.moe",
     ko2apiURL: "https://ko2.nerinyan.moe",
     apiSubURL: "https://subapi.nerinyan.moe",

@@ -1,4 +1,4 @@
-import React, {Fragment} from "react"
+import React, { Fragment } from "react"
 import { Link } from "react-router-dom"
 
 function Navbar() {
@@ -40,7 +40,6 @@ function Navbar() {
                                 Info/status
                             </Link>
                         </li>
-                        
                     </ul>
                 </div>
             </nav>

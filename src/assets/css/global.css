@@ -187,6 +187,8 @@ span.beatmap-version-rating { height: 18px; color: var(--text-color); font-weigh
 nav > div { width: 75vw; }
 div.container { margin: 0 auto; max-width: 70vw; }
 @media (max-width: 60000px) {
+    /* nav div.expand { visibility: visible !important; } */
+    /* nav div.collapsed { visibility: hidden !important; display: none !important; } */
     ul.beatmap-list > li { width: calc(100% / 3) !important; }
 }
 @media (max-width: 1920px) {
@@ -200,7 +202,10 @@ div.container { margin: 0 auto; max-width: 70vw; }
 }
 @media (max-width: 860px) {
     ul.searchbar-type-selector li { width: 200px !important; }
+    div.info-Single { width: 80vw !important; }
 }
-@media (max-width: 500px) {
+@media (max-width: 501px) {
+    /* nav div.expand { visibility: hidden !important; display: none !important; } */
+    /* nav div.collapsed { visibility: visible !important; display: block !important; } */
     ul.searchbar-type-selector li { width: 140px !important; }
 }
