@@ -18,6 +18,7 @@ function Searchbar() {
     const [tmp, setTmp] = useState(0)
     const [detailSearchChange, setDetailSearchChange] = useState(false)
 
+    const [globalDirectDownload] = useGlobalState("downloadDirect")
     const [globalNoVideo] = useGlobalState("globalNoVideo")
     const [globalNoBg] = useGlobalState("globalNoBg")
     const [globalNoHitsound] = useGlobalState("globalNoHitsound")
@@ -182,6 +183,15 @@ function Searchbar() {
         setTmp(new Date().getMilliseconds())
         searchParamHandler('e', apiJson.extra)
         requestNewBeatmapData(false)    
+    }
+
+    function searchbarOptionChangeHandlerForDownload(event) {
+        event.stopPropagation()
+        event.preventDefault()
+
+        setGlobalState("downloadDirect", !globalDirectDownload)
+
+        setTmp(new Date().getMilliseconds())
     }
 
     function searchbarOptionChangeHandlerForDlOptions(event, target) {
@@ -452,6 +462,9 @@ function Searchbar() {
                 <li className="searchbar-option">
                     <strong>Download Options</strong>
                     <ul>
+                        <li onClick={(e) => searchbarOptionChangeHandlerForDownload(e)}>
+                            <p data-active={globalDirectDownload ? true : false}>Direct Download</p>
+                        </li>
                         <li onClick={(e) => searchbarOptionChangeHandlerForDlOptions(e, 'video')}>
                             <p data-active={globalNoVideo ? true : false}>No Video</p>
                         </li>

@@ -19,6 +19,7 @@ function Beatmap({ bmap }) {
     const [musicPlayerBeatmap] = useGlobalState("musicPlayerBeatmap")
     const IconList = ["faa fa-extra-mode-osu", "faa fa-extra-mode-taiko", "faa fa-extra-mode-furits", "faa fa-extra-mode-mania"]
 
+    const [globalDirectDownload] = useGlobalState("downloadDirect")
     const [globalNoVideo] = useGlobalState("globalNoVideo")
     const [globalNoBg] = useGlobalState("globalNoBg")
     const [globalNoHitsound] = useGlobalState("globalNoHitsound")
@@ -170,18 +171,36 @@ function Beatmap({ bmap }) {
         e.stopPropagation()
         e.preventDefault()
         
-        var url = `${document.location.origin}/d/${bmap.id}`
+        var url = ""
         var urlList = []
-        if (noVideo || noBg || noHitsound || noStoryboard) url += "?"
-        if (noVideo) urlList.push("novideo=1")
-        if (noBg) urlList.push("nobg=1")
-        if (noHitsound) urlList.push("nohitsound=1")
-        if (noStoryboard) urlList.push("nostoryboard=1")
-        urlList.map(function (param, i) {
-            if (urlList[0] === param) url += `${param}`           
-            else url += `&${param}`           
-        })
-        window.open(url, '_blank')
+
+        if (!globalDirectDownload) {
+            url = `${document.location.origin}/d/${bmap.id}`
+            urlList = []
+            if (noVideo || noBg || noHitsound || noStoryboard) url += "?"
+            if (noVideo) urlList.push("novideo=1")
+            if (noBg) urlList.push("nobg=1")
+            if (noHitsound) urlList.push("nohitsound=1")
+            if (noStoryboard) urlList.push("nostoryboard=1")
+            urlList.map(function (param, i) {
+                if (urlList[0] === param) url += `${param}`           
+                else url += `&${param}`           
+            })
+            window.open(url, '_blank')
+        } else {
+            url = `https://api.nerinyan.moe/d/${bmap.id}`
+            urlList = []
+            if (noVideo || noBg || noHitsound || noStoryboard) url += "?"
+            if (noVideo) urlList.push("noVideo=1")
+            if (noBg) urlList.push("noBg=1")
+            if (noHitsound) urlList.push("noHitsound=1")
+            if (noStoryboard) urlList.push("noStoryboard=1")
+            urlList.map(function (param, i) {
+                if (urlList[0] === param) url += `${param}`           
+                else url += `&${param}`           
+            })
+            window.open(url)
+        }
     }
 
     const handleOpenChange = (flag) => {
