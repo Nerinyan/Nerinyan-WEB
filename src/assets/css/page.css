@@ -1,5 +1,5 @@
 /* Navbar */
-nav { height: 70px; background-color: hsl(var(--hsl-blue-5)); padding: 10px; display: flex; flex-direction: row; justify-content: center; }
+nav { height: 70px; background-color: hsl(var(--hsl-blue-5)); padding: 10px; display: flex; flex-direction: row; justify-content: center; z-index: 100; }
 nav a { color: white; }
 nav div { display: flex; }
 nav div h1 { font-size: 16px; height: 100%; display: flex; align-items: center; }
@@ -164,7 +164,9 @@ div.download-page button:hover { color: #b9ff6d; }
 
 
 /* Info Page */
+/* div.info-container { display: flex; } */
 div.info-Single { display: flex; width: 500px; flex-direction: column; margin: 0 auto; margin-top: 50px; align-items: center; font-size: 22px;  border-radius: 12px; background-color: hsl(var(--hsl-b1)); color: white; box-shadow: 0 2px 5px hsl(var(--hsl-b4)) }
+/* div.info-Single:not(:last-child) { margin-right: 15px; } */
 div.info-Single h2 { color: hsl(var(--hsl-white-1)); margin-bottom: 0; padding: 8px; }
 div.info-Single a { color: white; font-size: 16px; padding: 7.5px; transition: color 250ms ease-in-out; }
 div.info-Single a:hover { color: hsl(var(--hsl-b5)); }
