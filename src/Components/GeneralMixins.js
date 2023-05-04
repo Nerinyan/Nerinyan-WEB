@@ -405,8 +405,16 @@ export function generateDownloadURL(bid, noList=[]){
     return downloadURL + parameter
 }
 
-export function genegratePreviewURL(bid){
-    var previewURL = `https://osu.pages.dev/preview#${bid}`
+export function genegratePreviewURL(bid, mode){
+    var previewURL
+    switch (mode) {
+        case 0:
+            previewURL = `https://preview.nerinyan.moe/?b=${bid}`
+            break
+        default:
+            previewURL = `https://peppy.pages.dev/preview#${bid}`
+            break
+    }
     return previewURL
 }
 

@@ -75,18 +75,20 @@ function Version({ mode, ver, isCollapse }) {
                             <span className="beatmap-version-rating" style={{ '--bg-color': GeneralMixins.getDiffColor(ver.difficulty_rating), '--text-color': GeneralMixins.getDiffTextColor(ver.difficulty_rating)}}><i className="fas fa-star"/>{GeneralMixins.addCommas(ver.difficulty_rating.toFixed(2))}</span>
                             <span>{ver.version}</span>
                         </div>
-                        <div>
-                            <button onClick={(e) => {
-                                e.stopPropagation()
-                                e.preventDefault()
-                                window.open(
-                                    GeneralMixins.genegratePreviewURL(ver.id),
-                                    '_blank'
-                                )
-                            }}>
-                                Preview
-                            </button>
-                        </div>
+                        {ver.mode_int !== 2 &&
+                            <div>
+                                <button onClick={(e) => {
+                                    e.stopPropagation()
+                                    e.preventDefault()
+                                    window.open(
+                                        GeneralMixins.genegratePreviewURL(ver.id, ver.mode_int),
+                                        '_blank'
+                                    )
+                                }}>
+                                    Preview
+                                </button>
+                            </div>
+                        }
                     </Fragment>
                 }
             </Tooltip>
