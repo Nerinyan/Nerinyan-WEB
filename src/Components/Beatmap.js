@@ -299,7 +299,6 @@ function Beatmap({ bmap }) {
                             } else {
                                 return setZipAppend(false)
                             }
-                            console.log("test ->", zipList)
                         }} />
                         Append Download list
                     </Tooltip>
@@ -376,7 +375,7 @@ function Beatmap({ bmap }) {
                     </li>
                     <li className="beatmap-buttons">
                         <Tooltip placement="top" title={"Copy download url"}>
-                            <CopyToClipboard text={`https://nerinyan.moe/d/${bmap.id}`} onCopy={() => clipboardHandler()}>
+                            <CopyToClipboard text={`https://api.nerinyan.moe/d/${bmap.id}`} onCopy={() => clipboardHandler()}>
                                 <button>
                                     <i className={isCopied ? "download-url-copied fa-solid fa-badge-check" : "fa-solid fa-copy"}></i>
                                 </button>

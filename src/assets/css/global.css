@@ -183,6 +183,10 @@ span.beatmap-version-rating { height: 18px; color: var(--text-color); font-weigh
 .ant-input-group-addon { border-radius: 0 12px 12px 0 !important; border: none !important; background-color: transparent !important; }
 .ant-input-search-button { border: none !important; border-radius: 0 12px 12px 0 !important; height: 38px !important; }
 
+/* Medal */
+.ant-modal-content { background-color: hsl(var(--hsl-b2)) !important; border-radius: 12px !important; }
+.ant-modal-confirm-body .ant-modal-confirm-title, .ant-modal-confirm-body .ant-modal-confirm-content { color: rgb(255 255 255 / 85%) !important; }
+
 /* Resposive Web Css */
 nav > div { width: 75vw; }
 div.container { margin: 0 auto; max-width: 70vw; }
