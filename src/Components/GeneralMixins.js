@@ -4,7 +4,7 @@ import { setGlobalState, getGlobalState } from '../store'
 import axios from "axios"
 import JSZip from "jszip"
 import { saveAs } from "file-saver"
-import { message } from 'antd'
+import { message, Button, Modal } from 'antd'
 
 var Data = []
 
@@ -195,7 +195,7 @@ export function getUserRequestParams(searchParams) {
     if (searchParams.get("s") !== null) {
         if (searchParams.get("s") === "any") {
             apiJson.ranked = "all"
-            params.push({'s': 'all'})
+            params.push({'s': 'any'})
         } else if (searchParams.get("s") === "") {
             apiJson.ranked = ""
         } else {
@@ -338,7 +338,6 @@ export async function getApiData(append=true) {
         return false
     }
     setGlobalState("loading", true)
-    console.log(`request - ${JSON.stringify(apiJson)}`)
     setGlobalState("apiURL", "https://api.nerinyan.moe")
     apiURL = "https://api.nerinyan.moe"
     for (let i = 0; i < 5; i++) {
@@ -372,7 +371,6 @@ export async function getApiData(append=true) {
             setGlobalState("noResult", true)
             var tempErrorCount = apiErrorCount
             setGlobalState("apiErrorCount", ++tempErrorCount)
-            console.log(e.message)
             continue;
         }
         break;
@@ -394,7 +392,7 @@ export async function getApiData(append=true) {
 export function generateDownloadURL(bid, noList=[]){
     // console.log(nobg, nohitsound)
     var params = ['noVideo', 'noBg', 'noHitsound', 'noStoryboard']
-    var downloadURL = `https://proxy.nerinyan.moe/d/${bid}`
+    var downloadURL = `https://api.nerinyan.moe/d/${bid}`
     var parameter = ""
     params.map(function (param, i) {
         if (noList[i]) {
@@ -449,33 +447,81 @@ export async function getInfo(){
         tmp.push({"sub": response.data})
     })
     setGlobalState("Info", tmp)
-    console.log(getGlobalState("Info"))
     return tmp
 }
 
 export async function zipDownloadHandler(event) {
+    let ec = 0
     const zip = new JSZip()
     
-    const download = (item) => {
-        return axios.get(item.url, { responseType: "blob" }).then((resp) => {
-            zip.file(item.name, resp.data)
-        })
+    const download = async (item) => {
+        let tmp = await fetch(item.url)
+            .then((response) => {
+                const NOT_ALLOWED_FILE_NAME = /([\\/:*?"<>|])/gi
+                const FILE_NAME = item.name.replace(NOT_ALLOWED_FILE_NAME, '_')
+
+                console.log('FileName: ', FILE_NAME)
+                
+                zip.file(FILE_NAME, response.blob())
+            })
+        return tmp
     }
     
     const downloadAll = () => {
-        console.log(getGlobalState("zipList"))
         var tmp = new Date()
         const ZIPNAME = `${tmp.getFullYear()}${tmp.getMonth() + 1}${tmp.getDate()} ${tmp.getHours()}:${tmp.getMinutes()}:${tmp.getSeconds()}_${getGlobalState("zipList").length}`
-        const arrOfFiles = getGlobalState("zipList").map(download) //create array of promises
+        const arrOfFiles = getGlobalState("zipList").map(download)
         Promise.all(arrOfFiles)
             .then(() => {
                 zip.generateAsync({ type: "blob" }).then(function (blob) {
                     saveAs(blob, `${ZIPNAME}.zip`)
                 })
+                
+                if (ec <= 0) {
+                    let secondsToGo = 5
+                    const info = Modal.info({
+                        title: 'Zip System Announcement',
+                        content: (
+                            <div>
+                                <p>The beatmaps to be compressed have been downloaded.</p>
+                                <p>Compression is in progress, please be patient!</p>
+                                <br></br>
+                                <br></br>
+                                <br></br>
+                                <p>This message will be closed after {secondsToGo} second</p>
+                            </div>
+                        ),
+                        onOk() {},
+                    })
+                    
+                    const timer = setInterval(() => {
+                        secondsToGo -= 1;
+                        if (secondsToGo > 0) 
+                            info.update({
+                                content: (
+                                    <div>
+                                        <p>The beatmaps to be compressed have been downloaded.</p>
+                                        <p>Compression is in progress, please be patient!</p>
+                                        <br></br>
+                                        <br></br>
+                                        <br></br>
+                                        <p>This message will be closed after {secondsToGo} second</p>
+                                    </div>
+                                ),
+                            })
+                    }, 1000)
+
+                    setTimeout(() => {
+                        clearInterval(timer)
+                        info.destroy()
+                    }, secondsToGo * 1000)
+
+                    info()
+                }
             })
             .catch((err) => {
-                console.log(err)
-                message.warning(`Error!\n Please send this error log to our discord server ->\n ${err}`)
+                // message.warning(`Error!\n Please send this error log to our discord server ->\n ${err}`)
+                ec++
             })
     }
 

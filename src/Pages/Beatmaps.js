@@ -43,7 +43,7 @@ function Beatmaps() {
                 notification[val.type]({
                     message: val.message,
                     description: val.description
-                });
+                })
             }
         })
         console.log("Notification Loaded.")

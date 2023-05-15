@@ -92,7 +92,6 @@ function Searchbar() {
 
     function searchParamHandler(target, value) {
         var uri = "/main"
-        console.log(value)
         if (window.location.search === "") {
             uri += `?${target}=${value}`    
         } else {
@@ -126,7 +125,10 @@ function Searchbar() {
         event.stopPropagation()
         event.preventDefault()
         if (target === "ranked") {
-            if (value === "all" || value === "") apiJson[target] = value
+            if (value === "any" || value === "") {
+                apiJson[target] = value
+                if (value === "any") apiJson[target] = "all"
+            }
             else {
                 apiJson[target] = apiJson[target].replace('all', '')
                 if (apiJson[target].includes(value)) {
@@ -147,7 +149,7 @@ function Searchbar() {
         }
 
         setTmp(new Date().getMilliseconds())
-        searchParamHandler(target === "ranked" ? "s" : target, apiJson[target])
+        searchParamHandler(target === "ranked" ? "s" : target, apiJson[target] === "all" ? "any" : apiJson[target])
         requestNewBeatmapData(false)
     }
 
@@ -378,7 +380,7 @@ function Searchbar() {
                 <li className="searchbar-option">
                     <strong>Categories</strong>
                     <ul>
-                        <li onClick={(e) => searchbarOptionChangeHandler(e, 'ranked', 'all')}>
+                        <li onClick={(e) => searchbarOptionChangeHandler(e, 'ranked', 'any')}>
                             <p data-active={(apiJson.ranked === 'all') ? true : false}>Any</p>
                         </li>
                         <li onClick={(e) => searchbarOptionChangeHandler(e, 'ranked', '')}>
