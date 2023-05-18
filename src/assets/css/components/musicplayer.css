@@ -1,0 +1,161 @@
+
+/* MusicPlayer */
+div.music-player-block {
+    transform: translateY(500px);
+    border-radius: 12px;
+    box-shadow: 0 0 10px black;
+    position: fixed;
+    bottom: 3vh;
+    right: 2.5vw;
+    z-index: 3;
+    min-width: 400px;
+    max-width: 400px;
+    transition: all 200ms ease;
+}
+
+div.music-player-block[data-musicplayer-isplaying=false] {
+    animation: musicPlayer forwards 4s;
+}
+
+div.music-player-block[data-musicplayer-isplaying=true] {
+    animation: musicPlayer-reverse forwards 400ms;
+}
+
+div.music-player-block[data-musicplayer-isplaying=false][data-musicplayer-skip=true] {
+    animation: musicPlayer forwards 400ms;
+}
+
+div.music-player-block div.music-player-head {
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    flex-direction: row;
+    background: center / cover no-repeat linear-gradient(to left, #00000099, #00000080), var(--bg);
+    padding: 10px;
+}
+
+div.music-player-block div.music-player-head>img {
+    width: 125px;
+    height: 125px;
+    margin-right: 1.5em;
+}
+
+div.music-player-block div.music-player-head>div.music-player-info {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    justify-content: center;
+}
+
+div.music-player-block div.music-player-head>div.music-player-info span.title {
+    font-size: 1.3em;
+    font-weight: bold;
+    line-height: 1.2;
+    margin-bottom: 0.25em;
+    display: block;
+    width: 230px;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+}
+
+div.music-player-block div.music-player-body {
+    border-radius: 0 0 12px 12px;
+    background: hsl(var(--hsl-b3));
+}
+
+div.music-player-block div.music-player-body div.music-player-controller {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 10px;
+}
+
+div.music-player-block div.music-player-body div.music-player-controller div.music-player-progress {
+    width: 50%;
+    display: flex !important;
+    align-items: center !important;
+}
+
+div.music-player-block div.music-player-body div.music-player-controller div.music-player-progress div.ant-slider-rail {
+    height: 10px;
+    background: hsl(var(--hsl-l4));
+}
+
+div.music-player-block div.music-player-body div.music-player-controller div.music-player-progress div.ant-slider-track {
+    background: hsl(var(--hsl-l1));
+}
+
+div.music-player-block div.music-player-body div.music-player-controller button {
+    margin: 0 auto;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border: none;
+    background: hsl(var(--hsl-b1));
+    color: hsl(var(--hsl-white-1));
+    border-radius: 8px;
+    transition: background 200ms ease;
+}
+
+div.music-player-block div.music-player-body div.music-player-controller button:hover {
+    background: hsl(var(--hsl-l4));
+}
+
+div.music-player-block div.music-player-body div.music-player-controller div.music-player-volume-controller {
+    display: flex;
+    width: 30%;
+    align-items: center;
+}
+
+div.music-player-block div.music-player-body div.music-player-controller div.music-player-volume-controller>i {
+    color: white;
+}
+
+div.music-player-block div.music-player-body div.music-player-controller div.music-player-volume-controller>div {
+    width: 100%;
+    color: white;
+}
+
+div.music-player-block div.music-player-body div.music-player-controller div.music-player-volume-controller>div div.ant-slider-rail {
+    height: 7.5px;
+    background: hsl(var(--hsl-l4));
+}
+
+div.music-player-block div.music-player-body div.music-player-controller div.music-player-volume-controller>div div.ant-slider-track {
+    background: hsl(var(--hsl-l1));
+}
+
+@keyframes musicPlayer {
+
+    0%,
+    80% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(500px);
+    }
+}
+
+@keyframes musicPlayer-reverse {
+
+    0%,
+    80% {
+        transform: translateY(500px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes loading-spinner {
+
+    0%,
+    10% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

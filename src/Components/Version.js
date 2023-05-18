@@ -1,4 +1,4 @@
-import React, { Fragment } from "react"
+import React, { Fragment, useState } from "react"
 import { Tooltip, Progress } from 'antd'
 import { ReactComponent as TotalLength } from '../assets/images/total_length.svg'
 import { ReactComponent as SliderCount } from '../assets/images/count_sliders.svg'
@@ -6,8 +6,11 @@ import { ReactComponent as CircleCount } from '../assets/images/count_circles.sv
 import { ReactComponent as BPM } from '../assets/images/bpm.svg'
 import { GeneralMixins } from '../Components'
 
+import '../assets/css/components/beatmap.css'
+
 function Version({ mode, ver, isCollapse }) {
     var iconWidth, iconHeight = '20px'
+    const [InfoCollapse, setInfoCollapse] = useState(true)
 
     function format(percentage) {
         var perc = percentage / 10
@@ -65,32 +68,7 @@ function Version({ mode, ver, isCollapse }) {
                     </ul>
                 </div>
             }>
-                {isCollapse && 
-                    <div className="beatmap-version-single" style={{ '--bg-color': GeneralMixins.getDiffColor(ver.difficulty_rating), '--text-color': GeneralMixins.getDiffTextColor(ver.difficulty_rating)}}></div>
-                }
-                {!isCollapse &&
-                    <Fragment>
-                        <div>
-                            {GeneralMixins.modeToicon(ver.mode_int)}
-                            <span className="beatmap-version-rating" style={{ '--bg-color': GeneralMixins.getDiffColor(ver.difficulty_rating), '--text-color': GeneralMixins.getDiffTextColor(ver.difficulty_rating)}}><i className="fas fa-star"/>{GeneralMixins.addCommas(ver.difficulty_rating.toFixed(2))}</span>
-                            <span>{ver.version}</span>
-                        </div>
-                        {ver.mode_int !== 2 &&
-                            <div>
-                                <button onClick={(e) => {
-                                    e.stopPropagation()
-                                    e.preventDefault()
-                                    window.open(
-                                        GeneralMixins.genegratePreviewURL(ver.id, ver.mode_int),
-                                        '_blank'
-                                    )
-                                }}>
-                                    Preview
-                                </button>
-                            </div>
-                        }
-                    </Fragment>
-                }
+                <div className="beatmap-version-single" style={{ '--bg-color': GeneralMixins.getDiffColor(ver.difficulty_rating), '--text-color': GeneralMixins.getDiffTextColor(ver.difficulty_rating)}}></div>
             </Tooltip>
         </Fragment>
     )

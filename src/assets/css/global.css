@@ -200,6 +200,9 @@ div.container { margin: 0 auto; max-width: 70vw; }
 }
 @media (max-width: 1024px) {
     nav > div { width: 90vw !important; }
+    /* footer > ul { display: none !important; } */
+    footer { flex-direction: column-reverse !important; height: 60px !important; align-items: center !important; }
+    footer > ul { margin-left: 0 !important; margin-bottom: 0 !important; }
     div.container { max-width: 85vw !important; }
     ul.searchbar-type-selector li { width: 300px !important; }
     ul.beatmap-list > li { width: 100% !important; }

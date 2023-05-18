@@ -1,0 +1,68 @@
+/* Navbar */
+nav {
+    height: 70px !important;
+    background-color: hsl(var(--hsl-blue-5)) !important;
+    padding: 10px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    z-index: 100 !important;
+}
+
+nav a {
+    color: white;
+}
+
+nav div {
+    display: flex;
+}
+
+nav div h1 {
+    font-size: 16px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+nav div ul {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: left;
+    align-items: center;
+    font-size: 16px;
+    margin-left: 2em;
+}
+
+nav div ul li {
+    margin-right: 1em;
+}
+
+nav div ul li:nth-of-type(1) {
+    margin-right: 1.25em;
+}
+
+nav div ul li a {
+    transition: color 200ms ease-in-out;
+}
+
+nav ul li:nth-of-type(1) a:hover {
+    color: hsl(var(--hsl-darkorange-1));
+}
+
+nav ul li:nth-of-type(2) a:hover {
+    color: hsl(var(--hsl-green-1));
+}
+
+nav ul li:nth-of-type(3) a:hover {
+    color: hsl(var(--hsl-red-1));
+}
+
+nav ul li:nth-of-type(4) a:hover {
+    color: hsl(var(--hsl-purple-1));
+}
+
+nav ul li a i {
+    margin-right: 0.25em;
+}

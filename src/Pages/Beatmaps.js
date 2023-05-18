@@ -1,8 +1,10 @@
 import React, { useEffect, Fragment } from "react"
 import { useSearchParams } from "react-router-dom"
-import { Navbar, Searchbar, Beatmap, GeneralMixins, MusicPlayer } from "../Components"
+import { Navbar, Footer, Searchbar, Beatmap, GeneralMixins, MusicPlayer } from "../Components"
 import { getGlobalState, useGlobalState } from '../store'
 import { message, notification } from 'antd' 
+
+import '../assets/css/components/beatmap.css'
 
 function Beatmaps() {
     const [apiResult] = useGlobalState("apiResult")
@@ -96,6 +98,7 @@ function Beatmaps() {
                 </p>
                 <MusicPlayer />
             </div>
+            <Footer />
         </Fragment>
     )
 }

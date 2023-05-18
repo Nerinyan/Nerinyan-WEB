@@ -1,10 +1,13 @@
 import React, { Fragment, useState, useEffect } from "react"
 import { Link } from "react-router-dom"
+import Portal from "../Portal"
 import { getGlobalState, setGlobalState, useGlobalState } from '../store'
 import LazyLoad from 'react-lazyload'
 import { Tooltip, Switch, Dropdown, Menu, message, Checkbox } from 'antd'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { GeneralMixins, Version } from '../Components'
+import { GeneralMixins, BeatmapPortal, Version } from '../Components'
+
+import '../assets/css/components/beatmap.css'
 
 function Beatmap({ bmap }) {
     const [isCollapse, setCollapse] = useState(true)
@@ -418,8 +421,13 @@ function Beatmap({ bmap }) {
                             <div className="version-lists">
                                 {generateVersionListElement()}
                             </div>
+                            {
+                                !isCollapse &&
+                                <Portal>
+                                    <BeatmapPortal bmap={bmap}></BeatmapPortal>
+                                </Portal>
+                            }
                         </div>
-                        {!isCollapse && generateVersionExpandListElement()}
                     </li>
                 </ul>
             </div>
