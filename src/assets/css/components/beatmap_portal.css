@@ -1,0 +1,23 @@
+.beatmap-popup-block {
+    pointer-events: auto;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: hsl(var(--hsl-b2));
+    border-radius: 24px 24px 0 0;
+    transition: opacity 150ms ease-in-out;
+    z-index: 4;
+}
+
+.beatmap-popup-content {
+    max-height: 50vh;
+    overflow: auto;
+    border-radius: 24px 24px 0 0;
+    display: flex;
+}
+
+.beatmap-info-block {
+    background: center / cover no-repeat linear-gradient(to right, #00000099, #ffe4e100), var(--bg);
+    width: 100%;
+    padding: 5px 0 10px;
+}

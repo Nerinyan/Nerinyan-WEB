@@ -3,6 +3,8 @@ import { Navbar, GeneralMixins } from "../Components"
 import { getGlobalState, useGlobalState } from '../store'
 import axios from "axios"
 
+import '../assets/css/components/info.css'
+
 function Info() {
     // const [Info] = useGlobalState("Info")
     const [Info, setInfo] = useState({})

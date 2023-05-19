@@ -15,6 +15,7 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
     apiURL: "https://api.nerinyan.moe",
     ko2apiURL: "https://ko2.nerinyan.moe",
     apiSubURL: "https://subapi.nerinyan.moe",
+    currentExpendedID: 0,
     zipDone: false,
     globalNoVideo: false,
     globalNoBg: false,

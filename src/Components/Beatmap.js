@@ -17,6 +17,7 @@ function Beatmap({ bmap }) {
     const [versionsCTB, setVersionsCTB] = useState([])
     const [versionsMANIA, setVersionsMANIA] = useState([])
     const VersionList = [versionsSTD, versionsTAIKO, versionsCTB, versionsMANIA]
+    const [currentExpendedID] = useGlobalState("currentExpendedID")
     const [musicPlayerIsPlaying] = useGlobalState("musicPlayerIsPlaying")
     const [musicPlayerIsPaused] = useGlobalState("musicPlayerIsPaused")
     const [musicPlayerBeatmap] = useGlobalState("musicPlayerBeatmap")
@@ -133,12 +134,18 @@ function Beatmap({ bmap }) {
         }
     }
 
+    function expendIdController(id) {
+        console.log(`request change expend id - ${id}`)
+        setGlobalState("currentExpendedID", id)
+        console.log(`changed. : ${currentExpendedID}`)
+    }
+
     function handleCallMusic(e) {
         e.stopPropagation()
         e.preventDefault()
         var player = document.getElementById("musicPlayerAudio")
 
-        // 음악이 현재 재생중이며 재생중인 음악이 선택한 비트맵과 같은경 우
+        // 음악이 현재 재생중이며 재생중인 음악이 선택한 비트맵과 같은 경우
         if (musicPlayerIsPlaying && !musicPlayerIsPaused && musicPlayerBeatmap.id === bmap.id) {
             player.pause()
             setGlobalState("musicPlayerIsPaused", true)
@@ -416,14 +423,14 @@ function Beatmap({ bmap }) {
                     <li className="beatmap-list">
                         <div>
                             <Tooltip placement="top" title={isCollapse ? 'Expand beatmap list' : 'Collapse beatmap list '}>
-                                <button className={"beatmap-list-btn " + (isCollapse ? 'collapse' : 'expand')} onClick={changeCollapse}><i className="fad fa-caret-square-down"></i></button>
+                                <button className={"beatmap-list-btn " + (currentExpendedID !== bmap.id ? 'collapse' : 'expand')} onClick={changeCollapse}><i className="fad fa-caret-square-down"></i></button>
                             </Tooltip>
                             <div className="version-lists">
                                 {generateVersionListElement()}
                             </div>
                             {
                                 !isCollapse &&
-                                <Portal>
+                                <Portal expendIdController={expendIdController} bid={bmap.id}>
                                     <BeatmapPortal bmap={bmap}></BeatmapPortal>
                                 </Portal>
                             }
