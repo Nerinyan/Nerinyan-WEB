@@ -126,18 +126,17 @@ function Beatmap({ bmap }) {
         setVersionsMANIA(versions_temp.mania)
     }
 
-    function changeCollapse() {
-        if (isCollapse) {
-            setCollapse(false)
-        } else {
-            setCollapse(true)
-        }
-    }
+    function changeCollapse(event) {
+        event.stopPropagation()
+        event.preventDefault()
 
-    function expendIdController(id) {
-        console.log(`request change expend id - ${id}`)
-        setGlobalState("currentExpendedID", id)
-        console.log(`changed. : ${currentExpendedID}`)
+        if (getGlobalState('currentExpendedID') !== bmap.id) {
+            setGlobalState('currentExpendedID', bmap.id)
+        } else {
+            setGlobalState('currentExpendedID', 0)
+        }
+
+        setTmp(new Date().getMilliseconds())
     }
 
     function handleCallMusic(e) {
@@ -422,18 +421,17 @@ function Beatmap({ bmap }) {
                     </li>
                     <li className="beatmap-list">
                         <div>
-                            <Tooltip placement="top" title={isCollapse ? 'Expand beatmap list' : 'Collapse beatmap list '}>
-                                <button className={"beatmap-list-btn " + (currentExpendedID !== bmap.id ? 'collapse' : 'expand')} onClick={changeCollapse}><i className="fad fa-caret-square-down"></i></button>
+                            <Tooltip placement="top" title={getGlobalState('currentExpendedID') === bmap.id ? 'Collapse beatmap list' : 'Expand beatmap list'}>
+                                <button className={"beatmap-list-btn " + (getGlobalState('currentExpendedID') === bmap.id ? 'collapse' : 'expand')} onClick={(e) => {changeCollapse(e)}}>
+                                    <i className="fad fa-caret-square-down"></i>
+                                </button>
                             </Tooltip>
                             <div className="version-lists">
                                 {generateVersionListElement()}
                             </div>
-                            {
-                                !isCollapse &&
-                                <Portal expendIdController={expendIdController} bid={bmap.id}>
-                                    <BeatmapPortal bmap={bmap}></BeatmapPortal>
-                                </Portal>
-                            }
+                            <Portal>
+                                <BeatmapPortal bmap={bmap}></BeatmapPortal>
+                            </Portal>
                         </div>
                     </li>
                 </ul>
