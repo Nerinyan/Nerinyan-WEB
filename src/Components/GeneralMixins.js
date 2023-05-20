@@ -118,6 +118,70 @@ export function addCommas(nStr) {
     return x1 + x2
 }
 
+export function DateFormat(date) {
+    const tmp = new Date(`${date} UTC`)
+
+    const months = [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec'
+    ]
+
+    return `${tmp.getDate()} ${months[tmp.getMonth()]} ${tmp.getFullYear()}`
+}
+
+export function timeSince(date) {
+    if (typeof date === "object"){
+        date = date.getTime()/1000
+    }
+    var now = new Date()
+    var currentTime = now / 1000
+    var seconds = Math.floor(currentTime - date)
+
+    var interval = Math.floor(seconds / 31536000)
+
+    if (interval > 1) {
+        return interval + " years ago"
+    }if (interval === 1){
+        return "a year ago"
+    }
+    interval = Math.floor(seconds / 2592000)
+    if (interval > 1) { 
+        return interval + " months ago"
+    }if (interval === 1){
+        return "a month ago"
+    }
+    interval = Math.floor(seconds / 86400)
+    if (interval > 1) {
+        return interval + " days ago"
+    }if (interval === 1){
+         interval = Math.floor(seconds / 3600)
+        return interval + " hours ago"
+    }
+    interval = Math.floor(seconds / 3600)
+    if (interval > 1) {
+        return interval + " hours ago"
+    }if (interval === 1){
+        return "a hour ago"
+    }
+    interval = Math.floor(seconds / 60);
+    if (interval > 1) {
+        return interval + " minutes ago"
+    }if (interval === 1){
+        return "a minute ago"
+    }
+    return Math.floor(seconds) + " seconds ago"
+}
+
 export function secondsToTime(time){
     var hrs = ~~(time / 3600)
     var mins = ~~((time % 3600) / 60)
@@ -131,6 +195,30 @@ export function secondsToTime(time){
     ret += "" + mins + ":" + (secs < 10 ? "0" : "")
     ret += "" + secs
     return ret
+}
+
+export function secondsToTimeForOdometer(time){
+    var hrs = ~~(time / 3600)
+    var mins = ~~((time % 3600) / 60)
+    var secs = ~~time % 60
+    var ret = ""
+
+    if (hrs > 0) {
+        ret += "" + hrs + "" + (mins < 10 ? "0" : "")
+    }
+
+    ret += "" + mins + "" + (secs < 10 ? "0" : "")
+    ret += "" + secs
+    return ret
+}
+
+export function calcSuccessRate(pass, play) {
+    var result = (pass / play) * 100
+    if (isNaN(result)){
+        return 0
+    }
+    result = parseFloat(result.toFixed(2))
+    return result
 }
 
 export function getDiffTextColor(rating) {

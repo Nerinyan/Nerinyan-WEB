@@ -1,0 +1,56 @@
+/* Info Page */
+/* div.info-container { display: flex; } */
+div.info-Single {
+    display: flex;
+    width: 500px;
+    flex-direction: column;
+    margin: 0 auto;
+    margin-top: 50px;
+    align-items: center;
+    font-size: 22px;
+    border-radius: 12px;
+    background-color: hsl(var(--hsl-b1));
+    color: white;
+    box-shadow: 0 2px 5px hsl(var(--hsl-b4))
+}
+
+/* div.info-Single:not(:last-child) { margin-right: 15px; } */
+div.info-Single h2 {
+    color: hsl(var(--hsl-white-1));
+    margin-bottom: 0;
+    padding: 8px;
+}
+
+div.info-Single a {
+    color: white;
+    font-size: 16px;
+    padding: 7.5px;
+    transition: color 250ms ease-in-out;
+}
+
+div.info-Single a:hover {
+    color: hsl(var(--hsl-b5));
+}
+
+div.info-Single ul.info-page {
+    font-size: 14px;
+    background-color: hsl(var(--hsl-b6));
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 0;
+    border-radius: 12px;
+}
+
+div.info-Single ul.info-page li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+div.info-Single ul.info-page li:not(:last-child) {
+    margin-bottom: 5px;
+}
+
+div.info-Single ul.info-page li h3 {
+    color: hsl(var(--hsl-white-5));
+}

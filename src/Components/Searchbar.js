@@ -5,6 +5,8 @@ import { getGlobalState, setGlobalState, useGlobalState } from '../store'
 import { Input, Slider, message } from 'antd'
 import { GeneralMixins } from "."
 
+import '../assets/css/components/searchbar.css'
+
 var delay = null;
 
 

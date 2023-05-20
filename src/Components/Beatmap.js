@@ -1,10 +1,13 @@
 import React, { Fragment, useState, useEffect } from "react"
 import { Link } from "react-router-dom"
+import Portal from "../Portal"
 import { getGlobalState, setGlobalState, useGlobalState } from '../store'
 import LazyLoad from 'react-lazyload'
 import { Tooltip, Switch, Dropdown, Menu, message, Checkbox } from 'antd'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { GeneralMixins, Version } from '../Components'
+import { GeneralMixins, BeatmapPortal, Version } from '../Components'
+
+import '../assets/css/components/beatmap.css'
 
 function Beatmap({ bmap }) {
     const [isCollapse, setCollapse] = useState(true)
@@ -14,6 +17,7 @@ function Beatmap({ bmap }) {
     const [versionsCTB, setVersionsCTB] = useState([])
     const [versionsMANIA, setVersionsMANIA] = useState([])
     const VersionList = [versionsSTD, versionsTAIKO, versionsCTB, versionsMANIA]
+    const [currentExpandedID] = useGlobalState("currentExpandedID")
     const [musicPlayerIsPlaying] = useGlobalState("musicPlayerIsPlaying")
     const [musicPlayerIsPaused] = useGlobalState("musicPlayerIsPaused")
     const [musicPlayerBeatmap] = useGlobalState("musicPlayerBeatmap")
@@ -122,12 +126,17 @@ function Beatmap({ bmap }) {
         setVersionsMANIA(versions_temp.mania)
     }
 
-    function changeCollapse() {
-        if (isCollapse) {
-            setCollapse(false)
+    function changeCollapse(event) {
+        event.stopPropagation()
+        event.preventDefault()
+
+        if (getGlobalState('currentExpandedID') !== bmap.id) {
+            setGlobalState('currentExpandedID', bmap.id)
         } else {
-            setCollapse(true)
+            setGlobalState('currentExpandedID', 0)
         }
+
+        setTmp(new Date().getMilliseconds())
     }
 
     function handleCallMusic(e) {
@@ -135,7 +144,7 @@ function Beatmap({ bmap }) {
         e.preventDefault()
         var player = document.getElementById("musicPlayerAudio")
 
-        // 음악이 현재 재생중이며 재생중인 음악이 선택한 비트맵과 같은경 우
+        // 음악이 현재 재생중이며 재생중인 음악이 선택한 비트맵과 같은 경우
         if (musicPlayerIsPlaying && !musicPlayerIsPaused && musicPlayerBeatmap.id === bmap.id) {
             player.pause()
             setGlobalState("musicPlayerIsPaused", true)
@@ -311,7 +320,7 @@ function Beatmap({ bmap }) {
 
     return (
         <Fragment>
-            <div id={bmap.id} className="beatmap-single" data-isplaying={musicPlayerIsPlaying && musicPlayerBeatmap.id === bmap.id ? true : false}>
+            <div id={bmap.id} className="beatmap-single" data-isExpand={currentExpandedID === bmap.id ? true : false} data-isplaying={musicPlayerIsPlaying && musicPlayerBeatmap.id === bmap.id ? true : false}>
                 <LazyLoad height={136} offset={300} style={{background: "url(" + require('../assets/images/beatmaps-default.png') + ")"}}>
                     <div className="card-header" style={{ "--bg": "center / cover no-repeat url(https://assets.ppy.sh/beatmaps/"+bmap.id+"/covers/cover.jpg?1622784772" }}>
                         <div className="card-header-beatmapinfo">
@@ -412,14 +421,18 @@ function Beatmap({ bmap }) {
                     </li>
                     <li className="beatmap-list">
                         <div>
-                            <Tooltip placement="top" title={isCollapse ? 'Expand beatmap list' : 'Collapse beatmap list '}>
-                                <button className={"beatmap-list-btn " + (isCollapse ? 'collapse' : 'expand')} onClick={changeCollapse}><i className="fad fa-caret-square-down"></i></button>
+                            <Tooltip placement="top" title={getGlobalState('currentExpandedID') === bmap.id ? 'Hide Beatmap Info' : 'Show Beatmap Info'}>
+                                <button className={"beatmap-list-btn " + (getGlobalState('currentExpandedID') === bmap.id ? 'collapse' : 'expand')} onClick={(e) => {changeCollapse(e)}}>
+                                    <i className="fad fa-caret-square-down"></i>
+                                </button>
                             </Tooltip>
                             <div className="version-lists">
                                 {generateVersionListElement()}
                             </div>
+                            <Portal>
+                                <BeatmapPortal bmap={bmap}></BeatmapPortal>
+                            </Portal>
                         </div>
-                        {!isCollapse && generateVersionExpandListElement()}
                     </li>
                 </ul>
             </div>

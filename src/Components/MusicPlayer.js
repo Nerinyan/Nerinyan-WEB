@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react"
 import { setGlobalState, useGlobalState } from '../store'
 import { Slider } from 'antd'
 
+import '../assets/css/components/musicplayer.css'
+
 // eslint-disable-next-line no-unused-vars
 var timer
 var timer2

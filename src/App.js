@@ -12,7 +12,7 @@ function App() {
                 <Route path="/info" element={<Info />}/>
             </Routes>
         </BrowserRouter>
-    );
+    )
 }
 
 export default App
