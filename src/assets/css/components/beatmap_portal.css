@@ -376,6 +376,34 @@
     margin-right: 0.5em;
 }
 
+.portal-close-btn {
+    background: hsl(var(--hsl-b2));
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: flex;
+    width: 36px;
+    height: 36px;
+    font-size: 36px;
+    border-radius: 123123123123px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 100ms ease-in-out;
+}
+
+.portal-close-btn i {
+    color: white;
+}
+
+.portal-close-btn:hover{
+    background-color: hsl(var(--hsl-l4));
+}
+
+/* .portal-close-btn:hover i {
+    color: hsl(var(--hsl-b1));
+} */
+
 @keyframes show {
     0%,
     25% {
@@ -384,5 +412,15 @@
 
     100% {
         transform: translateY(calc(var(--footer-height) * -1));
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(180deg);
     }
 }

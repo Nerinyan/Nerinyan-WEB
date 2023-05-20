@@ -3,7 +3,7 @@ import { Fragment } from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { GeneralMixins } from '../Components'
-import { useGlobalState } from '../store'
+import { setGlobalState, useGlobalState } from '../store'
 import Odometer from 'react-odometerjs'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { Tooltip, Progress, Switch, Dropdown, Menu, message } from 'antd'
@@ -90,6 +90,14 @@ function BeatmapPortal({ bmap }) {
         setVersionsTAIKO(versions_temp.taiko)
         setVersionsCTB(versions_temp.ctb)
         setVersionsMANIA(versions_temp.mania)
+    }
+
+    function closePotal(e) {
+        e.stopPropagation()
+        e.preventDefault()
+
+        setIsHover(false)
+        setGlobalState("currentExpandedID", 0)
     }
 
     function mouseHover(e, version) {
@@ -450,6 +458,9 @@ function BeatmapPortal({ bmap }) {
                                     </li>
                                 </ul>
                             </div>
+                        </div>
+                        <div className='portal-close-btn' onClick={(e) => closePotal(e)}>
+                            <i className="fa-solid fa-circle-xmark"></i>
                         </div>
                     </div>
                 </div>
