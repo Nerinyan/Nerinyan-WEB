@@ -17,7 +17,7 @@ function Beatmap({ bmap }) {
     const [versionsCTB, setVersionsCTB] = useState([])
     const [versionsMANIA, setVersionsMANIA] = useState([])
     const VersionList = [versionsSTD, versionsTAIKO, versionsCTB, versionsMANIA]
-    const [currentExpendedID] = useGlobalState("currentExpendedID")
+    const [currentExpandedID] = useGlobalState("currentExpandedID")
     const [musicPlayerIsPlaying] = useGlobalState("musicPlayerIsPlaying")
     const [musicPlayerIsPaused] = useGlobalState("musicPlayerIsPaused")
     const [musicPlayerBeatmap] = useGlobalState("musicPlayerBeatmap")
@@ -130,10 +130,10 @@ function Beatmap({ bmap }) {
         event.stopPropagation()
         event.preventDefault()
 
-        if (getGlobalState('currentExpendedID') !== bmap.id) {
-            setGlobalState('currentExpendedID', bmap.id)
+        if (getGlobalState('currentExpandedID') !== bmap.id) {
+            setGlobalState('currentExpandedID', bmap.id)
         } else {
-            setGlobalState('currentExpendedID', 0)
+            setGlobalState('currentExpandedID', 0)
         }
 
         setTmp(new Date().getMilliseconds())
@@ -320,7 +320,7 @@ function Beatmap({ bmap }) {
 
     return (
         <Fragment>
-            <div id={bmap.id} className="beatmap-single" data-isplaying={musicPlayerIsPlaying && musicPlayerBeatmap.id === bmap.id ? true : false}>
+            <div id={bmap.id} className="beatmap-single" data-isExpand={currentExpandedID === bmap.id ? true : false} data-isplaying={musicPlayerIsPlaying && musicPlayerBeatmap.id === bmap.id ? true : false}>
                 <LazyLoad height={136} offset={300} style={{background: "url(" + require('../assets/images/beatmaps-default.png') + ")"}}>
                     <div className="card-header" style={{ "--bg": "center / cover no-repeat url(https://assets.ppy.sh/beatmaps/"+bmap.id+"/covers/cover.jpg?1622784772" }}>
                         <div className="card-header-beatmapinfo">
@@ -421,8 +421,8 @@ function Beatmap({ bmap }) {
                     </li>
                     <li className="beatmap-list">
                         <div>
-                            <Tooltip placement="top" title={getGlobalState('currentExpendedID') === bmap.id ? 'Collapse beatmap list' : 'Expand beatmap list'}>
-                                <button className={"beatmap-list-btn " + (getGlobalState('currentExpendedID') === bmap.id ? 'collapse' : 'expand')} onClick={(e) => {changeCollapse(e)}}>
+                            <Tooltip placement="top" title={getGlobalState('currentExpandedID') === bmap.id ? 'Hide Beatmap Info' : 'Show Beatmap Info'}>
+                                <button className={"beatmap-list-btn " + (getGlobalState('currentExpandedID') === bmap.id ? 'collapse' : 'expand')} onClick={(e) => {changeCollapse(e)}}>
                                     <i className="fad fa-caret-square-down"></i>
                                 </button>
                             </Tooltip>

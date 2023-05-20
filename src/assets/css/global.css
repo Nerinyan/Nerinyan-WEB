@@ -3,6 +3,9 @@ body { background: #282c2f !important; }
 
 /* General Variable */
 :root {
+    --odometer-duration: 500ms;
+    --footer-height: 40px;
+    --panel-height: 256px;
     --base-hue: 200;
     --base-hue-deg: 200deg;
     --hsl-white-1: 0,0%,100%;
@@ -194,22 +197,34 @@ div.container { margin: 0 auto; max-width: 70vw; }
     /* nav div.expand { visibility: visible !important; } */
     /* nav div.collapsed { visibility: hidden !important; display: none !important; } */
     ul.beatmap-list > li { width: calc(100% / 3) !important; }
+    .portal-info-left { margin-bottom: 0 !important; }
+    .portal-info { flex-direction: row !important; }
 }
 @media (max-width: 1920px) {
     ul.beatmap-list > li { width: 50% !important; }
+    .portal-info-left { margin-bottom: 0 !important; }
+    .portal-info { flex-direction: row !important; }
 }
 @media (max-width: 1024px) {
+    :root {
+        --footer-height: 50px;
+    }
     nav > div { width: 90vw !important; }
-    /* footer > ul { display: none !important; } */
-    footer { flex-direction: column-reverse !important; height: 60px !important; align-items: center !important; }
+    footer { font-size: 10px !important; flex-direction: column-reverse !important; align-items: center !important; }
     footer > ul { margin-left: 0 !important; margin-bottom: 0 !important; }
     div.container { max-width: 85vw !important; }
     ul.searchbar-type-selector li { width: 300px !important; }
     ul.beatmap-list > li { width: 100% !important; }
+    .portal-info-left { margin-bottom: 1em !important; }
+    .portal-info { flex-direction: column !important; }
+    .portal-info-right { margin-left: 1em !important; }
+    div.more-info-two-side > ul.desc { flex-direction: column; }
 }
 @media (max-width: 860px) {
     ul.searchbar-type-selector li { width: 200px !important; }
     div.info-Single { width: 80vw !important; }
+    div.more-info-two-side { flex-direction: column; align-items: center; }
+    ul.portal-buttons { flex-direction: row;}
 }
 @media (max-width: 501px) {
     /* nav div.expand { visibility: hidden !important; display: none !important; } */
