@@ -335,19 +335,25 @@ function BeatmapPortal({ bmap }) {
                                             </li>
                                         </Tooltip>
                                     </ul>
-                                    <ul className='portal-info-center'>           
-                                        <li>
-                                            <span>Circle Size</span> <Progress format={format} percent={convertPercent(currentVersion.cs)} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(currentVersion.difficulty_rating)} strokeWidth={8} />
-                                        </li>
+                                    <ul className='portal-info-center'> 
+                                        {
+                                            currentVersion.mode_int !== 1 &&
+                                            <li>
+                                                <span>{currentVersion.mode_int === 3 ? 'Key Count' : 'Circle Size'}</span> <Progress format={format} percent={convertPercent(currentVersion.cs)} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(currentVersion.difficulty_rating)} strokeWidth={8} />
+                                            </li>
+                                        }
                                         <li>
                                             <span>HP Drain</span> <Progress format={format} percent={convertPercent(currentVersion.drain)} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(currentVersion.difficulty_rating)} strokeWidth={8} />
                                         </li>
                                         <li>
                                             <span>Accuracy</span> <Progress format={format} percent={convertPercent(currentVersion.accuracy)} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(currentVersion.difficulty_rating)} strokeWidth={8} />
                                         </li>
-                                        <li>
-                                            <span>Approach Rate</span> <Progress format={format} percent={convertPercent(currentVersion.ar)} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(currentVersion.difficulty_rating)} strokeWidth={8} />
-                                        </li>
+                                        {
+                                            (currentVersion.mode_int !== 1 && currentVersion.mode_int !== 3) &&
+                                            <li>
+                                                <span>Approach Rate</span> <Progress format={format} percent={convertPercent(currentVersion.ar)} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(currentVersion.difficulty_rating)} strokeWidth={8} />
+                                            </li>
+                                        }
                                         <li>
                                             <span>Star Rating</span> <Progress format={format} percent={convertPercent(currentVersion.difficulty_rating?.toFixed(2))} gapDegree={90} width={90} strokeColor={"hsl(var(--hsl-darkorange-1))"} strokeWidth={8} />
                                         </li>
