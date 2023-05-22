@@ -22,6 +22,7 @@
     left: 50%;
     transform: translateX(-50%);
     /* max-height: 542px; */
+    max-height: var(--height);
 }
 
 .portal-info-block {
