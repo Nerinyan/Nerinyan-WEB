@@ -269,7 +269,7 @@ function BeatmapPortal({ bmap }) {
             {
                 (currentExpandedID === bmap.id) &&
                 <div className='portal-popup-block' id={`beatmap-portal`} >
-                    <div className='portal-popup-content'>
+                    <div className='portal-popup-content' style={{ "--height": `${window.innerHeight - 220}px` }}>
                         <div className='portal-info-block' style={{ "--bg": "center / cover no-repeat url(https://assets.ppy.sh/beatmaps/"+bmap.id+"/covers/cover.jpg?1622784772" }}>
                             <div className='portal-diff-status'>
                                 {generateVersionListElement()}
