@@ -7,7 +7,8 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Navigate to="/main" />}/>
-                <Route path="/main" element={<Beatmaps />}/>
+                <Route path="/main" element={<Beatmaps dev={false}/>}/>
+                <Route path="/dev" element={<Beatmaps dev={true}/>}/>
                 <Route path="/d/:beatmapsetid" element={<Download />}/>
                 <Route path="/info" element={<Info />}/>
             </Routes>
