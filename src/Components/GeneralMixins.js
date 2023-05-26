@@ -426,8 +426,8 @@ export async function getApiData(append=true) {
         return false
     }
     setGlobalState("loading", true)
-    setGlobalState("apiURL", "https://api.nerinyan.moe")
-    apiURL = "https://api.nerinyan.moe"
+    // setGlobalState("apiURL", "https://api.nerinyan.moe")
+    // apiURL = "https://api.nerinyan.moe"
     for (let i = 0; i < 5; i++) {
         if (apiErrorCount > 2 || i > 2) {
             setGlobalState("apiURL", "https://ko2.nerinyan.moe")

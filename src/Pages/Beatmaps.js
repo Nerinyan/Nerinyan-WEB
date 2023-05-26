@@ -1,12 +1,12 @@
 import React, { useEffect, Fragment } from "react"
 import { useSearchParams } from "react-router-dom"
-import { Navbar, Footer, Searchbar, Beatmap, GeneralMixins, MusicPlayer } from "../Components"
+import { Navbar, Footer, Devbar, Searchbar, Beatmap, GeneralMixins, MusicPlayer } from "../Components"
 import { getGlobalState, useGlobalState } from '../store'
 import { message, notification } from 'antd' 
 
 import '../assets/css/components/beatmap.css'
 
-function Beatmaps() {
+function Beatmaps({ dev }) {
     const [apiResult] = useGlobalState("apiResult")
     const [noResult] = useGlobalState("noResult")
     const [loading] = useGlobalState("loading")
@@ -75,8 +75,13 @@ function Beatmaps() {
         <Fragment>
             <Navbar />
             <div className="container">
+                {
+                    dev &&
+                    <Devbar/>
+                }
                 <Searchbar/>
                 <ul className="beatmap-list">
+                    
                     {noResult &&
                         <li className="notfound">
                             <p>
