@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react"
-import { Navbar, GeneralMixins } from "../Components"
+import { Navbar, Footer, GeneralMixins } from "../Components"
 import { getGlobalState, useGlobalState } from '../store'
 import axios from "axios"
 
@@ -82,6 +82,7 @@ function Info() {
                 </div>
                 }
             </div>
+            <Footer/>
         </Fragment>
     )
 }

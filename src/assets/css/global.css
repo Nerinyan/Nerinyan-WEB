@@ -192,7 +192,7 @@ span.beatmap-version-rating { height: 18px; color: var(--text-color); font-weigh
 
 /* Resposive Web Css */
 nav > div { width: 75vw; }
-div.container { margin: 0 auto; max-width: 70vw; }
+div.container { margin: 0 auto; max-width: 70vw; padding: 0 0 var(--footer-height) 0; }
 @media (max-width: 60000px) {
     /* nav div.expand { visibility: visible !important; } */
     /* nav div.collapsed { visibility: hidden !important; display: none !important; } */
