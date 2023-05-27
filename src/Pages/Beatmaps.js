@@ -15,8 +15,10 @@ function Beatmaps({ dev }) {
 
     function scrollHandler() {
         const documentData = document.documentElement
+        // console.log(documentData.scrollTop + documentData.clientHeight + (documentData.clientHeight*2) >= documentData.scrollHeight && !getGlobalState('loading') && !getGlobalState('firstLoad') )
         if (documentData.scrollTop + documentData.clientHeight + (documentData.clientHeight*2) >= documentData.scrollHeight && !getGlobalState('loading') && !getGlobalState('firstLoad')) {
             // BeatmapListCreator(true)
+            console.log('g2')
             GeneralMixins.getApiData()
         }
     }
@@ -81,7 +83,6 @@ function Beatmaps({ dev }) {
                 }
                 <Searchbar/>
                 <ul className="beatmap-list">
-                    
                     {noResult &&
                         <li className="notfound">
                             <p>

@@ -47,7 +47,7 @@ function Devbar() {
         setGlobalState("musicPlayerIsPaused", true)
         setGlobalState("apiResult", [])
 
-        apiJson.page = String(0)
+        apiJson.page = 0
 
         GeneralMixins.getApiData(append)
     }

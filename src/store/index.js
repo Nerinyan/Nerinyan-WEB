@@ -50,9 +50,7 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
     apiJson: {
         "extra": "",
         "ranked": "",
-        "nsfw": "true",
-        "video": "",
-        "storyboard": "",
+        "nsfw": true,
         "option": "",
         "m": "",
         "totalLength": {
@@ -88,7 +86,7 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
             "max": 0
         },
         "sort": "ranked_desc",
-        "page": "0",
+        "page": 0,
         "query": ""
     },
     apiResult: [],
