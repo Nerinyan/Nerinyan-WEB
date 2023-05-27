@@ -465,7 +465,7 @@ export async function getApiData(append=true) {
     }
     var temp = apiJson
     var tempPage = Number(temp.page)
-    temp.page = String(++tempPage)
+    temp.page = ++tempPage
         
     setGlobalState("apiJson", temp)
     setGlobalState("loading", false)
