@@ -323,11 +323,11 @@ export function getUserRequestParams(searchParams) {
     // Explicit Content (nsfw)
     if (searchParams.get("nsfw") !== null) {
         if (searchParams.get("nsfw") === "1" || searchParams.get("nsfw") === "true") {
-            apiJson.nsfw = "true"
-            params.push({'nsfw': 'true'})
+            apiJson.nsfw = true
+            params.push({'nsfw': true})
         } else if (searchParams.get("nsfw") === "0" || searchParams.get("nsfw") === "false") {
-            apiJson.nsfw = "false"
-            params.push({'nsfw': 'false'})
+            apiJson.nsfw = true
+            params.push({'nsfw': false})
         }
     }
 
@@ -422,7 +422,7 @@ export async function getApiData(append=true) {
         Data = []
     }
   
-    if (Data.length < (parseInt(apiJson.page) * 60)) {
+    if (Data.length < (apiJson.page * 60)) {
         return false
     }
     setGlobalState("loading", true)

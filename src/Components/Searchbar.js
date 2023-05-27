@@ -342,7 +342,7 @@ function Searchbar() {
         setGlobalState("musicPlayerIsPaused", true)
         setGlobalState("apiResult", [])
 
-        apiJson.page = String(0)
+        apiJson.page = 0
 
         GeneralMixins.getApiData(append)
     }
@@ -411,11 +411,11 @@ function Searchbar() {
                 <li className="searchbar-option">
                     <strong>Explicit Content</strong>
                     <ul>
-                        <li onClick={(e) => searchbarOptionChangeHandler(e, 'nsfw', 'false')}>
-                            <p data-active={(apiJson.nsfw === 'false' || apiJson.nsfw === '') ? true : false}>Hide</p>
+                        <li onClick={(e) => searchbarOptionChangeHandler(e, 'nsfw', false)}>
+                            <p data-active={(apiJson.nsfw === false || apiJson.nsfw === null) ? true : false}>Hide</p>
                         </li>
-                        <li onClick={(e) => searchbarOptionChangeHandler(e, 'nsfw', 'true')}>
-                            <p data-active={apiJson.nsfw === 'true' ? true : false}>Show</p>
+                        <li onClick={(e) => searchbarOptionChangeHandler(e, 'nsfw', true)}>
+                            <p data-active={apiJson.nsfw === true ? true : false}>Show</p>
                         </li>
                     </ul>
                 </li>
