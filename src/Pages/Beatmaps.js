@@ -18,7 +18,6 @@ function Beatmaps({ dev }) {
         // console.log(documentData.scrollTop + documentData.clientHeight + (documentData.clientHeight*2) >= documentData.scrollHeight && !getGlobalState('loading') && !getGlobalState('firstLoad') )
         if (documentData.scrollTop + documentData.clientHeight + (documentData.clientHeight*2) >= documentData.scrollHeight && !getGlobalState('loading') && !getGlobalState('firstLoad')) {
             // BeatmapListCreator(true)
-            console.log('g2')
             GeneralMixins.getApiData()
         }
     }
