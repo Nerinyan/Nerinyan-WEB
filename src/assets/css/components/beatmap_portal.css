@@ -13,7 +13,7 @@
 .portal-popup-content {
     position: fixed;
     overflow: auto;
-    border-radius: 24px 24px 0 0;
+    border-radius: 24px;
     display: flex;
     flex-direction: column;
     bottom: 0;
@@ -23,6 +23,23 @@
     transform: translateX(-50%);
     /* max-height: 542px; */
     max-height: var(--height);
+    box-shadow: 0 0 10px black;
+}
+
+.portal-popup-content::-webkit-scrollbar {
+    width: 10px;
+}
+
+.portal-popup-content::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--hsl-l3));
+    border-radius: 10px;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+}
+
+.portal-popup-content::-webkit-scrollbar-track {
+    background-color: hsl(var(--hsl-b2));
+    border-radius: 10px;
 }
 
 .portal-info-block {
@@ -129,6 +146,7 @@
     font-weight: 600;
     line-height: 1;
     margin-bottom: 5px;
+    max-width: 650px;
 }
 
 .portal-info-left .portal-artist {
@@ -408,11 +426,22 @@
 @keyframes show {
     0%,
     25% {
-        transform: translateY(500px);
+        transform: translateY(800px);
     }
 
     100% {
         transform: translateY(calc(var(--footer-height) * -1));
+    }
+}
+
+@keyframes close {
+    0%,
+    25% {
+        transform: translateY(calc(var(--footer-height) * -1));
+    }
+
+    100% {
+        transform: translateY(800px);
     }
 }
 

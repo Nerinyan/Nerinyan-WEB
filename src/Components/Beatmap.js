@@ -10,7 +10,6 @@ import { GeneralMixins, BeatmapPortal, Version } from '../Components'
 import '../assets/css/components/beatmap.css'
 
 function Beatmap({ bmap }) {
-    const [isCollapse, setCollapse] = useState(true)
     const [isCopied, setIsCopied] = useState(false)
     const [versionsSTD, setVersionsSTD] = useState([])
     const [versionsTAIKO, setVersionsTAIKO] = useState([])
@@ -70,24 +69,6 @@ function Beatmap({ bmap }) {
                         </div>
                     )
                 }
-            }
-        })
-        return result
-    }
-
-    function generateVersionExpandListElement() {
-        var result = []
-        VersionList.forEach((version, index) => {
-            if (version.length > 0) {
-                result.push(
-                    <ul key={index}>
-                        {version.map((ver, index) => (
-                            <li key={ver.id}>
-                                <Version mode={ver.mode_int} ver={ver} isCollapse={false}/>
-                            </li>
-                        ))}
-                    </ul>
-                )
             }
         })
         return result

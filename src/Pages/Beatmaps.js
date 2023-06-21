@@ -1,7 +1,7 @@
 import React, { useEffect, Fragment } from "react"
 import { useSearchParams } from "react-router-dom"
 import { Navbar, Footer, Devbar, Searchbar, Beatmap, GeneralMixins, MusicPlayer } from "../Components"
-import { getGlobalState, useGlobalState } from '../store'
+import { getGlobalState, useGlobalState, setGlobalState } from '../store'
 import { message, notification } from 'antd' 
 
 import '../assets/css/components/beatmap.css'
@@ -57,6 +57,20 @@ function Beatmaps({ dev }) {
         renderBeatmaps.push(<li key={index}><Beatmap bmap={bmap}/></li>)
     })
 
+    const portalCloseEventController = () => {
+        document.body.addEventListener("click" , (e) => {
+            if (!document.querySelector("#portal").contains(e.target)) {
+                if (document.getElementById("beatmap-portal"))
+                    document.getElementById("beatmap-portal").style.animation = "close forwards 200ms"
+                
+                //for animation
+                setTimeout(() => {
+                    setGlobalState('currentExpandedID', 0)
+                }, 200)
+            }
+        })
+    }
+
     useEffect(() => {
         GetNotification()
         GeneralMixins.getUserRequestParams(searchParams)
@@ -69,6 +83,7 @@ function Beatmaps({ dev }) {
     
     useEffect(() => {
         LoadingAlertHandler()
+        portalCloseEventController()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loading])
 
