@@ -92,14 +92,6 @@ function BeatmapPortal({ bmap }) {
         setVersionsMANIA(versions_temp.mania)
     }
 
-    function closePotal(e) {
-        e.stopPropagation()
-        e.preventDefault()
-
-        setIsHover(false)
-        setGlobalState("currentExpandedID", 0)
-    }
-
     function mouseHover(e, version) {
         e.stopPropagation()
         e.preventDefault()
@@ -310,7 +302,7 @@ function BeatmapPortal({ bmap }) {
                                             {
                                                 bmap.ranked === 1 &&
                                                 <Fragment>
-                                                    <span>ranked <strong>{GeneralMixins.timeSince((new Date(`${bmap.ranked_date} UTC`)).getTime() / 1000)}</strong></span>
+                                                    <span>ranked <strong>{GeneralMixins.timeSince((new Date(`${bmap.ranked_date}`)).getTime() / 1000)}</strong></span>
                                                 </Fragment>
                                             }
                                         </div>
@@ -458,9 +450,6 @@ function BeatmapPortal({ bmap }) {
                                     </li>
                                 </ul>
                             </div>
-                        </div>
-                        <div className='portal-close-btn' onClick={(e) => closePotal(e)}>
-                            <i className="fa-solid fa-circle-xmark"></i>
                         </div>
                     </div>
                 </div>

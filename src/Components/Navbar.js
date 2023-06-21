@@ -9,7 +9,7 @@ function Navbar() {
             <nav>
                 <div>
                     <h1>
-                        <Link to="/main">Nerinyan: osu! Beatmap Mirror</Link>
+                        <a href="https://nerinyan.moe/main">NeriNyan: osu! Beatmap Mirror</a>
                     </h1>
                     <ul>
                         <li>

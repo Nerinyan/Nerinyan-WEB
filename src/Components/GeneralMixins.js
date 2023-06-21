@@ -119,7 +119,7 @@ export function addCommas(nStr) {
 }
 
 export function DateFormat(date) {
-    const tmp = new Date(`${date} UTC`)
+    const tmp = new Date(`${date}`)
 
     const months = [
         'Jan',
