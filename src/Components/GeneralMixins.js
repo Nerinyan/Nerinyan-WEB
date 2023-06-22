@@ -448,7 +448,10 @@ export async function getApiData(append=true) {
                     Data = response.data
                 } else {
                     for (var bmp in response.data) {
-                        Data.push(response.data[bmp])
+                        if (response.data[bmp].beatmaps.length > 0)
+                            Data.push(response.data[bmp])
+                        else
+                            console.log(`Null Beatmaps Detected. - ${response.data[bmp].id}`)
                     }
                     setGlobalState("apiResult", Data)
                 }
