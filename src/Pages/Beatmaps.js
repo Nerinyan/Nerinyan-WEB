@@ -54,7 +54,10 @@ function Beatmaps({ dev }) {
 
     let renderBeatmaps = []
     apiResult.forEach((bmap, index) => {
-        renderBeatmaps.push(<li key={index}><Beatmap bmap={bmap}/></li>)
+        if (bmap.beatmaps.length > 0)
+            renderBeatmaps.push(<li key={index}><Beatmap bmap={bmap}/></li>)
+        else
+            console.log(`Null Beatmaps Detected. -> ${bmap.id} ${bmap.artist} - ${bmap.title} Mapped by ${bmap.creator}`)
     })
 
     const portalCloseEventController = () => {
