@@ -40,6 +40,7 @@ function BeatmapPortal({ bmap }) {
     const [versionsMANIA, setVersionsMANIA] = useState([])
     const VersionList = [versionsSTD, versionsTAIKO, versionsCTB, versionsMANIA]
     const [currentVersion, setCurrentVersion] = useState(bmap.beatmaps[0])
+
     const [noVideo, setNoVideo] = useState(globalNoVideo)
     const [noBg, setNoBg] = useState(globalNoBg)
     const [noHitsound, setNoHitsound] = useState(globalNoHitsound)
@@ -164,11 +165,11 @@ function BeatmapPortal({ bmap }) {
         if (!globalDirectDownload) {
             url = `${document.location.origin}/d/${bmap.id}`
             urlList = []
-            if (noVideo || noBg || noHitsound || noStoryboard) url += "?"
-            if (noVideo) urlList.push("novideo=1")
-            if (noBg) urlList.push("nobg=1")
-            if (noHitsound) urlList.push("nohitsound=1")
-            if (noStoryboard) urlList.push("nostoryboard=1")
+            if (globalNoVideo || globalNoBg || globalNoHitsound || globalNoStoryboard) url += "?"
+            if (globalNoVideo) urlList.push("novideo=1")
+            if (globalNoBg) urlList.push("nobg=1")
+            if (globalNoHitsound) urlList.push("nohitsound=1")
+            if (globalNoStoryboard) urlList.push("nostoryboard=1")
             urlList.map(function (param, i) {
                 if (urlList[0] === param) url += `${param}`           
                 else url += `&${param}`           
@@ -177,11 +178,11 @@ function BeatmapPortal({ bmap }) {
         } else {
             url = `https://api.nerinyan.moe/d/${bmap.id}`
             urlList = []
-            if (noVideo || noBg || noHitsound || noStoryboard) url += "?"
-            if (noVideo) urlList.push("noVideo=1")
-            if (noBg) urlList.push("noBg=1")
-            if (noHitsound) urlList.push("noHitsound=1")
-            if (noStoryboard) urlList.push("noStoryboard=1")
+            if (globalNoVideo || globalNoBg || globalNoHitsound || globalNoStoryboard) url += "?"
+            if (globalNoVideo) urlList.push("noVideo=1")
+            if (globalNoBg) urlList.push("noBg=1")
+            if (globalNoHitsound) urlList.push("noHitsound=1")
+            if (globalNoStoryboard) urlList.push("noStoryboard=1")
             urlList.map(function (param, i) {
                 if (urlList[0] === param) url += `${param}`           
                 else url += `&${param}`           
@@ -189,72 +190,12 @@ function BeatmapPortal({ bmap }) {
             window.open(url)
         }
     }
-
-    const handleOpenChange = (flag) => {
-        setDropdownOpen(flag);
-    };
-
     function clipboardHandler() {
         setIsCopied(true)
         setTimeout(() => {
             setIsCopied(false)
-        }, 900);
+        }, 900)
     }
-
-    const menu = (
-        <Menu
-          items={[
-            {
-                label: (
-                  <Tooltip placement="top" title={bmap.video ? "This option sets Video's existence." : "This option sets Video's existence.\n But, This beatmap not contains video."}>
-                      <Switch disabled={bmap.video ? false : true} checked={noVideo} onChange={(e) => {
-                            setNoVideo(e)
-                            message.info(noVideo ? "Video is included in osz." : "Video will not included in osz!")
-                      }} />
-                      No Video
-                  </Tooltip>
-                ),
-                key: '1',
-            },
-            {
-                label: (
-                    <Tooltip placement="top" title={"This option sets BG's existence."}>
-                        <Switch checked={noBg} onChange={(e) => {
-                            setNoBg(e)
-                            message.info(noBg ? "Background image is included in osz." : "Background image will not included in osz!")
-                        }} />
-                        No BG
-                    </Tooltip>
-                ),
-                key: '2',
-            },
-            {
-                label: (
-                    <Tooltip placement="top" title={"This option sets Hitsound's existence."}>
-                        <Switch checked={noHitsound} onChange={(e) => {
-                            setNoHitsound(e)
-                            message.info(noHitsound ? "Hitsound are included in osz." : "Hitsound will not included in osz!")
-                        }} />
-                        No Hitsound
-                    </Tooltip>
-                ),
-                key: '3',
-            },
-            {
-                label: (
-                    <Tooltip placement="top" title={"This option sets Storyboard's existence."}>
-                        <Switch checked={noStoryboard} onChange={(e) => {
-                            setNoStoryboard(e)
-                            message.info(noStoryboard ? "Storyboard is included in osz." : "Storyboard will not included in osz!")
-                        }} />
-                        No Storyboard
-                    </Tooltip>
-                ),
-                key: '4',
-            }
-          ]}
-        />
-    )
 
     return (
         <Fragment>
@@ -395,9 +336,12 @@ function BeatmapPortal({ bmap }) {
                                         </Tooltip>
                                     </li>
                                     <li className='portal-button-single'>
-                                        <Dropdown.Button className="portal-btn" placement="top" onClick={(e) => {downloadHandler(e)}} overlay={menu} onOpenChange={handleOpenChange} open={dropdownOpen}>
-                                            <i className="fa-solid fa-arrow-down-to-bracket"></i> Download
-                                        </Dropdown.Button>
+                                        <Tooltip placement="top" title={"Download beatmap"}>
+                                            <button className='portal-btn' onClick={(e) => {downloadHandler(e)}}>
+                                                <i className="fa-solid fa-arrow-down-to-bracket"></i>
+                                                <p>Download</p>
+                                            </button>
+                                        </Tooltip>
                                     </li>
                                     <li className='portal-button-single'>
                                         <Tooltip placement="top" title={"Download beatmap background image"}>

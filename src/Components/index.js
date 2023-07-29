@@ -7,5 +7,6 @@ import Searchbar from './Searchbar'
 import Beatmap from './Beatmap'
 import Version from './Version'
 import MusicPlayer from './MusicPlayer'
+import Settings from './Settings'
 
-export { GeneralMixins, Navbar, Footer, BeatmapPortal, Devbar, Searchbar, Beatmap, Version, MusicPlayer }
+export { GeneralMixins, Navbar, Footer, BeatmapPortal, Devbar, Searchbar, Beatmap, Version, MusicPlayer, Settings }

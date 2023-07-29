@@ -222,54 +222,6 @@ function Beatmap({ bmap }) {
           items={[
             {
                 label: (
-                  <Tooltip placement="top" title={bmap.video ? "This option sets Video's existence." : "This option sets Video's existence.\n But, This beatmap not contains video."}>
-                      <Switch disabled={bmap.video ? false : true} checked={noVideo} onChange={(e) => {
-                            setNoVideo(e)
-                            message.info(noVideo ? "Video is included in osz." : "Video will not included in osz!")
-                      }} />
-                      No Video
-                  </Tooltip>
-                ),
-                key: '1',
-            },
-            {
-                label: (
-                    <Tooltip placement="top" title={"This option sets BG's existence."}>
-                        <Switch checked={noBg} onChange={(e) => {
-                            setNoBg(e)
-                            message.info(noBg ? "Background image is included in osz." : "Background image will not included in osz!")
-                        }} />
-                        No BG
-                    </Tooltip>
-                ),
-                key: '2',
-            },
-            {
-                label: (
-                    <Tooltip placement="top" title={"This option sets Hitsound's existence."}>
-                        <Switch checked={noHitsound} onChange={(e) => {
-                            setNoHitsound(e)
-                            message.info(noHitsound ? "Hitsound are included in osz." : "Hitsound will not included in osz!")
-                        }} />
-                        No Hitsound
-                    </Tooltip>
-                ),
-                key: '3',
-            },
-            {
-                label: (
-                    <Tooltip placement="top" title={"This option sets Storyboard's existence."}>
-                        <Switch checked={noStoryboard} onChange={(e) => {
-                            setNoStoryboard(e)
-                            message.info(noStoryboard ? "Storyboard is included in osz." : "Storyboard will not included in osz!")
-                        }} />
-                        No Storyboard
-                    </Tooltip>
-                ),
-                key: '4',
-            },
-            {
-                label: (
                     <Tooltip placement="top" title={"Append This beatmap to Download list"}>
                         <Switch checked={zipAppend} onChange={(e) => {
                             if (e) {
@@ -293,7 +245,7 @@ function Beatmap({ bmap }) {
                         Append Download list
                     </Tooltip>
                 ),
-                key: '5',
+                key: '1',
             },
           ]}
         />

@@ -1,3 +1,28 @@
+/* Settings Button */
+div.settings-button {
+    cursor: pointer;
+    display: flex;
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    padding: 8px;
+    font-size: 36px;
+    color: hsl(var(--hsl-blue-5));
+    background: white;
+    border-radius: 1000000000000000000px;
+    margin: 12px;
+    z-index: 3;
+    animation: Rotate 5s linear infinite;
+    transition: all 200ms ease-in-out;
+}
+
+div.settings-button:hover {
+    background-color: hsl(var(--hsl-blue-5));
+    color: white;
+}
+
+
+
 /* Back To Top Button */
 p.backToTop {
     cursor: pointer;
@@ -613,4 +638,10 @@ div.download-page button {
 
 div.download-page button:hover {
     color: #b9ff6d;
+}
+
+@keyframes Rotate {
+    100% {
+        transform:  rotate(360deg);
+    }
 }

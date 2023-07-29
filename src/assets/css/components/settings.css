@@ -1,0 +1,128 @@
+div.close-button {
+    cursor: pointer;
+    display: flex;
+    position: fixed;
+    right: 10px;
+    top: 10px;
+    padding: 12px;
+    color: hsl(var(--hsl-blue-5));
+    background: white;
+    font-size: 20px;
+    height: 32px;
+    width: 32px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10000000000px;
+    transition: all 200ms ease-in-out;
+}
+
+div.close-button:hover {
+    background-color: hsl(var(--hsl-blue-5));
+    color: white;
+}
+
+
+
+
+div.settings-area {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    top: 50%;
+    padding: 24px;
+    width: 40vw;
+    max-width: 460px;
+    background-color: #282c2f;
+    opacity: 0;
+    transform: translateX(-40vw) translateY(-50%);
+    transition: transform 150ms ease-in-out, opacity 250ms ease-in-out;
+    z-index: 5;
+    box-shadow: 0 0 10px hsl(var(--hsl-b5));
+    border-radius: 0 24px 24px 0;
+    border: 4px solid hsl(var(--hsl-l1));
+    border-left: 0;
+}
+
+div.settings-area[data-setting=true] {
+    opacity: 1;
+    transform: translateX(0) translateY(-50%);
+}
+
+ul.settings {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+}
+
+ul.settings li.settings-option {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em;
+}
+
+ul.settings li.settings-option:last-child { 
+    margin-bottom: 0;
+}
+
+ul.settings li.settings-option strong {
+    color: hsl(var(--hsl-l1));
+    font-size: 18px;
+}
+
+ul.settings li.settings-option ul {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    font-size: 16px;
+}
+
+ul.settings li.settings-option ul li {
+    padding: 0.1em 0.5em;
+    cursor: pointer;
+}
+
+ul.settings li.settings-option ul li p {
+    color: hsl(var(--hsl-white-5));
+    transition: color 200ms ease-in-out;
+    margin: 0;
+}
+
+ul.settings li.settings-option ul li:hover p {
+    color: hsl(var(--hsl-l1));
+}
+
+ul.settings li.settings-option ul li p[data-active=true] {
+    color: white;
+}
+
+ul.settings li.settings-option ul li {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+ul.settings li.settings-option ul li i {
+    color: white;
+    transition: transform 500ms ease-in-out;
+    margin-left: 0.25em;
+}
+
+ul.settings li.settings-option ul li i[data-asc=true] {
+    transform: rotate(-180deg);
+}
+
+ul.settings li.settings-option div.two-side {
+    display: flex;
+    flex-direction: row;
+    height: 60px;
+}
+
+ul.settings li.settings-option div.two-side > div {
+    width: 45%;
+}
+
+ul.settings li.settings-option div.two-side > div:not(:last-child) {
+    margin-right: 2em;
+}

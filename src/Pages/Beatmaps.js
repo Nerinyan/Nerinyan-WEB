@@ -1,12 +1,13 @@
 import React, { useEffect, Fragment } from "react"
 import { useSearchParams } from "react-router-dom"
-import { Navbar, Footer, Devbar, Searchbar, Beatmap, GeneralMixins, MusicPlayer } from "../Components"
+import { Navbar, Footer, Devbar, Searchbar, Beatmap, GeneralMixins, MusicPlayer, Settings } from "../Components"
 import { getGlobalState, useGlobalState, setGlobalState } from '../store'
 import { message, notification } from 'antd' 
 
 import '../assets/css/components/beatmap.css'
 
 function Beatmaps({ dev }) {
+    const [settingTab] = useGlobalState("settingTab")
     const [apiResult] = useGlobalState("apiResult")
     const [noResult] = useGlobalState("noResult")
     const [loading] = useGlobalState("loading")
@@ -62,7 +63,7 @@ function Beatmaps({ dev }) {
 
     const portalCloseEventController = () => {
         document.body.addEventListener("click" , (e) => {
-            if (!document.querySelector("#portal").contains(e.target)) {
+            if (!document.querySelector("#portal").contains(e.target) || !document.getElementsByClassName("ant-dropdown").contains(e.target)) {
                 if (document.getElementById("beatmap-portal"))
                     document.getElementById("beatmap-portal").style.animation = "close forwards 200ms"
                 
@@ -70,6 +71,9 @@ function Beatmaps({ dev }) {
                 setTimeout(() => {
                     setGlobalState('currentExpandedID', 0)
                 }, 200)
+            }
+            if (!document.querySelector("#settings-area").contains(e.target)) {
+                setGlobalState("settingTab", false)
             }
         })
     }
@@ -112,6 +116,15 @@ function Beatmaps({ dev }) {
                         renderBeatmaps
                     }
                 </ul>
+                <div className="settings-button" onClick={(e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    if (!settingTab) {
+                        setGlobalState("settingTab", true)
+                    }
+                }}>
+                    <i className="fa-duotone fa-gear"></i>
+                </div>
                 <p href="#top" className="backToTop" onClick={(e) => {
                     e.stopPropagation()
                     e.preventDefault()
@@ -119,6 +132,7 @@ function Beatmaps({ dev }) {
                 }}>
                     <i className="fa-solid fa-circle-arrow-up"></i>
                 </p>
+                <Settings />
                 <MusicPlayer />
             </div>
             <Footer />
