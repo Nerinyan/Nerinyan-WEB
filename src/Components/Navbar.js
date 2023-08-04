@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next"
 import '../assets/css/components/navbar.css'
 
 function Navbar() {
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
 
     return (
         <Fragment>
@@ -32,6 +32,23 @@ function Navbar() {
                             <a href="https://api.nerinyan.moe">
                                 {t("navbar_documents")}
                             </a>
+                        </li>
+                        {/* change language test code */}
+                        <li onClick={(e) => {
+                            e.stopPropagation()
+                            e.preventDefault()
+                            
+                            i18n.changeLanguage("en")
+                        }}>
+                            EN
+                        </li>
+                        <li onClick={(e) => {
+                            e.stopPropagation()
+                            e.preventDefault()
+                            
+                            i18n.changeLanguage("de")
+                        }}>
+                            DE
                         </li>
                     </ul>
                 </div>
