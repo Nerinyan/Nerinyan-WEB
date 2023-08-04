@@ -1,39 +1,43 @@
 import React, { Fragment } from "react"
 import { Link } from "react-router-dom"
 
+import { useTranslation } from "react-i18next"
+
 import '../assets/css/components/footer.css'
 
 function Footer() {
+    const { t } = useTranslation()
+    
     return (
         <Fragment>
             <footer>
                 <span>
-                    NeriNyan powered 2021 ~ 2023 | not affiliated with ppy, osu!
+                    {t("footer_nerinyan_powered")}
                 </span>
                 <ul>
                     <li>
                         <a href="mailto:admin@nerinyan.moe">
-                            DMCA
+                            {t("footer_dmca")}
                         </a>
                     </li>
                     <li>
                         <a href="https://api.nerinyan.moe">
-                            Document
+                            {t("footer_documents")}
                         </a>
                     </li>
                     <li>
                         <a href="https://github.com/Nerinyan">
-                            Github
+                            {t("footer_github")}
                         </a>
                     </li>
                     <li>
                         <a href="https://discord.gg/StNbVPT7y7">
-                            Discord
+                            {t("footer_discord")}
                         </a>
                     </li>
                     <li>
                         <Link to="/info">
-                            Info/status
+                            {t("footer_info/status")}
                         </Link>
                     </li>
                 </ul>

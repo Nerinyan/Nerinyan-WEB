@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from "react"
 import { Tooltip, Progress } from 'antd'
+import { useTranslation } from "react-i18next"
 import { ReactComponent as TotalLength } from '../assets/images/total_length.svg'
 import { ReactComponent as SliderCount } from '../assets/images/count_sliders.svg'
 import { ReactComponent as CircleCount } from '../assets/images/count_circles.svg'
@@ -9,6 +10,8 @@ import { GeneralMixins } from '../Components'
 import '../assets/css/components/beatmap.css'
 
 function Version({ mode, ver, isCollapse }) {
+    const { t } = useTranslation()
+
     var iconWidth, iconHeight = '20px'
     const [InfoCollapse, setInfoCollapse] = useState(true)
 
@@ -31,22 +34,22 @@ function Version({ mode, ver, isCollapse }) {
                         <span>{ver.version}</span>
                     </div>
                     <ul className="beatmap-version-tooltip-info-middle">
-                        <Tooltip placement="top" title={"Total length"}>
+                        <Tooltip placement="top" title={t("total_length")}>
                             <li>
                                 <TotalLength width={iconWidth} height={iconHeight}/><span>{GeneralMixins.secondsToTime(ver.total_length)}</span>
                             </li>
                         </Tooltip>
-                        <Tooltip placement="top" title={"BPM"}>
+                        <Tooltip placement="top" title={t("bpm")}>
                             <li>
                                 <BPM width={iconWidth} height={iconHeight}/><span>{parseFloat(ver.bpm)}</span>
                             </li>
                         </Tooltip>
-                        <Tooltip placement="top" title={"Circle count"}>
+                        <Tooltip placement="top" title={t("circle_count")}>
                             <li>
                                 <CircleCount width={iconWidth} height={iconHeight}/><span>{GeneralMixins.addCommas(ver.count_circles)}</span>
                             </li>
                         </Tooltip>
-                        <Tooltip placement="top" title={"Slider count"}>
+                        <Tooltip placement="top" title={t("slider_count")}>
                             <li>
                                 <SliderCount width={iconWidth} height={iconHeight}/><span>{GeneralMixins.addCommas(ver.count_sliders)}</span>
                             </li>
@@ -54,16 +57,16 @@ function Version({ mode, ver, isCollapse }) {
                     </ul>
                     <ul className="beatmap-version-tooltip-info-end">
                         <li>
-                            <span>Circle Size</span> <Progress format={format} percent={convertPercent(ver.cs)} type={"dashboard"} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(ver.difficulty_rating)} strokeWidth={10} />
+                            <span>{t("circle_size")}</span> <Progress format={format} percent={convertPercent(ver.cs)} type={"dashboard"} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(ver.difficulty_rating)} strokeWidth={10} />
                         </li>
                         <li>
-                            <span>HP Drain</span> <Progress format={format} percent={convertPercent(ver.drain)} type={"dashboard"} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(ver.difficulty_rating)} strokeWidth={10} />
+                            <span>{t("hp_drain")}</span> <Progress format={format} percent={convertPercent(ver.drain)} type={"dashboard"} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(ver.difficulty_rating)} strokeWidth={10} />
                         </li>
                         <li>
-                            <span>Accuracy</span> <Progress format={format} percent={convertPercent(ver.accuracy)} type={"dashboard"} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(ver.difficulty_rating)} strokeWidth={10} />
+                            <span>{t("accuracy")}</span> <Progress format={format} percent={convertPercent(ver.accuracy)} type={"dashboard"} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(ver.difficulty_rating)} strokeWidth={10} />
                         </li>
                         <li>
-                            <span>Approach Rate</span> <Progress format={format} percent={convertPercent(ver.ar)} type={"dashboard"} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(ver.difficulty_rating)} strokeWidth={10} />
+                            <span>{t("approach_rate")}</span> <Progress format={format} percent={convertPercent(ver.ar)} type={"dashboard"} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(ver.difficulty_rating)} strokeWidth={10} />
                         </li>
                     </ul>
                 </div>

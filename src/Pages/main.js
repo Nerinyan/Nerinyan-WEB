@@ -1,9 +1,11 @@
 import React, { Fragment, useState, useEffect } from "react"
 import { getGlobalState, useGlobalState } from '../store'
 import { GeneralMixins, Navbar, Footer } from "../Components"
+import { useTranslation } from "react-i18next"
 import axios from "axios"
 
 function MainPage() {
+    const { t } = useTranslation()
     const [Info, setInfo] = useState({})
 
     const [tmp, setTmp] = useState(0)

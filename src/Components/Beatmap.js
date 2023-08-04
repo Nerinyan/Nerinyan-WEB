@@ -6,10 +6,13 @@ import LazyLoad from 'react-lazyload'
 import { Tooltip, Switch, Dropdown, Menu, message, Checkbox } from 'antd'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { GeneralMixins, BeatmapPortal, Version } from '../Components'
+import { useTranslation } from "react-i18next"
 
 import '../assets/css/components/beatmap.css'
 
 function Beatmap({ bmap }) {
+    const { t } = useTranslation()
+    
     const [isCopied, setIsCopied] = useState(false)
     const [versionsSTD, setVersionsSTD] = useState([])
     const [versionsTAIKO, setVersionsTAIKO] = useState([])
@@ -222,7 +225,7 @@ function Beatmap({ bmap }) {
           items={[
             {
                 label: (
-                    <Tooltip placement="top" title={"Append This beatmap to Download list"}>
+                    <Tooltip placement="top" title={t("append_this_beatmap_to_download_list")}>
                         <Switch checked={zipAppend} onChange={(e) => {
                             if (e) {
                                 var paramList = []
@@ -261,24 +264,24 @@ function Beatmap({ bmap }) {
                                 <li className="card-header-status">
                                     {bmap.video && 
                                         <div className="ranked-status VIDEO">
-                                            <Tooltip placement="top" title={"This beatmap contains video."}>
+                                            <Tooltip placement="top" title={t("this_beatmap_contains_video")}>
                                                 <i className="fa-solid fa-video"></i>
                                             </Tooltip>
                                         </div>
                                     }
                                     {bmap.storyboard && 
                                         <div className="ranked-status STORYBOARD">
-                                            <Tooltip placement="top" title={"This beatmap contains storyboard."}>
+                                            <Tooltip placement="top" title={t("this_beatmap_contains_storyboard")}>
                                                 <i className="fa-solid fa-clapperboard"></i>
                                             </Tooltip>
                                         </div>
                                     }
                                     <div className={"ranked-status " + GeneralMixins.convertRankedStatusToText(bmap.ranked)}>
-                                        {GeneralMixins.convertRankedStatusToText(bmap.ranked)}
+                                        {t(GeneralMixins.convertRankedStatusToText(bmap.ranked).toLowerCase()).toUpperCase()}
                                     </div>
                                     {bmap.nsfw &&
                                         <div className={"NSFW"}>
-                                            EXPLICIT
+                                            {t("explict")}
                                         </div>
                                     }
                                 </li>
@@ -300,23 +303,23 @@ function Beatmap({ bmap }) {
                 </LazyLoad>
                 <ul className="card-main">
                     <li className="beatmap-info">
-                        <span>mapped by <Link to={"/main?creator="+bmap.user_id}>{bmap.creator}</Link></span>
+                        <span>{t("mapped_by")} <Link to={"/main?creator="+bmap.user_id}>{bmap.creator}</Link></span>
                         <div className="card-header-info">
                             <div className="card-haeder-stats">
-                                <Tooltip placement="top" title={"Favorites count: " + GeneralMixins.addCommas(bmap.favourite_count)}>
+                                <Tooltip placement="top" title={`${t("favorites_count")}: ${GeneralMixins.addCommas(bmap.favourite_count)}`}>
                                     <i className="fa-solid fa-heart"></i> {GeneralMixins.addCommas(bmap.favourite_count)}
                                 </Tooltip>
-                                <Tooltip placement="top" title={"Play count: " + GeneralMixins.addCommas(bmap.play_count)}>
+                                <Tooltip placement="top" title={`${t("play_count")}: ${GeneralMixins.addCommas(bmap.play_count)}`}>
                                     <i className="fa-solid fa-circle-play"></i> {GeneralMixins.addCommas(bmap.play_count)}
                                 </Tooltip>
-                                <Tooltip placement="top" title={"BPM: " + GeneralMixins.addCommas(parseFloat(bmap.bpm))}>
+                                <Tooltip placement="top" title={`${t("bpm")}: ${GeneralMixins.addCommas(parseFloat(bmap.bpm))}`}>
                                     <i className="fa-solid fa-music-note"></i> {GeneralMixins.addCommas(parseFloat(bmap.bpm))}
                                 </Tooltip>
                             </div>
                         </div>
                     </li>
                     <li className="beatmap-buttons">
-                        <Tooltip placement="top" title={"Copy download url"}>
+                        <Tooltip placement="top" title={t("copy_download_url")}>
                             <CopyToClipboard text={`https://api.nerinyan.moe/d/${bmap.id}`} onCopy={() => clipboardHandler()}>
                                 <button>
                                     <i className={isCopied ? "download-url-copied fa-solid fa-badge-check" : "fa-solid fa-copy"}></i>
@@ -324,9 +327,9 @@ function Beatmap({ bmap }) {
                             </CopyToClipboard>
                         </Tooltip>
                         <Dropdown.Button  placement="bottom" onClick={(e) => {downloadHandler(e)}} overlay={menu} onOpenChange={handleOpenChange} open={dropdownOpen}>
-                            <i className="fa-solid fa-arrow-down-to-bracket"></i> Download
+                            <i className="fa-solid fa-arrow-down-to-bracket"></i> {t("download")}
                         </Dropdown.Button>
-                        <Tooltip placement="top" title={"Download beatmap background image"}>
+                        <Tooltip placement="top" title={t("download_beatmap_background_image")}>
                             <button onClick={(e) => {
                                 e.stopPropagation()
                                 e.preventDefault()
@@ -336,10 +339,10 @@ function Beatmap({ bmap }) {
                                 )
                             }}>
                                 <i className="fa-solid fa-image"></i>
-                                <p>BG</p>
+                                <p>{t("bg")}</p>
                             </button>
                         </Tooltip>
-                        <Tooltip placement="top" title={"Go to osu! beatmap page"}>
+                        <Tooltip placement="top" title={t("go_to_osu_beatmap_page")}>
                             <button onClick={(e) => {
                                 e.stopPropagation()
                                 e.preventDefault()
@@ -354,7 +357,7 @@ function Beatmap({ bmap }) {
                     </li>
                     <li className="beatmap-list">
                         <div>
-                            <Tooltip placement="top" title={getGlobalState('currentExpandedID') === bmap.id ? 'Hide Beatmap Info' : 'Show Beatmap Info'}>
+                            <Tooltip placement="top" title={getGlobalState('currentExpandedID') === bmap.id ? t("hide_beatmap_info") : t("show_beatmap_info")}>
                                 <button className={"beatmap-list-btn " + (getGlobalState('currentExpandedID') === bmap.id ? 'collapse' : 'expand')} onClick={(e) => {changeCollapse(e)}}>
                                     <i className="fad fa-caret-square-down"></i>
                                 </button>

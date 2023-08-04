@@ -3,10 +3,12 @@ import { useSearchParams } from "react-router-dom"
 import { Navbar, Footer, Devbar, Searchbar, Beatmap, GeneralMixins, MusicPlayer, Settings } from "../Components"
 import { getGlobalState, useGlobalState, setGlobalState } from '../store'
 import { message, notification } from 'antd' 
+import { useTranslation } from "react-i18next"
 
 import '../assets/css/components/beatmap.css'
 
 function Beatmaps({ dev }) {
+    const { t } = useTranslation()
     const [settingTab] = useGlobalState("settingTab")
     const [apiResult] = useGlobalState("apiResult")
     const [noResult] = useGlobalState("noResult")
@@ -107,8 +109,8 @@ function Beatmaps({ dev }) {
                     {noResult &&
                         <li className="notfound">
                             <p>
-                                Oops... <br/>
-                                Search results do not exist :(
+                                {t("oops")} <br/>
+                                {t("search_results_do_not_exist")}
                             </p>
                         </li>
                     }

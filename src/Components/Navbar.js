@@ -1,9 +1,13 @@
 import React, { Fragment } from "react"
 import { Link } from "react-router-dom"
 
+import { useTranslation } from "react-i18next"
+
 import '../assets/css/components/navbar.css'
 
 function Navbar() {
+    const { t } = useTranslation()
+
     return (
         <Fragment>
             <nav>
@@ -16,17 +20,17 @@ function Navbar() {
                     <ul>
                         <li>
                             <Link to="/main">
-                                Browse
+                                {t("navbar_beatmaps")}
                             </Link>
                         </li>
                         <li>
                             <Link to="/mappack">
-                                Beatmap Packs
+                                {t("navbar_beatmap_pack")}
                             </Link>
                         </li>
                         <li>
                             <a href="https://api.nerinyan.moe">
-                                Document
+                                {t("navbar_documents")}
                             </a>
                         </li>
                     </ul>

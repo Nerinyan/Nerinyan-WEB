@@ -1,10 +1,8 @@
 /* eslint-disable array-callback-return */
+import React from 'react'
 import { scaleLinear, interpolateRgb } from 'd3'
 import { setGlobalState, getGlobalState } from '../store'
 import axios from "axios"
-import JSZip from "jszip"
-import { saveAs } from "file-saver"
-import { message, Button, Modal } from 'antd'
 
 var Data = []
 
@@ -443,9 +441,15 @@ export async function getApiData(append=true) {
                 }
             // eslint-disable-next-line no-loop-func
             ).then(function (response) {
+
                 if (Data.length < 1) {
-                    setGlobalState("apiResult", response.data)
-                    Data = response.data
+                    if (response.data.length <= 0) {
+                        console.log("no")
+                        setGlobalState("noResult", true)
+                    } else {
+                        setGlobalState("apiResult", response.data)
+                        Data = response.data
+                    }
                 } else {
                     for (var bmp in response.data) {
                         if (response.data[bmp].beatmaps.length > 0)
@@ -539,83 +543,4 @@ export async function getInfo(){
     })
     setGlobalState("Info", tmp)
     return tmp
-}
-
-export async function zipDownloadHandler(event) {
-    let ec = 0
-    const zip = new JSZip()
-    
-    const download = async (item) => {
-        let tmp = await fetch(item.url)
-            .then((response) => {
-                const NOT_ALLOWED_FILE_NAME = /([\\/:*?"<>|])/gi
-                const FILE_NAME = item.name.replace(NOT_ALLOWED_FILE_NAME, '_')
-
-                console.log('FileName: ', FILE_NAME)
-                
-                zip.file(FILE_NAME, response.blob())
-            })
-        return tmp
-    }
-    
-    const downloadAll = () => {
-        var tmp = new Date()
-        const ZIPNAME = `${tmp.getFullYear()}${tmp.getMonth() + 1}${tmp.getDate()} ${tmp.getHours()}:${tmp.getMinutes()}:${tmp.getSeconds()}_${getGlobalState("zipList").length}`
-        const arrOfFiles = getGlobalState("zipList").map(download)
-        Promise.all(arrOfFiles)
-            .then(() => {
-                zip.generateAsync({ type: "blob" }).then(function (blob) {
-                    saveAs(blob, `${ZIPNAME}.zip`)
-                })
-                
-                if (ec <= 0) {
-                    let secondsToGo = 5
-                    const info = Modal.info({
-                        title: 'Zip System Announcement',
-                        content: (
-                            <div>
-                                <p>The beatmaps to be compressed have been downloaded.</p>
-                                <p>Compression is in progress, please be patient!</p>
-                                <br></br>
-                                <br></br>
-                                <br></br>
-                                <p>This message will be closed after {secondsToGo} second</p>
-                            </div>
-                        ),
-                        onOk() {},
-                    })
-                    
-                    const timer = setInterval(() => {
-                        secondsToGo -= 1;
-                        if (secondsToGo > 0) 
-                            info.update({
-                                content: (
-                                    <div>
-                                        <p>The beatmaps to be compressed have been downloaded.</p>
-                                        <p>Compression is in progress, please be patient!</p>
-                                        <br></br>
-                                        <br></br>
-                                        <br></br>
-                                        <p>This message will be closed after {secondsToGo} second</p>
-                                    </div>
-                                ),
-                            })
-                    }, 1000)
-
-                    setTimeout(() => {
-                        clearInterval(timer)
-                        info.destroy()
-                    }, secondsToGo * 1000)
-
-                    info()
-                }
-            })
-            .catch((err) => {
-                // message.warning(`Error!\n Please send this error log to our discord server ->\n ${err}`)
-                ec++
-            })
-    }
-
-    downloadAll()
-    setGlobalState("zipList", [])
 }

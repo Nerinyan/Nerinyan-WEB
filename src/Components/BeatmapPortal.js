@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import { GeneralMixins } from '../Components'
 import { setGlobalState, useGlobalState } from '../store'
+import { useTranslation } from "react-i18next"
 import Odometer from 'react-odometerjs'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { Tooltip, Progress, Switch, Dropdown, Menu, message } from 'antd'
@@ -17,6 +18,8 @@ import '../assets/css/components/beatmap_portal.css'
 import '../assets/css/odometer.css'
 
 function BeatmapPortal({ bmap }) {
+    const { t } = useTranslation()
+
     let iconWidth, iconHeight = '30px'
 
     const IconList = ["faa fa-extra-mode-osu", "faa fa-extra-mode-taiko", "faa fa-extra-mode-furits", "faa fa-extra-mode-mania"]
@@ -209,19 +212,19 @@ function BeatmapPortal({ bmap }) {
                                 <div>
                                     {bmap.video && 
                                         <div className="ranked-status VIDEO">
-                                            <Tooltip placement="top" title={"This beatmap contains video."}>
+                                            <Tooltip placement="top" title={t("this_beatmap_contains_video")}>
                                                 <i className="fa-solid fa-video"></i>
                                             </Tooltip>
                                         </div>
                                     }
                                     {bmap.storyboard && 
                                         <div className="ranked-status STORYBOARD">
-                                            <Tooltip placement="top" title={"This beatmap contains storyboard."}>
+                                            <Tooltip placement="top" title={t("this_beatmap_contains_storyboard")}>
                                                 <i className="fa-solid fa-clapperboard"></i>
                                             </Tooltip>
                                         </div>
                                     }
-                                    <span className='ranked-status'>{bmap.status.toUpperCase()}</span>
+                                    <span className='ranked-status'>{t(bmap.status.toLowerCase())}</span>
                                 </div>
                             </div>
                             <div className='portal-info'>
@@ -230,7 +233,7 @@ function BeatmapPortal({ bmap }) {
                                         {currentVersion.version}
                                         {
                                             isHover &&
-                                            <span className='portal-version-sr'>Star Rating {currentVersion.difficulty_rating?.toFixed(2)}</span>
+                                            <span className='portal-version-sr'>{t("star_rating")} {currentVersion.difficulty_rating?.toFixed(2)}</span>
                                         }
                                     </span>
                                     <span className='portal-title'>{bmap.title}</span>
@@ -238,12 +241,12 @@ function BeatmapPortal({ bmap }) {
                                     <div className='portal-creator'>
                                         <div className='creator-image' style={{"--bg": "center / cover no-repeat url(https://a.ppy.sh/"+bmap.user_id+"?1681738744" }}></div>
                                         <div className='creator-info'>
-                                            <span>mapped by <a href={`https://osu.ppy.sh/users/${bmap.user_id}`}>{bmap.creator}</a></span>
-                                            <span>submitted <strong>{GeneralMixins.DateFormat(bmap.submitted_date)}</strong></span>
+                                            <span>{t("mapped_by")} <a href={`https://osu.ppy.sh/users/${bmap.user_id}`}>{bmap.creator}</a></span>
+                                            <span>{t("submitted")} <strong>{GeneralMixins.DateFormat(bmap.submitted_date)}</strong></span>
                                             {
                                                 bmap.ranked === 1 &&
                                                 <Fragment>
-                                                    <span>ranked <strong>{GeneralMixins.timeSince((new Date(`${bmap.ranked_date}`)).getTime() / 1000)}</strong></span>
+                                                    <span>{t("ranked").toLowerCase()} <strong>{GeneralMixins.timeSince((new Date(`${bmap.ranked_date}`)).getTime() / 1000)}</strong></span>
                                                 </Fragment>
                                             }
                                         </div>
@@ -251,25 +254,25 @@ function BeatmapPortal({ bmap }) {
                                 </div>
                                 <div className='portal-info-right'>
                                     <ul className='portal-info-top'>
-                                        <Tooltip placement="top" title={"Total length"}>
+                                        <Tooltip placement="top" title={t("total_length")}>
                                             <li>
                                                 <TotalLength width={iconWidth} height={iconHeight}/>
                                                 <Odometer format='(:dd)' duration={Number(200)} value={GeneralMixins.secondsToTimeForOdometer(currentVersion.total_length)} />
                                             </li>
                                         </Tooltip>
-                                        <Tooltip placement="top" title={"BPM"}>
+                                        <Tooltip placement="top" title={t("bpm")}>
                                             <li>
                                                 <BPM width={iconWidth} height={iconHeight}/>
                                                 <Odometer duration={Number(200)} value={parseFloat(currentVersion.bpm)} />
                                             </li>
                                         </Tooltip>
-                                        <Tooltip placement="top" title={"Circle count"}>
+                                        <Tooltip placement="top" title={t("circle_count")}>
                                             <li>
                                                 <CircleCount width={iconWidth} height={iconHeight}/>
                                                 <Odometer duration={Number(200)} value={GeneralMixins.addCommas(currentVersion.count_circles)} />
                                             </li>
                                         </Tooltip>
-                                        <Tooltip placement="top" title={"Slider count"}>
+                                        <Tooltip placement="top" title={t("slider_count")}>
                                             <li>
                                                 <SliderCount width={iconWidth} height={iconHeight}/>
                                                 <Odometer duration={Number(200)} value={GeneralMixins.addCommas(currentVersion.count_sliders)} />
@@ -280,27 +283,27 @@ function BeatmapPortal({ bmap }) {
                                         {
                                             currentVersion.mode_int !== 1 &&
                                             <li>
-                                                <span>{currentVersion.mode_int === 3 ? 'Key Count' : 'Circle Size'}</span> <Progress format={format} percent={convertPercent(currentVersion.cs)} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(currentVersion.difficulty_rating)} strokeWidth={8} />
+                                                <span>{currentVersion.mode_int === 3 ? t("key_count") : t("circle_size")}</span> <Progress format={format} percent={convertPercent(currentVersion.cs)} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(currentVersion.difficulty_rating)} strokeWidth={8} />
                                             </li>
                                         }
                                         <li>
-                                            <span>HP Drain</span> <Progress format={format} percent={convertPercent(currentVersion.drain)} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(currentVersion.difficulty_rating)} strokeWidth={8} />
+                                            <span>{t("hp_drain")}</span> <Progress format={format} percent={convertPercent(currentVersion.drain)} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(currentVersion.difficulty_rating)} strokeWidth={8} />
                                         </li>
                                         <li>
-                                            <span>Accuracy</span> <Progress format={format} percent={convertPercent(currentVersion.accuracy)} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(currentVersion.difficulty_rating)} strokeWidth={8} />
+                                            <span>{t("accuracy")}</span> <Progress format={format} percent={convertPercent(currentVersion.accuracy)} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(currentVersion.difficulty_rating)} strokeWidth={8} />
                                         </li>
                                         {
                                             (currentVersion.mode_int !== 1 && currentVersion.mode_int !== 3) &&
                                             <li>
-                                                <span>Approach Rate</span> <Progress format={format} percent={convertPercent(currentVersion.ar)} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(currentVersion.difficulty_rating)} strokeWidth={8} />
+                                                <span>{t("approach_rate")}</span> <Progress format={format} percent={convertPercent(currentVersion.ar)} gapDegree={90} width={90} strokeColor={GeneralMixins.getDiffColor(currentVersion.difficulty_rating)} strokeWidth={8} />
                                             </li>
                                         }
                                         <li>
-                                            <span>Star Rating</span> <Progress format={format} percent={convertPercent(currentVersion.difficulty_rating?.toFixed(2))} gapDegree={90} width={90} strokeColor={"hsl(var(--hsl-darkorange-1))"} strokeWidth={8} />
+                                            <span>{t("star_rating")}</span> <Progress format={format} percent={convertPercent(currentVersion.difficulty_rating?.toFixed(2))} gapDegree={90} width={90} strokeColor={"hsl(var(--hsl-darkorange-1))"} strokeWidth={8} />
                                         </li>
                                     </ul>
                                     <div className='portal-info-bottom'>
-                                        <span>Success Rate ({GeneralMixins.calcSuccessRate(currentVersion.passcount, currentVersion.playcount)}%)</span>
+                                        <span>{t("success_rate")} ({GeneralMixins.calcSuccessRate(currentVersion.passcount, currentVersion.playcount)}%)</span>
                                         <Progress showInfo={false} percent={GeneralMixins.calcSuccessRate(currentVersion.passcount, currentVersion.playcount)} gapDegree={90} width={90} strokeColor={"hsl(var(--hsl-l4))"} strokeWidth={10} />
                                     </div>
                                 </div>
@@ -312,14 +315,14 @@ function BeatmapPortal({ bmap }) {
                                     {
                                         bmap.source !== "" &&
                                         <li>
-                                            <span>Source</span>
+                                            <span>{t("source")}</span>
                                             <p>{bmap.source}</p>
                                         </li>
                                     }
                                     {
                                         bmap.tags !== "" &&
                                         <li>
-                                            <span>Tags</span>
+                                            <span>{t("tags")}</span>
                                             {generateTagsElement()}
                                         </li>   
                                     }
@@ -330,7 +333,7 @@ function BeatmapPortal({ bmap }) {
                                             <CopyToClipboard text={`https://api.nerinyan.moe/d/${bmap.id}`} onCopy={() => clipboardHandler()}>
                                                 <button className='portal-btn' >
                                                     <i className={isCopied ? "download-url-copied fa-solid fa-badge-check" : "fa-solid fa-copy"}></i>
-                                                    <p>Copy DL URL</p>
+                                                    <p>{t("copy_download_url")}</p>
                                                 </button>
                                             </CopyToClipboard>
                                         </Tooltip>
@@ -339,12 +342,12 @@ function BeatmapPortal({ bmap }) {
                                         <Tooltip placement="top" title={"Download beatmap"}>
                                             <button className='portal-btn' onClick={(e) => {downloadHandler(e)}}>
                                                 <i className="fa-solid fa-arrow-down-to-bracket"></i>
-                                                <p>Download</p>
+                                                <p>{t("download")}</p>
                                             </button>
                                         </Tooltip>
                                     </li>
                                     <li className='portal-button-single'>
-                                        <Tooltip placement="top" title={"Download beatmap background image"}>
+                                        <Tooltip placement="top" title={t("download_beatmap_background_image")}>
                                             <button className='portal-btn' onClick={(e) => {
                                                 e.stopPropagation()
                                                 e.preventDefault()
@@ -354,14 +357,14 @@ function BeatmapPortal({ bmap }) {
                                                 )
                                             }}>
                                                 <i className="fa-solid fa-image"></i>
-                                                <p>Download BG</p>
+                                                <p>{t("download_bg")}</p>
                                             </button>
                                         </Tooltip>
                                     </li>
                                 </ul>
                                 <ul className='portal-buttons'>
                                     <li className='portal-button-single'>
-                                        <Tooltip placement="top" title={"Go to osu! beatmap page"}>
+                                        <Tooltip placement="top" title={t("go_to_osu_beatmap_page")}>
                                             <button className='portal-btn' onClick={(e) => {
                                                 e.stopPropagation()
                                                 e.preventDefault()
@@ -371,12 +374,12 @@ function BeatmapPortal({ bmap }) {
                                                 )
                                             }}>
                                                 <i className="fa-solid fa-arrow-up-right-from-square"></i>
-                                                <p>Beatmap page</p>
+                                                <p>{t("beatmap_page")}</p>
                                             </button>
                                         </Tooltip>
                                     </li>
                                     <li className='portal-button-single'>
-                                        <Tooltip placement="top" title={currentVersion.mode_int !== 2 ? "Go to beatmap preview site" : "osu!catch not supported beatmap preview."}>
+                                        <Tooltip placement="top" title={currentVersion.mode_int !== 2 ? t("go_to_beatmap_preview_site") : t("catch_not_supported_beatmap_preview")}>
                                             <button className={currentVersion.mode_int !== 2 ? 'portal-btn' : 'portal-btn disabled'} onClick={(e) => {
                                                 e.stopPropagation()
                                                 e.preventDefault()
@@ -388,7 +391,7 @@ function BeatmapPortal({ bmap }) {
                                                     )
                                             }}>
                                                 <i className="fa-solid fa-eye"></i>
-                                                <p>Preview</p>
+                                                <p>{t("preview")}</p>
                                             </button>
                                         </Tooltip>
                                     </li>

@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { getGlobalState, setGlobalState, useGlobalState } from '../store'
-import { Input, Slider, message } from 'antd'
+import { Input, Slider, message, Button, Modal } from 'antd'
+import { useTranslation } from "react-i18next"
 import { GeneralMixins } from "."
+
+import JSZip from "jszip"
+import { saveAs } from "file-saver"
 
 import '../assets/css/components/settings.css'
 
@@ -10,6 +14,8 @@ import '../assets/css/components/settings.css'
 var delay = null
 
 function Settings() {
+    const { t } = useTranslation()
+    
     const { Search } = Input
 
     const [settingTab] = useGlobalState("settingTab")
@@ -231,14 +237,14 @@ function Settings() {
 
         setTmp(new Date().getMilliseconds())
     }
-
+    
     function zipDownloadHandler(e, selectedOnly=true) {
         e.stopPropagation()
         e.preventDefault()
         if (zipList.length === 0 && selectedOnly) {
-            return message.warning("Not Seleceted to download")
+            return message.warning(t("not_selected_to_download"))
         }
-        message.info("Please wait to download ...", 10)
+        message.info(t("please_wait_to_download"), 10)
         if (!selectedOnly) {
             var paramList = []
             if (globalNoVideo) paramList.push(true)
@@ -259,7 +265,65 @@ function Settings() {
             })
             setGlobalState("zipList", tmp)
         }
-        GeneralMixins.zipDownloadHandler()
+
+        let ec = 0
+        const zip = new JSZip()
+        
+        const download = async (item) => {
+            let tmp = await fetch(item.url)
+                .then((response) => {
+                    const NOT_ALLOWED_FILE_NAME = /([\\/:*?"<>|])/gi
+                    const FILE_NAME = item.name.replace(NOT_ALLOWED_FILE_NAME, '_')
+    
+                    console.log('FileName: ', FILE_NAME)
+                    
+                    zip.file(FILE_NAME, response.blob())
+                })
+            return tmp
+        }
+        
+        const downloadAll = () => {
+            var tmp = new Date()
+            const ZIPNAME = `${tmp.getFullYear()}${tmp.getMonth() + 1}${tmp.getDate()} ${tmp.getHours()}:${tmp.getMinutes()}:${tmp.getSeconds()}_${getGlobalState("zipList").length}`
+            const arrOfFiles = getGlobalState("zipList").map(download)
+            Promise.all(arrOfFiles)
+                .then(() => {
+                    zip.generateAsync({ type: "blob" }).then(function (blob) {
+                        saveAs(blob, `${ZIPNAME}.zip`)
+                    })
+                    
+                    if (ec <= 0) {
+                        let secondsToGo = 5
+                        const info = Modal.info({
+                            title: t("zip_system_announcement"),
+                            content: (
+                                <div>
+                                    <p>{t("zip_system_announcement_message1")}</p>
+                                    <p>{t("zip_system_announcement_message2")}</p>
+                                    <br></br>
+                                    <br></br>
+                                    <br></br>
+                                    <p>{t("zip_system_announcement_message3").replace("{}", `${secondsToGo}`)}</p>
+                                </div>
+                            ),
+                            onOk() {},
+                        })
+    
+                        setTimeout(() => {
+                            info.destroy()
+                        }, secondsToGo * 1000)
+    
+                        info()
+                    }
+                })
+                .catch((err) => {
+                    // message.warning(`Error!\n Please send this error log to our discord server ->\n ${err}`)
+                    ec++
+                })
+        }
+    
+        downloadAll()
+        setGlobalState("zipList", [])
     }
 
     function requestNewBeatmapData(append=true) {
@@ -279,117 +343,110 @@ function Settings() {
 
     return (
         <div id="settings-area" className="settings-area" data-setting={settingTab}>
-            {/* <div className="close-button" onClick={(e) => {
-                e.stopPropagation()
-                e.preventDefault()
-                setGlobalState("settingTab", false)
-            }}>
-                <i className="fa-solid fa-xmark"></i>
-            </div> */}
             <ul className="settings">
                 <li className="settings-option">
-                    <Search className={"settings-searchbar-input"} onSearch={searchHandler} onChange={searchbarChangeHandler} size="large" enterButton="Search" placeholder="Search...." allowClear="true" value={apiJson.query}/>
+                    <Search className={"settings-searchbar-input"} onSearch={searchHandler} onChange={searchbarChangeHandler} size="large" enterButton={t("search")} placeholder={t("search_placeholder")} allowClear="true" value={apiJson.query}/>
                 </li>
                 <li className="settings-option">
-                    <strong>Mode</strong>
+                    <strong>{t("mode")}</strong>
                     <ul>
                         <li onClick={(e) => optionHandler(e, 'm', '')}>
-                            <p data-active={apiJson.m === '' ? true : false}>Any</p>
+                            <p data-active={apiJson.m === '' ? true : false}>{t("mode_any")}</p>
                         </li>
                         <li onClick={(e) => optionHandler(e, 'm', '0')}>
-                            <p data-active={apiJson.m === '0' ? true : false}>osu!</p>
+                            <p data-active={apiJson.m === '0' ? true : false}>{t("mode_osu")}</p>
                         </li>
                         <li onClick={(e) => optionHandler(e, 'm', '1')}>
-                            <p data-active={apiJson.m === '1' ? true : false}>osu!taiko</p>
+                            <p data-active={apiJson.m === '1' ? true : false}>{t("mode_taiko")}</p>
                         </li>
                         <li onClick={(e) => optionHandler(e, 'm', '2')}>
-                            <p data-active={apiJson.m === '2' ? true : false}>osu!catch</p>
+                            <p data-active={apiJson.m === '2' ? true : false}>{t("mode_catch")}</p>
                         </li>
                         <li onClick={(e) => optionHandler(e, 'm', '3')}>
-                            <p data-active={apiJson.m === '3' ? true : false}>osu!mania</p>
+                            <p data-active={apiJson.m === '3' ? true : false}>{t("mode_mania")}</p>
                         </li>
                     </ul>
                 </li>
                 <li className="settings-option">
-                    <strong>Categories</strong>
+                    <strong>{t("categories")}</strong>
                     <ul>
                         <li onClick={(e) => optionHandler(e, 'ranked', 'any')}>
-                            <p data-active={(apiJson.ranked === 'all') ? true : false}>Any</p>
+                            <p data-active={(apiJson.ranked === 'all') ? true : false}>{t("categories_any")}</p>
                         </li>
                         <li onClick={(e) => optionHandler(e, 'ranked', '')}>
-                            <p data-active={(apiJson.ranked === '' || apiJson.ranked === '') ? true : false}>Has Leaderboard</p>
+                            <p data-active={(apiJson.ranked === '' || apiJson.ranked === '') ? true : false}>{t("categories_has_leaderboard")}</p>
                         </li>
                         <li onClick={(e) => optionHandler(e, 'ranked', 'ranked')}>
-                            <p data-active={apiJson.ranked.includes('ranked') ? true : false}>Ranked</p>
+                            <p data-active={apiJson.ranked.includes('ranked') ? true : false}>{t("categories_ranked")}</p>
                         </li>
                         <li onClick={(e) => optionHandler(e, 'ranked', 'qualified')}>
-                            <p data-active={apiJson.ranked.includes('qualified') ? true : false}>Qualified</p>
+                            <p data-active={apiJson.ranked.includes('qualified') ? true : false}>{t("categories_qualified")}</p>
                         </li>
                         <li onClick={(e) => optionHandler(e, 'ranked', 'loved')}>
-                            <p data-active={apiJson.ranked.includes('loved') ? true : false}>Loved</p>
+                            <p data-active={apiJson.ranked.includes('loved') ? true : false}>{t("categories_loved")}</p>
                         </li>
                         <li onClick={(e) => optionHandler(e, 'ranked', 'pending')}>
-                            <p data-active={apiJson.ranked.includes('pending') ? true : false}>Pending</p>
+                            <p data-active={apiJson.ranked.includes('pending') ? true : false}>{t("categories_pending")}</p>
                         </li>
                         <li onClick={(e) => optionHandler(e, 'ranked', 'wip')}>
-                            <p data-active={apiJson.ranked.includes('wip') ? true : false}>Wip</p>
+                            <p data-active={apiJson.ranked.includes('wip') ? true : false}>{t("categories_wip")}</p>
                         </li>
                         <li onClick={(e) => optionHandler(e, 'ranked', 'graveyard')}>
-                            <p data-active={apiJson.ranked.includes('graveyard') ? true : false}>Graveyard</p>
+                            <p data-active={apiJson.ranked.includes('graveyard') ? true : false}>{t("categories_graveyard")}</p>
                         </li>
                     </ul>
                 </li>
                 <li className="settings-option">
-                    <strong>Explicit Content</strong>
+                    <strong>{t("explicit_content")}</strong>
                     <ul>
                         <li onClick={(e) => optionHandler(e, 'nsfw', false)}>
-                            <p data-active={(apiJson.nsfw === false || apiJson.nsfw === null) ? true : false}>Hide</p>
+                            <p data-active={(apiJson.nsfw === false || apiJson.nsfw === null) ? true : false}>{t("explicit_content_hide")}</p>
                         </li>
                         <li onClick={(e) => optionHandler(e, 'nsfw', true)}>
-                            <p data-active={apiJson.nsfw === true ? true : false}>Show</p>
+                            <p data-active={apiJson.nsfw === true ? true : false}>{t("explicit_content_show")}</p>
                         </li>
                     </ul>
                 </li>
                 <li className="settings-option">
-                    <strong>Extra</strong>
+                    <strong>{t("extra")}</strong>
                     <ul>
                         <li onClick={(e) => optionHandlerForExtra(e, 'video')}>
-                            <p data-active={(apiJson.extra === 'storyboard.video' || apiJson.extra === 'video') ? true : false}>Has Video</p>
+                            <p data-active={(apiJson.extra === 'storyboard.video' || apiJson.extra === 'video') ? true : false}>{t("extra_has_video")}</p>
                         </li>
                         <li onClick={(e) => optionHandlerForExtra(e, 'storyboard')}>
-                            <p data-active={apiJson.extra === 'storyboard.video' || apiJson.extra === 'storyboard' ? true : false}>Has Storyboard</p>
+                            <p data-active={apiJson.extra === 'storyboard.video' || apiJson.extra === 'storyboard' ? true : false}>{t("extra_has_storyboard")}</p>
                         </li>
                     </ul>
                 </li>
                 <li className="settings-option">
-                    <strong>Sort by</strong>
+                    <strong>{t("sort_by")}</strong>
                     <ul>
                         <li onClick={(e) => optionHandlerForSortBy(e, 'title')}>
-                            <p data-active={apiJson.sort.includes('title') ? true : false}>Title</p>
+                            <p data-active={apiJson.sort.includes('title') ? true : false}>{t("sort_by_title")}</p>
                             <i data-asc={apiJson.sort.includes('title') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down" style={{display: (apiJson.sort.includes('title') ? '' : 'none')}}></i>
                         </li>
                         <li onClick={(e) => optionHandlerForSortBy(e, 'artist')}>
-                            <p data-active={apiJson.sort.includes('artist') ? true : false}>Artist</p>
+                            <p data-active={apiJson.sort.includes('artist') ? true : false}>{t("sort_by_artist")}</p>
                             <i data-asc={apiJson.sort.includes('artist') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down" style={{display: (apiJson.sort.includes('artist') ? '' : 'none')}}></i>
                         </li>
                         <li onClick={(e) => optionHandlerForSortBy(e, 'difficulty')}>
-                            <p data-active={apiJson.sort.includes('difficulty') ? true : false}>Difficulty</p>
+                            <p data-active={apiJson.sort.includes('difficulty') ? true : false}>{t("sort_by_difficulty")}</p>
                             <i data-asc={apiJson.sort.includes('difficulty') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down" style={{display: (apiJson.sort.includes('difficulty') ? '' : 'none')}}></i>
                         </li>
                         <li onClick={(e) => optionHandlerForSortBy(e, 'ranked')}>
-                            <p data-active={apiJson.sort.includes('ranked') || apiJson.sort === '' ? true : false}>Ranked</p>
+                            <p data-active={apiJson.sort.includes('ranked') || apiJson.sort === '' ? true : false}>{t("sort_by_ranked")}</p>
                             <i data-asc={apiJson.sort.includes('ranked') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down" style={{display: (apiJson.sort.includes('ranked') ? '' : 'none')}}></i>
                         </li>
                         <li onClick={(e) => optionHandlerForSortBy(e, 'updated')}>
-                            <p data-active={apiJson.sort.includes('updated') ? true : false}>Updated</p>
+                            <p data-active={apiJson.sort.includes('updated') ? true : false}>{t("sort_by_updated")}</p>
                             <i data-asc={apiJson.sort.includes('updated') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down" style={{display: (apiJson.sort.includes('updated') ? '' : 'none')}}></i>
                         </li>
                         <li onClick={(e) => optionHandlerForSortBy(e, 'plays')}>
-                            <p data-active={apiJson.sort.includes('plays') ? true : false}>Plays</p>
+                            <p data-active={apiJson.sort.includes('plays') ? true : false}>{t("sort_by_plays")}</p>
                             <i data-asc={apiJson.sort.includes('plays') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down" style={{display: (apiJson.sort.includes('plays') ? '' : 'none')}}></i>
                         </li>
                         <li onClick={(e) => optionHandlerForSortBy(e, 'favourites')}>
-                            <p data-active={apiJson.sort.includes('favourites') ? true : false}>Favourites</p>
+                            <p data-active={apiJson.sort.includes('favourites') ? true : false}>{t("sort_by_favorites")}</p>
                             <i data-asc={apiJson.sort.includes('favourites') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down" style={{display: (apiJson.sort.includes('favourites') ? '' : 'none')}}></i>
                         </li>
                     </ul>
@@ -397,11 +454,11 @@ function Settings() {
                 <li className="settings-option">
                     <div className="two-side">
                         <div>
-                            <strong>AR</strong>
+                            <strong>{t("filter_ar")}</strong>
                             <Slider range step={0.1} onAfterChange={detailValueHandler} onChange={detailValueHadlerForAR} defaultValue={[0, 10]} max={10}/>
                         </div>
                         <div>
-                            <strong>CS</strong>
+                            <strong>{t("filter_cs")}</strong>
                             <Slider range step={0.1} onAfterChange={detailValueHandler} onChange={detailValueHadlerForCS} defaultValue={[0, 10]} max={10}/>
                         </div>
                     </div>
@@ -409,11 +466,11 @@ function Settings() {
                 <li className="settings-option">
                     <div className="two-side">
                         <div>
-                            <strong>OD</strong>
+                            <strong>{t("filter_od")}</strong>
                             <Slider range step={0.1} onAfterChange={detailValueHandler} onChange={detailValueHadlerForOD} defaultValue={[0, 10]} max={10}/>
                         </div>
                         <div>
-                            <strong>HP</strong>
+                            <strong>{t("filter_hp")}</strong>
                             <Slider range step={0.1} onAfterChange={detailValueHandler} onChange={detailValueHadlerForHP} defaultValue={[0, 10]} max={10}/>
                         </div>
                     </div>
@@ -421,43 +478,43 @@ function Settings() {
                 <li className="settings-option">
                     <div className="two-side">
                         <div>
-                            <strong>BPM</strong>
+                            <strong>{t("filter_bpm")}</strong>
                             <Slider range step={1} onAfterChange={detailValueHandler} onChange={detailValueHadlerForBPM} defaultValue={[0, 500]} max={500}/>
                         </div>
                         <div>
-                            <strong>Star Rating</strong>
+                            <strong>{t("filter_star_rating")}</strong>
                             <Slider range step={0.1} onAfterChange={detailValueHandler} onChange={detailValueHadlerForSR} defaultValue={[0, 11]} max={11}/>
                         </div>
                     </div>
                 </li>
                 <li className="settings-option">
-                    <strong>Download Options</strong>
+                    <strong>{t("download_options")}</strong>
                     <ul>
                         <li onClick={(e) => optionHandlerForDownload(e)}>
-                            <p data-active={globalDirectDownload ? true : false}>Direct Download</p>
+                            <p data-active={globalDirectDownload ? true : false}>{t("download_options_direct_download")}</p>
                         </li>
                         <li onClick={(e) => optionHandlerForDlOptions(e, 'video')}>
-                            <p data-active={globalNoVideo ? true : false}>No Video</p>
+                            <p data-active={globalNoVideo ? true : false}>{t("download_options_no_video")}</p>
                         </li>
                         <li onClick={(e) => optionHandlerForDlOptions(e, 'background')}>
-                            <p data-active={globalNoBg ? true : false}>No Background</p>
+                            <p data-active={globalNoBg ? true : false}>{t("download_options_no_background")}</p>
                         </li>
                         <li onClick={(e) => optionHandlerForDlOptions(e, 'hitsound')}>
-                            <p data-active={globalNoHitsound ? true : false}>No Hitsound</p>
+                            <p data-active={globalNoHitsound ? true : false}>{t("download_options_no_hitsound")}</p>
                         </li>
                         <li onClick={(e) => optionHandlerForDlOptions(e, 'storyboard')}>
-                            <p data-active={globalNoStoryboard ? true : false}>No Storyboard</p>
+                            <p data-active={globalNoStoryboard ? true : false}>{t("download_options_no_storyboard")}</p>
                         </li>
                     </ul>
                 </li>
                 <li className="settings-option">
-                    <strong>Zip Download (Beta)</strong>
+                    <strong>{t("zip_download")}</strong>
                     <ul>
                         <li onClick={(e) => zipDownloadHandler(e)}>
-                            <p>Seleted Download</p>
+                            <p>{t("zip_download_selected_download")}</p>
                         </li>
                         <li onClick={(e) => zipDownloadHandler(e, false)}>
-                            <p>All Download</p>
+                            <p>{t("zip_download_all_download")}</p>
                         </li>
                     </ul>
                 </li>
