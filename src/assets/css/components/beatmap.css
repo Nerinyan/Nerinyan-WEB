@@ -3,16 +3,15 @@ div.settings-button {
     cursor: pointer;
     display: flex;
     position: fixed;
-    left: 20px;
-    top: 50%;
-    padding: 8px;
+    left: 0;
+    top: 15%;
+    padding: 8px 12px;
     font-size: 36px;
     color: hsl(var(--hsl-blue-5));
     background: white;
     border-radius: 1000000000000000000px;
-    margin: 12px;
+    border-radius: 0 100000000px 10000000000px 0;
     z-index: 3;
-    animation: Rotate 5s linear infinite;
     transition: all 200ms ease-in-out;
 }
 
@@ -55,7 +54,7 @@ ul.beatmap-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    margin: 12px auto;
+    margin: 32px auto;
 }
 
 ul.beatmap-list>li {

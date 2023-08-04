@@ -2,4 +2,4 @@
 @font-face { font-family: 'osuFonts'; src: url('../../webfonts/extra.6f1f24ae.woff2') format("woff"); }
 @import url(../reset.css);
 @import url(../antd.min.css);
-@import url(../global.min.css);
+@import url(../global.css);

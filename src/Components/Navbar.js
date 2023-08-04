@@ -9,19 +9,24 @@ function Navbar() {
             <nav>
                 <div>
                     <h1>
-                        <a href="https://nerinyan.moe/main">NeriNyan: osu! Beatmap Mirror</a>
+                        <Link to="/">
+                            NeriNyan: osu! Beatmap Mirror
+                        </Link>
                     </h1>
                     <ul>
                         <li>
-                            <a href="https://api.nerinyan.moe">
-                                <i className="fa-solid fa-book"></i>
-                                Document
-                            </a>
+                            <Link to="/main">
+                                Browse
+                            </Link>
                         </li>
                         <li>
-                            <a href="mailto:admin@nerinyan.moe">
-                                <i className="fa-solid fa-circle-x"></i>
-                                DMCA
+                            <Link to="/mappack">
+                                Beatmap Packs
+                            </Link>
+                        </li>
+                        <li>
+                            <a href="https://api.nerinyan.moe">
+                                Document
                             </a>
                         </li>
                     </ul>

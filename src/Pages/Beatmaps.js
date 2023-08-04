@@ -102,7 +102,7 @@ function Beatmaps({ dev }) {
                     dev &&
                     <Devbar/>
                 }
-                <Searchbar/>
+                {/* <Searchbar/> */}
                 <ul className="beatmap-list">
                     {noResult &&
                         <li className="notfound">
@@ -123,7 +123,7 @@ function Beatmaps({ dev }) {
                         setGlobalState("settingTab", true)
                     }
                 }}>
-                    <i className="fa-duotone fa-gear"></i>
+                    <i className="fa-solid fa-filter"></i>
                 </div>
                 <p href="#top" className="backToTop" onClick={(e) => {
                     e.stopPropagation()

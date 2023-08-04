@@ -12,6 +12,11 @@ function Footer() {
                 </span>
                 <ul>
                     <li>
+                        <a href="mailto:admin@nerinyan.moe">
+                            DMCA
+                        </a>
+                    </li>
+                    <li>
                         <a href="https://api.nerinyan.moe">
                             Document
                         </a>
