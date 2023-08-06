@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 
 import '../assets/css/components/navbar.css'
+import { setCookie } from "./GeneralMixins"
 
 function Navbar() {
     const { t, i18n } = useTranslation()
@@ -38,6 +39,7 @@ function Navbar() {
                             e.stopPropagation()
                             e.preventDefault()
                             
+                            setCookie("language", "en")
                             i18n.changeLanguage("en")
                         }}>
                             EN
@@ -45,7 +47,8 @@ function Navbar() {
                         <li onClick={(e) => {
                             e.stopPropagation()
                             e.preventDefault()
-                            
+
+                            setCookie("language", "de")
                             i18n.changeLanguage("de")
                         }}>
                             DE

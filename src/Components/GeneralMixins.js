@@ -210,6 +210,29 @@ export function secondsToTimeForOdometer(time){
     return ret
 }
 
+export function setCookie(name, value, daysToExpire=99999) {
+    const expirationDate = new Date()
+    expirationDate.setDate(expirationDate.getDate() + daysToExpire)
+  
+    const cookieValue = encodeURIComponent(value) + (daysToExpire ? `; expires=${expirationDate.toUTCString()}` : '')
+  
+    document.cookie = `${name}=${cookieValue}; path=/`
+}
+
+export function getCookie(name) {
+    const cookies = document.cookie.split(';')
+    
+    for (let cookie of cookies) {
+        const [cookieName, cookieValue] = cookie.trim().split('=');
+        
+        if (cookieName === name) {
+            return decodeURIComponent(cookieValue)
+        }
+    }
+    
+    return null
+}
+
 export function calcSuccessRate(pass, play) {
     var result = (pass / play) * 100
     if (isNaN(result)){
@@ -420,7 +443,7 @@ export async function getApiData(append=true) {
         Data = []
     }
   
-    if (Data.length < (apiJson.page * 60)) {
+    if (Data.length < (apiJson.page * 36)) {
         return false
     }
     setGlobalState("loading", true)
@@ -436,7 +459,7 @@ export async function getApiData(append=true) {
                 `${apiURL}/search`, {
                     params: {
                         b64: btoa(JSON.stringify(apiJson)),
-                        ps: 60
+                        ps: 36
                     }
                 }
             // eslint-disable-next-line no-loop-func
