@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import Portal from "../Portal"
 import { getGlobalState, setGlobalState, useGlobalState } from '../store'
 import LazyLoad from 'react-lazyload'
-import { Tooltip, Switch, Dropdown, Menu, message, Checkbox } from 'antd'
+import { Tooltip, Switch, Dropdown, Menu, message, Checkbox, Modal } from 'antd'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { GeneralMixins, BeatmapPortal, Version } from '../Components'
 import { useTranslation } from "react-i18next"
@@ -164,6 +164,35 @@ function Beatmap({ bmap }) {
         e.stopPropagation()
         e.preventDefault()
         
+        if (bmap.nsfw && !GeneralMixins.getCookie("skip_explict_warning")) {
+            var url = ""
+            var urlList = []
+
+            if (!globalDirectDownload) {
+                url = `${document.location.origin}/d/${bmap.id}`
+            } else {
+                url = `https://api.nerinyan.moe/d/${bmap.id}`
+            }
+
+            urlList = []
+
+            if (noVideo || noBg || noHitsound || noStoryboard) url += "?"
+            if (noVideo) urlList.push("noVideo=1")
+            if (noBg) urlList.push("noBg=1")
+            if (noHitsound) urlList.push("noHitsound=1")
+            if (noStoryboard) urlList.push("noStoryboard=1")
+
+            urlList.map(function (param, i) {
+                if (urlList[0] === param) url += `${param}`           
+                else url += `&${param}`           
+            })
+            
+            setGlobalState("downloadURLTmp", url)
+            setGlobalState("explicitWarningHandle", true)
+        } else return downloadbeatmap()
+    }
+
+    function downloadbeatmap() {
         var url = ""
         var urlList = []
 
@@ -281,7 +310,7 @@ function Beatmap({ bmap }) {
                                     </div>
                                     {bmap.nsfw &&
                                         <div className={"NSFW"}>
-                                            {t("explict")}
+                                            {t("explicit")}
                                         </div>
                                     }
                                 </li>

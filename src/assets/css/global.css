@@ -137,6 +137,32 @@ body::-webkit-scrollbar-track {
     --nsfw-color: hsl(var(--hsl-orange-2));
 }
 
+/* Button */
+button.btn {
+    transition: background-color 200ms ease-in-out;
+    background-color: hsl(var(--hsl-b1));
+    color: hsl(var(--hsl-white-1));
+    border: none;
+    border-radius: 10px;
+    padding: 0 1em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+button.btn:hover {
+    background-color: hsl(var(--hsl-b3));
+}
+button.btn > p {
+    margin-bottom: 0;
+}
+button.btn.red {
+    background-color: hsl(var(--hsl-red-1));
+}
+button.btn.red:hover {
+    background-color: hsl(var(--hsl-red-3));
+}
+
 /* Ranked status color */
 .RANKED { background-color: var(--status-ranked-bg); color: var(--status-ranked-color); }
 .LOVED { background-color: var(--status-loved-bg); color: var(--status-loved-color); }
@@ -165,6 +191,9 @@ span.beatmap-version-rating { height: 18px; color: var(--text-color); font-weigh
 .ant-progress-circle .ant-progress-text { color: rgba(255,255,255,.85) !important; }
 .ant-progress-circle-trail { stroke: hsl(var(--hsl-b4)) !important; }
 .download-url-copied { animation: copy-anime 750ms; transition: transform 200ms cubic-bezier(0.85, 0.1, 0.22, 1.07); }
+
+/* Modal */
+.ant-modal-footer { border: none; }
 
 /* Alert */
 /* .ant-message { height: 100vh !important; } */

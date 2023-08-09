@@ -507,6 +507,16 @@ export async function getApiData(append=true) {
     }
 }
 
+export function downloadBeatmap() {
+    const url = getGlobalState("downloadURLTmp")
+    
+    if (!getGlobalState("downloadDirect")) {
+        window.open(url, '_blank')
+    } else {
+        window.open(url)
+    }
+}
+
 export function generateDownloadURL(bid, noList=[]){
     // console.log(nobg, nohitsound)
     var params = ['noVideo', 'noBg', 'noHitsound', 'noStoryboard']

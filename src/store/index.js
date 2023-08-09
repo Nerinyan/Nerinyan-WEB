@@ -4,6 +4,8 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
     firstLoad: true,
     loading: true,
     settingTab: false,
+    explicitWarningHandle: false,
+    downloadURLTmp: "",
     apiErrorCount: 0,
     noResult: false,
     notification: {},

@@ -2,7 +2,7 @@ import React, { useEffect, Fragment } from "react"
 import { useSearchParams } from "react-router-dom"
 import { Navbar, Footer, Devbar, Searchbar, Beatmap, GeneralMixins, MusicPlayer, Settings } from "../Components"
 import { getGlobalState, useGlobalState, setGlobalState } from '../store'
-import { message, notification } from 'antd' 
+import { message, notification, Modal } from 'antd' 
 import { useTranslation } from "react-i18next"
 
 import '../assets/css/components/beatmap.css'
@@ -13,6 +13,8 @@ function Beatmaps({ dev }) {
     const [apiResult] = useGlobalState("apiResult")
     const [noResult] = useGlobalState("noResult")
     const [loading] = useGlobalState("loading")
+    const [explicitWarningHandle] = useGlobalState("explicitWarningHandle")
+    const [downloadURLTemp] = useGlobalState("downloadURLTmp")
     const [searchParams] = useSearchParams()
     const AlertKey = 'alertMsg'
 
@@ -100,11 +102,57 @@ function Beatmaps({ dev }) {
         <Fragment>
             <Navbar />
             <div className="container">
+                {/* Change API URL For dev */}
                 {
                     dev &&
                     <Devbar/>
                 }
-                {/* <Searchbar/> */}
+
+                {/* Explicit Warning Modal */}
+                <Modal
+                    open={explicitWarningHandle}
+                    centered={true}
+                    closable={false}
+                    title=""
+                    footer={
+                        [
+                            <div className="explicit-warning-footer">
+                                <button className="btn explicit-warning-button blue" onClick={(e) => {
+                                    e.stopPropagation()
+                                    e.preventDefault()
+                                    setGlobalState("explicitWarningHandle", false)
+                                    return GeneralMixins.downloadBeatmap()
+                                }}>
+                                    <p>{t("explicit_warning_button_download")}</p>
+                                </button>
+                                <button className="btn explicit-warning-button blue" onClick={(e) => {
+                                    e.stopPropagation()
+                                    e.preventDefault()
+                                    setGlobalState("explicitWarningHandle", false)
+                                    GeneralMixins.setCookie("skip_explict_warning", true)
+                                    return GeneralMixins.downloadBeatmap()
+                                }}>
+                                    <p>{t("explicit_warning_button_disable_warning")}</p>
+                                </button>
+                                <button className="btn explicit-warning-button red cancel" onClick={(e) => {
+                                    setGlobalState("explicitWarningHandle", false)
+                                    return
+                                }}>
+                                    <p>{t("explicit_warning_button_cancel")}</p>
+                                </button>
+                            </div>
+                        ]
+                    }
+                >
+                    <div className="explicit-warning">
+                        <i className="fa-solid fa-triangle-exclamation"></i>
+                        <strong>{t("explicit_warning_title")}</strong>
+                        <p>{t("explicit_warning_content1")}</p>
+                        <p>{t("explicit_warning_content2")}</p>
+                    </div>
+                </Modal>
+
+                {/* Beatmap List */}
                 <ul className="beatmap-list">
                     {noResult &&
                         <li className="notfound">
@@ -118,6 +166,8 @@ function Beatmaps({ dev }) {
                         renderBeatmaps
                     }
                 </ul>
+
+                {/* filter */}
                 <div className="settings-button" onClick={(e) => {
                     e.stopPropagation()
                     e.preventDefault()
@@ -127,6 +177,8 @@ function Beatmaps({ dev }) {
                 }}>
                     <i className="fa-solid fa-filter"></i>
                 </div>
+
+                {/* Back to top */}
                 <p href="#top" className="backToTop" onClick={(e) => {
                     e.stopPropagation()
                     e.preventDefault()

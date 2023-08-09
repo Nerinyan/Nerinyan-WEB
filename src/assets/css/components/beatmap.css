@@ -1,3 +1,41 @@
+/* Explicit Warning */
+div.explicit-warning {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    padding: 12px;
+}
+
+.explicit-warning-footer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1em;
+}
+
+.explicit-warning-footer > button {
+    height: 32px;
+}
+
+.explicit-warning-footer > button:not(:last-child) {
+    margin-right: 1em;
+}
+
+div.explicit-warning i {
+    font-size: 48px;
+    margin-bottom: 0.5em;
+}
+
+div.explicit-warning strong {
+    font-size: 24px;
+    margin-bottom: 0.5em;
+}
+
+div.explicit-warning p {
+    margin-bottom: 0.25em;
+}
+
+
 /* Settings Button */
 div.settings-button {
     cursor: pointer;

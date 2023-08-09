@@ -53,6 +53,15 @@ function Navbar() {
                         }}>
                             DE
                         </li>
+                        <li onClick={(e) => {
+                            e.stopPropagation()
+                            e.preventDefault()
+
+                            setCookie("language", "ko")
+                            i18n.changeLanguage("ko")
+                        }}>
+                            KO
+                        </li>
                     </ul>
                 </div>
             </nav>
