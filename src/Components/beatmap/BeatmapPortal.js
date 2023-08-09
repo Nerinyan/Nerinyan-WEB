@@ -2,20 +2,20 @@ import React from 'react'
 import { Fragment } from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
-import { GeneralMixins } from '../Components'
-import { setGlobalState, useGlobalState } from '../store'
+import { GeneralMixins } from '..'
+import { setGlobalState, useGlobalState } from '../../store'
 import { useTranslation } from "react-i18next"
 import Odometer from 'react-odometerjs'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { Tooltip, Progress, Switch, Dropdown, Menu, message } from 'antd'
 
-import { ReactComponent as TotalLength } from '../assets/images/total_length.svg'
-import { ReactComponent as SliderCount } from '../assets/images/count_sliders.svg'
-import { ReactComponent as CircleCount } from '../assets/images/count_circles.svg'
-import { ReactComponent as BPM } from '../assets/images/bpm.svg'
+import { ReactComponent as TotalLength } from '../../assets/images/total_length.svg'
+import { ReactComponent as SliderCount } from '../../assets/images/count_sliders.svg'
+import { ReactComponent as CircleCount } from '../../assets/images/count_circles.svg'
+import { ReactComponent as BPM } from '../../assets/images/bpm.svg'
 
-import '../assets/css/components/beatmap_portal.css'
-import '../assets/css/odometer.css'
+import '../../assets/css/components/beatmap_portal.css'
+import '../../assets/css/odometer.css'
 
 function BeatmapPortal({ bmap }) {
     const { t } = useTranslation()
@@ -43,7 +43,7 @@ function BeatmapPortal({ bmap }) {
     const [versionsMANIA, setVersionsMANIA] = useState([])
     const VersionList = [versionsSTD, versionsTAIKO, versionsCTB, versionsMANIA]
     const [currentVersion, setCurrentVersion] = useState(bmap.beatmaps[0])
-
+    
     const [noVideo, setNoVideo] = useState(globalNoVideo)
     const [noBg, setNoBg] = useState(globalNoBg)
     const [noHitsound, setNoHitsound] = useState(globalNoHitsound)
@@ -145,14 +145,23 @@ function BeatmapPortal({ bmap }) {
     }
 
     function generateTagsElement() {
+        var count = 0
         var result = []
+        var tag_list = []
+
+        bmap.tags.split(" ").map((tag, index) => {
+            if (count < 20) {
+                tag_list.push(
+                    <li key={index} className='tag'>
+                        <p>{count === 19 ? `${tag} ...` : tag}</p>
+                    </li>
+                )
+                count++
+            }
+        })
         result.push(
             <ul key={"tags"} className='tags'>
-                {bmap.tags.split(" ").map((tag, index) => (
-                    <li key={index} className='tag'>
-                        <p>{tag}</p>
-                    </li>
-                ))}
+                {tag_list}
             </ul>
         )
         return result

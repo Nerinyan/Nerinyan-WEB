@@ -237,9 +237,19 @@ span.beatmap-version-rating { height: 18px; color: var(--text-color); font-weigh
 .ant-modal-content { background-color: hsl(var(--hsl-b2)) !important; border-radius: 12px !important; }
 .ant-modal-confirm-body .ant-modal-confirm-title, .ant-modal-confirm-body .ant-modal-confirm-content { color: rgb(255 255 255 / 85%) !important; }
 
+/* Menu */
+.ant-menu { background-color: hsl(var(--hsl-b5)); }
+.ant-menu-inline { border-right: none; color: white; }
+.ant-menu-sub.ant-menu-inline { background-color: hsl(var(--hsl-b4)); }
+.ant-menu-submenu-selected { color: white; }
+.ant-menu-light .ant-menu-item-active, .ant-menu-light .ant-menu-item:hover, .ant-menu-light .ant-menu-submenu-active, .ant-menu-light .ant-menu-submenu-title:hover, .ant-menu-light .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open { color: hsl(var(--hsl-blue-3)); }
+.ant-menu-item:active, .ant-menu-submenu-title:active { background-color: transparent; }
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected { background-color: hsl(var(--hsl-b2)); }
+.ant-menu-item-active { background-color: hsl(var(--hsl-b2)); }
+
 /* Resposive Web Css */
 nav > div { width: 90vw; }
-div.container { margin: 0 auto; max-width: 90vw; padding: 0 0 var(--footer-height) 0; }
+div.container { margin: 0 auto; padding: 0 0 var(--footer-height) 0; background-color: hsl(var(--hsl-b6)); }
 @media (max-width: 60000px) {
     /* nav div.expand { visibility: visible !important; } */
     /* nav div.collapsed { visibility: hidden !important; display: none !important; } */

@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment } from "react"
 import { useSearchParams } from "react-router-dom"
-import { Navbar, Footer, Devbar, Searchbar, Beatmap, GeneralMixins, MusicPlayer, Settings } from "../Components"
+import { Navbar, Footer, Devbar, Searchbar, Beatmap, NewBeatmap, GeneralMixins, MusicPlayer, Filter } from "../Components"
 import { getGlobalState, useGlobalState, setGlobalState } from '../store'
 import { message, notification, Modal } from 'antd' 
 import { useTranslation } from "react-i18next"
@@ -9,7 +9,7 @@ import '../assets/css/components/beatmap.css'
 
 function Beatmaps({ dev }) {
     const { t } = useTranslation()
-    const [settingTab] = useGlobalState("settingTab")
+    const [filterTab] = useGlobalState("filterTab")
     const [apiResult] = useGlobalState("apiResult")
     const [noResult] = useGlobalState("noResult")
     const [loading] = useGlobalState("loading")
@@ -24,6 +24,13 @@ function Beatmaps({ dev }) {
         if (documentData.scrollTop + documentData.clientHeight + (documentData.clientHeight*2) >= documentData.scrollHeight && !getGlobalState('loading') && !getGlobalState('firstLoad')) {
             // BeatmapListCreator(true)
             GeneralMixins.getApiData()
+        }
+        if (documentData.scrollTop >= 70) {
+            document.getElementById("filter-area").style.top = 0;
+            document.getElementById("filter-area").style.height = "calc(100vh - var(--footer-height))";
+        } else {
+            document.getElementById("filter-area").style.top = "70px";
+            document.getElementById("filter-area").style.height = "calc(100vh - 70px - var(--footer-height))";
         }
     }
 
@@ -60,7 +67,7 @@ function Beatmaps({ dev }) {
     let renderBeatmaps = []
     apiResult.forEach((bmap, index) => {
         if (bmap.beatmaps.length > 0)
-            renderBeatmaps.push(<li key={index}><Beatmap bmap={bmap}/></li>)
+            renderBeatmaps.push(<li key={index}><NewBeatmap bmap={bmap}/></li>)
         else
             console.log(`Null Beatmaps Detected. -> ${bmap.id} ${bmap.artist} - ${bmap.title} Mapped by ${bmap.creator}`)
     })
@@ -76,8 +83,8 @@ function Beatmaps({ dev }) {
                     setGlobalState('currentExpandedID', 0)
                 }, 200)
             }
-            if (!document.querySelector("#settings-area").contains(e.target)) {
-                setGlobalState("settingTab", false)
+            if (!document.querySelector("#filter-area").contains(e.target)) {
+                setGlobalState("filterTab", false)
             }
         })
     }
@@ -152,30 +159,39 @@ function Beatmaps({ dev }) {
                     </div>
                 </Modal>
 
-                {/* Beatmap List */}
-                <ul className="beatmap-list">
-                    {noResult &&
-                        <li className="notfound">
-                            <p>
-                                {t("oops")} <br/>
-                                {t("search_results_do_not_exist")}
-                            </p>
-                        </li>
-                    }
-                    {!noResult &&
-                        renderBeatmaps
-                    }
-                </ul>
+                <div className="two-side">
+                    <div className="left">
+                        {/* filter */}
+                        {/* <div className="filter-button" onClick={(e) => {
+                            e.stopPropagation()
+                            e.preventDefault()
+                            if (!filterTab) {
+                                setGlobalState("filterTab", true)
+                                console.log('열려라 참꺠')
+                            }
+                        }}>
+                            <i className="fa-solid fa-filter"></i>
+                        </div> */}
+                        
+                        <Filter />
+                    </div>
 
-                {/* filter */}
-                <div className="settings-button" onClick={(e) => {
-                    e.stopPropagation()
-                    e.preventDefault()
-                    if (!settingTab) {
-                        setGlobalState("settingTab", true)
-                    }
-                }}>
-                    <i className="fa-solid fa-filter"></i>
+                    <div className="right">
+                        {/* Beatmap List */}
+                        <ul className="beatmap-list">
+                            {noResult &&
+                                <li className="notfound">
+                                    <p>
+                                        {t("oops")} <br/>
+                                        {t("search_results_do_not_exist")}
+                                    </p>
+                                </li>
+                            }
+                            {!noResult &&
+                                renderBeatmaps
+                            }
+                        </ul>
+                    </div>
                 </div>
 
                 {/* Back to top */}
@@ -186,7 +202,6 @@ function Beatmaps({ dev }) {
                 }}>
                     <i className="fa-solid fa-circle-arrow-up"></i>
                 </p>
-                <Settings />
                 <MusicPlayer />
             </div>
             <Footer />

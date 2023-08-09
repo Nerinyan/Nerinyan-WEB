@@ -3,7 +3,7 @@ import { createGlobalState } from "react-hooks-global-state"
 const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
     firstLoad: true,
     loading: true,
-    settingTab: false,
+    filterTab: false,
     explicitWarningHandle: false,
     downloadURLTmp: "",
     apiErrorCount: 0,

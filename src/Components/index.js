@@ -1,12 +1,13 @@
 import * as GeneralMixins from './GeneralMixins'
 import Navbar from './Navbar'
 import Footer from './Footer'
-import BeatmapPortal from './BeatmapPortal'
 import Devbar from './Devbar'
 import Searchbar from './Searchbar'
-import Beatmap from './Beatmap'
+import BeatmapPortal from './beatmap/BeatmapPortal'
+import NewBeatmap from './beatmap/NewBeatmap'
+import Beatmap from './beatmap/Beatmap'
 import Version from './Version'
 import MusicPlayer from './MusicPlayer'
-import Settings from './Settings'
+import Filter from './Filter'
 
-export { GeneralMixins, Navbar, Footer, BeatmapPortal, Devbar, Searchbar, Beatmap, Version, MusicPlayer, Settings }
+export { GeneralMixins, Navbar, Footer, BeatmapPortal, Devbar, Searchbar, Beatmap, NewBeatmap, Version, MusicPlayer, Filter }

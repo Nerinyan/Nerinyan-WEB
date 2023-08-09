@@ -346,7 +346,7 @@
     border: none;
     border-radius: 16px;
     transition: background-color 200ms ease-in-out;
-    width: 165px;
+    min-width: 165px;
     box-shadow: 0 0 5px hsl(var(--hsl-b5));
 }
 

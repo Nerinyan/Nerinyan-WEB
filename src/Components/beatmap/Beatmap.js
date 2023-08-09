@@ -1,14 +1,14 @@
 import React, { Fragment, useState, useEffect } from "react"
 import { Link } from "react-router-dom"
-import Portal from "../Portal"
-import { getGlobalState, setGlobalState, useGlobalState } from '../store'
+import Portal from "../../Portal"
+import { getGlobalState, setGlobalState, useGlobalState } from '../../store'
 import LazyLoad from 'react-lazyload'
 import { Tooltip, Switch, Dropdown, Menu, message, Checkbox, Modal } from 'antd'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { GeneralMixins, BeatmapPortal, Version } from '../Components'
+import { GeneralMixins, BeatmapPortal, Version } from '..'
 import { useTranslation } from "react-i18next"
 
-import '../assets/css/components/beatmap.css'
+import '../../assets/css/components/beatmap.css'
 
 function Beatmap({ bmap }) {
     const { t } = useTranslation()
@@ -274,7 +274,7 @@ function Beatmap({ bmap }) {
                                 return setZipAppend(false)
                             }
                         }} />
-                        Append Download list
+                        {t("append_this_beatmap_to_download_list")}
                     </Tooltip>
                 ),
                 key: '1',
@@ -286,7 +286,7 @@ function Beatmap({ bmap }) {
     return (
         <Fragment>
             <div id={bmap.id} className="beatmap-single" data-isExpand={currentExpandedID === bmap.id ? true : false} data-isplaying={musicPlayerIsPlaying && musicPlayerBeatmap.id === bmap.id ? true : false}>
-                <LazyLoad height={136} offset={300} style={{background: "url(" + require('../assets/images/beatmaps-default.png') + ")"}}>
+                <LazyLoad height={136} offset={300} style={{background: "url(" + require('../../assets/images/beatmaps-default.png') + ")"}}>
                     <div className="card-header" style={{ "--bg": "center / cover no-repeat url(https://assets.ppy.sh/beatmaps/"+bmap.id+"/covers/cover.jpg?1622784772" }}>
                         <div className="card-header-beatmapinfo">
                             <ul>

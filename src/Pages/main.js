@@ -78,7 +78,7 @@ function MainPage() {
                     <ul className="storage-info">
                         <li className="beamapsets">
                             <strong>
-                                count
+                                {GeneralMixins.addCommas(Info.beatmapSetCount)}
                             </strong>
                             <p>BeatmapSets</p>
                         </li>
@@ -87,6 +87,12 @@ function MainPage() {
                             {Info.fileSize} ({GeneralMixins.addCommas(Info.fileCount)} files)
                             </strong>
                             <p>BeatmapSets</p>
+                        </li>
+                        <li className="crawler">
+                            <strong>
+                            {GeneralMixins.addCommas(Info.runningGoroutineCount)}
+                            </strong>
+                            <p>Working Crawler</p>
                         </li>
                     </ul>
                 </div>
