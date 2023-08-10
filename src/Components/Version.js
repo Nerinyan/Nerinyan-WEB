@@ -26,7 +26,7 @@ function Version({ mode, ver, isCollapse }) {
 
     return (
         <Fragment>
-            <Tooltip overlayClassName={"version-tooltip"} placement="top" title={
+            <Tooltip arrow={false} overlayClassName={"version-tooltip"} placement="top" title={
                 <div className="beatmap-version-tooltip-single">
                     <div className="beatmap-version-tooltip-info-header">
                         {GeneralMixins.modeToicon(ver.mode_int)}
@@ -34,22 +34,22 @@ function Version({ mode, ver, isCollapse }) {
                         <span>{ver.version}</span>
                     </div>
                     <ul className="beatmap-version-tooltip-info-middle">
-                        <Tooltip placement="top" title={t("total_length")}>
+                        <Tooltip arrow={false} placement="top" title={t("total_length")}>
                             <li>
                                 <TotalLength width={iconWidth} height={iconHeight}/><span>{GeneralMixins.secondsToTime(ver.total_length)}</span>
                             </li>
                         </Tooltip>
-                        <Tooltip placement="top" title={t("bpm")}>
+                        <Tooltip arrow={false} placement="top" title={t("bpm")}>
                             <li>
                                 <BPM width={iconWidth} height={iconHeight}/><span>{parseFloat(ver.bpm)}</span>
                             </li>
                         </Tooltip>
-                        <Tooltip placement="top" title={t("circle_count")}>
+                        <Tooltip arrow={false} placement="top" title={t("circle_count")}>
                             <li>
                                 <CircleCount width={iconWidth} height={iconHeight}/><span>{GeneralMixins.addCommas(ver.count_circles)}</span>
                             </li>
                         </Tooltip>
-                        <Tooltip placement="top" title={t("slider_count")}>
+                        <Tooltip arrow={false} placement="top" title={t("slider_count")}>
                             <li>
                                 <SliderCount width={iconWidth} height={iconHeight}/><span>{GeneralMixins.addCommas(ver.count_sliders)}</span>
                             </li>

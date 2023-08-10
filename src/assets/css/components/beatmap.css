@@ -33,6 +33,8 @@ div.explicit-warning strong {
 
 div.explicit-warning p {
     margin-bottom: 0.25em;
+    text-align: center;
+    text-wrap: balance;
 }
 
 

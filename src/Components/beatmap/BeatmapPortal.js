@@ -221,14 +221,14 @@ function BeatmapPortal({ bmap }) {
                                 <div>
                                     {bmap.video && 
                                         <div className="ranked-status VIDEO">
-                                            <Tooltip placement="top" title={t("this_beatmap_contains_video")}>
+                                            <Tooltip arrow={false} placement="top" title={t("this_beatmap_contains_video")}>
                                                 <i className="fa-solid fa-video"></i>
                                             </Tooltip>
                                         </div>
                                     }
                                     {bmap.storyboard && 
                                         <div className="ranked-status STORYBOARD">
-                                            <Tooltip placement="top" title={t("this_beatmap_contains_storyboard")}>
+                                            <Tooltip arrow={false} placement="top" title={t("this_beatmap_contains_storyboard")}>
                                                 <i className="fa-solid fa-clapperboard"></i>
                                             </Tooltip>
                                         </div>
@@ -263,25 +263,25 @@ function BeatmapPortal({ bmap }) {
                                 </div>
                                 <div className='portal-info-right'>
                                     <ul className='portal-info-top'>
-                                        <Tooltip placement="top" title={t("total_length")}>
+                                        <Tooltip arrow={false} placement="top" title={t("total_length")}>
                                             <li>
                                                 <TotalLength width={iconWidth} height={iconHeight}/>
                                                 <Odometer format='(:dd)' duration={Number(200)} value={GeneralMixins.secondsToTimeForOdometer(currentVersion.total_length)} />
                                             </li>
                                         </Tooltip>
-                                        <Tooltip placement="top" title={t("bpm")}>
+                                        <Tooltip arrow={false} placement="top" title={t("bpm")}>
                                             <li>
                                                 <BPM width={iconWidth} height={iconHeight}/>
                                                 <Odometer duration={Number(200)} value={parseFloat(currentVersion.bpm)} />
                                             </li>
                                         </Tooltip>
-                                        <Tooltip placement="top" title={t("circle_count")}>
+                                        <Tooltip arrow={false} placement="top" title={t("circle_count")}>
                                             <li>
                                                 <CircleCount width={iconWidth} height={iconHeight}/>
                                                 <Odometer duration={Number(200)} value={GeneralMixins.addCommas(currentVersion.count_circles)} />
                                             </li>
                                         </Tooltip>
-                                        <Tooltip placement="top" title={t("slider_count")}>
+                                        <Tooltip arrow={false} placement="top" title={t("slider_count")}>
                                             <li>
                                                 <SliderCount width={iconWidth} height={iconHeight}/>
                                                 <Odometer duration={Number(200)} value={GeneralMixins.addCommas(currentVersion.count_sliders)} />
@@ -338,7 +338,7 @@ function BeatmapPortal({ bmap }) {
                                 </ul>
                                 <ul className='portal-buttons'>
                                     <li className="portal-button-single">
-                                        <Tooltip placement="top" title={"Copy download url"}>
+                                        <Tooltip arrow={false} placement="top" title={"Copy download url"}>
                                             <CopyToClipboard text={`https://api.nerinyan.moe/d/${bmap.id}`} onCopy={() => clipboardHandler()}>
                                                 <button className='portal-btn' >
                                                     <i className={isCopied ? "download-url-copied fa-solid fa-badge-check" : "fa-solid fa-copy"}></i>
@@ -348,7 +348,7 @@ function BeatmapPortal({ bmap }) {
                                         </Tooltip>
                                     </li>
                                     <li className='portal-button-single'>
-                                        <Tooltip placement="top" title={"Download beatmap"}>
+                                        <Tooltip arrow={false} placement="top" title={"Download beatmap"}>
                                             <button className='portal-btn' onClick={(e) => {downloadHandler(e)}}>
                                                 <i className="fa-solid fa-arrow-down-to-bracket"></i>
                                                 <p>{t("download")}</p>
@@ -356,7 +356,7 @@ function BeatmapPortal({ bmap }) {
                                         </Tooltip>
                                     </li>
                                     <li className='portal-button-single'>
-                                        <Tooltip placement="top" title={t("download_beatmap_background_image")}>
+                                        <Tooltip arrow={false} placement="top" title={t("download_beatmap_background_image")}>
                                             <button className='portal-btn' onClick={(e) => {
                                                 e.stopPropagation()
                                                 e.preventDefault()
@@ -373,7 +373,7 @@ function BeatmapPortal({ bmap }) {
                                 </ul>
                                 <ul className='portal-buttons'>
                                     <li className='portal-button-single'>
-                                        <Tooltip placement="top" title={t("go_to_osu_beatmap_page")}>
+                                        <Tooltip arrow={false} placement="top" title={t("go_to_osu_beatmap_page")}>
                                             <button className='portal-btn' onClick={(e) => {
                                                 e.stopPropagation()
                                                 e.preventDefault()
@@ -388,7 +388,7 @@ function BeatmapPortal({ bmap }) {
                                         </Tooltip>
                                     </li>
                                     <li className='portal-button-single'>
-                                        <Tooltip placement="top" title={currentVersion.mode_int !== 2 ? t("go_to_beatmap_preview_site") : t("catch_not_supported_beatmap_preview")}>
+                                        <Tooltip arrow={false} placement="top" title={currentVersion.mode_int !== 2 ? t("go_to_beatmap_preview_site") : t("catch_not_supported_beatmap_preview")}>
                                             <button className={currentVersion.mode_int !== 2 ? 'portal-btn' : 'portal-btn disabled'} onClick={(e) => {
                                                 e.stopPropagation()
                                                 e.preventDefault()

@@ -120,7 +120,7 @@ function Filter() {
                     tmp.push(`${value}-${valueTmp}`)
                 }
             } else {
-                if (globalDirectDownload) tmp.push(`download-direct_download`)
+                if (globalDirectDownload) tmp.push(`download-direct`)
                 if (globalNoVideo) tmp.push(`download-novideo`)
                 if (globalNoBg) tmp.push(`download-nobg`)
                 if (globalNoHitsound) tmp.push(`download-nohitsound`)
@@ -323,7 +323,16 @@ function Filter() {
         event.stopPropagation()
         event.preventDefault()
 
+        var selectedTmp = selectedFilters
+
         setGlobalState("downloadDirect", !globalDirectDownload)
+
+        if (!selectedTmp.includes("download-direct")) {
+            selectedTmp.push(`download-direct`)
+            setSelectedFilters(selectedTmp)
+        } else {
+            selectedTmp.splice(selectedTmp.indexOf("download-direct"), 1)
+        }
 
         setTmp(new Date().getMilliseconds())
     }
@@ -331,18 +340,49 @@ function Filter() {
     function optionHandlerForDlOptions(event, target) {
         event.stopPropagation()
         event.preventDefault()
+
+        var selectedTmp = selectedFilters
+
         switch (target) {
             case "video":
                 setGlobalState("globalNoVideo", !globalNoVideo)
+
+                if (!selectedTmp.includes("download-novideo")) {
+                    selectedTmp.push(`download-novideo`)
+                    setSelectedFilters(selectedTmp)
+                } else {
+                    selectedTmp.splice(selectedTmp.indexOf("download-novideo"), 1)
+                }
                 break
             case "background":
                 setGlobalState("globalNoBg", !globalNoBg)
+
+                if (!selectedTmp.includes("download-nobg")) {
+                    selectedTmp.push(`download-nobg`)
+                    setSelectedFilters(selectedTmp)
+                } else {
+                    selectedTmp.splice(selectedTmp.indexOf("download-nobg"), 1)
+                }
                 break
             case "hitsound":
                 setGlobalState("globalNoHitsound", !globalNoHitsound)
+
+                if (!selectedTmp.includes("download-nohitsound")) {
+                    selectedTmp.push(`download-nohitsound`)
+                    setSelectedFilters(selectedTmp)
+                } else {
+                    selectedTmp.splice(selectedTmp.indexOf("download-nohitsound"), 1)
+                }
                 break
             case "storyboard":
                 setGlobalState("globalNoStoryboard", !globalNoStoryboard)
+
+                if (!selectedTmp.includes("download-nostoryboard")) {
+                    selectedTmp.push(`download-nostoryboard`)
+                    setSelectedFilters(selectedTmp)
+                } else {
+                    selectedTmp.splice(selectedTmp.indexOf("download-nostoryboard"), 1)
+                }
                 break
             default:
                 break
@@ -635,9 +675,156 @@ function Filter() {
             ),
         ]),
 
-        // TODO: Filter AR, CS, OD, HP, BPM, SR
+        // Filter AR, CS, OD, HP, BPM, SR
+        getItem(t("filter_song_setup"), 'song_setup', <SettingOutlined />, [
+            getItem(
+                <div className="filter-option">
+                    <p>
+                        {t("filter_ar")}
+                    </p>
+                </div>,
+                'song_setup-ar',
+                null,
+                [
+                    getItem(
+                        <Slider range step={0.1} onAfterChange={detailValueHandler} onChange={detailValueHadlerForAR} defaultValue={[0, 10]} max={10}/>,
+                        "song_setup-ar-value"
+                    )
+                ]
+            ),
+            getItem(
+                <div className="filter-option">
+                    <p>
+                        {t("filter_cs")}
+                    </p>
+                </div>,
+                'song_setup-cs',
+                null,
+                [
+                    getItem(
+                        <Slider range step={0.1} onAfterChange={detailValueHandler} onChange={detailValueHadlerForCS} defaultValue={[0, 10]} max={10}/>,
+                        "song_setup-cs-value"
+                    )
+                ]
+            ),
+            getItem(
+                <div className="filter-option">
+                    <p>
+                        {t("filter_od")}
+                    </p>
+                </div>,
+                'song_setup-od',
+                null,
+                [
+                    getItem(
+                        <Slider range step={0.1} onAfterChange={detailValueHandler} onChange={detailValueHadlerForOD} defaultValue={[0, 10]} max={10}/>,
+                        "song_setup-od-value"
+                    )
+                ]
+            ),
+            getItem(
+                <div className="filter-option">
+                    <p>
+                        {t("filter_hp")}
+                    </p>
+                </div>,
+                'song_setup-hp',
+                null,
+                [
+                    getItem(
+                        <Slider range step={0.1} onAfterChange={detailValueHandler} onChange={detailValueHadlerForHP} defaultValue={[0, 10]} max={10}/>,
+                        "song_setup-hp-value"
+                    )
+                ]
+            ),
+            getItem(
+                <div className="filter-option">
+                    <p>
+                        {t("filter_bpm")}
+                    </p>
+                </div>,
+                'song_setup-bpm',
+                null,
+                [
+                    getItem(
+                        <Slider range step={1} onAfterChange={detailValueHandler} onChange={detailValueHadlerForBPM} defaultValue={[0, 500]} max={500}/>,
+                        "song_setup-bpm-value"
+                    )
+                ]
+            ),
+            getItem(
+                <div className="filter-option">
+                    <p>
+                        {t("filter_star_rating")}
+                    </p>
+                </div>,
+                'song_setup-sr',
+                null,
+                [
+                    getItem(
+                        <Slider range step={0.1} onAfterChange={detailValueHandler} onChange={detailValueHadlerForSR} defaultValue={[0, 11]} max={11}/>,
+                        "song_setup-sr-value"
+                    )
+                ]
+            ),
+        ]),
 
-        // TODO: Filter Download Options
+        // Filter Download Options
+        getItem(t("download_options"), 'download', <SettingOutlined />, [
+            getItem(
+                <div className="filter-option" onClick={(e) => optionHandlerForDownload(e)}>
+                    <p data-active={globalDirectDownload ? true : false}>{t("download_options_direct_download")}</p>
+                </div>,
+                'download-direct'
+            ),
+            getItem(
+                <div className="filter-option" onClick={(e) => optionHandlerForDlOptions(e, 'video')}>
+                    <p data-active={globalNoVideo ? true : false}>{t("download_options_no_video")}</p>
+                </div>,
+                'download-novideo'
+            ),
+            getItem(
+                <div className="filter-option" onClick={(e) => optionHandlerForDlOptions(e, 'background')}>
+                    <p data-active={globalNoBg ? true : false}>{t("download_options_no_background")}</p>
+                </div>,
+                'download-nobg'
+            ),
+            getItem(
+                <div className="filter-option" onClick={(e) => optionHandlerForDlOptions(e, 'hitsound')}>
+                    <p data-active={globalNoHitsound ? true : false}>{t("download_options_no_hitsound")}</p>
+                </div>,
+                'download-nohitsound'
+            ),
+            getItem(
+                <div className="filter-option" onClick={(e) => optionHandlerForDlOptions(e, 'storyboard')}>
+                    <p data-active={globalNoStoryboard ? true : false}>{t("download_options_no_storyboard")}</p>
+                </div>,
+                'download-nostoryboard'
+            ),
+            getItem(
+                <div className="filter-option">
+                    <p>
+                        {t("zip_download")}
+                    </p>
+                </div>,
+                'download-zip',
+                null,
+                [
+                    getItem(
+                        <div className="filter-option" onClick={(e) => zipDownloadHandler(e)}>
+                            <p>{t("zip_download_selected_download")}</p>
+                        </div>,
+                        "download-zip-select_only"
+                    ),
+                    getItem(
+                        <div className="filter-option" onClick={(e) => zipDownloadHandler(e, false)}>
+                            <p>{t("zip_download_all_download")}</p>
+                        </div>,
+                        "download-zip-all"
+                    ),
+                ]
+            ),
+        ]),
     ]
 
     const onClick = (e) => {
@@ -658,189 +845,11 @@ function Filter() {
                 defaultOpenKeys={['sub1']}
                 mode="inline"
                 openKeys={openedFilters}
-                selectedKeys={selectedFilters}
                 onOpenChange={filterOptionOpenhadler}
+                selectedKeys={selectedFilters}
                 items={items}
             />
         </div>
-        // <div id="filter-area" className="filter-area" data-open={filterTab}>
-        //     <ul className="filter">
-        //         <li className="filter-option">
-        //             <Search className={"filter-searchbar-input"} onSearch={searchHandler} onChange={searchbarChangeHandler} size="large" enterButton={t("search")} placeholder={t("search_placeholder")} allowClear="true" value={apiJson.query}/>
-        //         </li>
-        //         <li className="filter-option">
-        //             <strong>{t("mode")}</strong>
-        //             <ul>
-        //                 <li onClick={(e) => optionHandler(e, 'm', '')}>
-        //                     <p data-active={apiJson.m === '' ? true : false}>{t("mode_any")}</p>
-        //                 </li>
-        //                 <li onClick={(e) => optionHandler(e, 'm', '0')}>
-        //                     <p data-active={apiJson.m === '0' ? true : false}>{t("mode_osu")}</p>
-        //                 </li>
-        //                 <li onClick={(e) => optionHandler(e, 'm', '1')}>
-        //                     <p data-active={apiJson.m === '1' ? true : false}>{t("mode_taiko")}</p>
-        //                 </li>
-        //                 <li onClick={(e) => optionHandler(e, 'm', '2')}>
-        //                     <p data-active={apiJson.m === '2' ? true : false}>{t("mode_catch")}</p>
-        //                 </li>
-        //                 <li onClick={(e) => optionHandler(e, 'm', '3')}>
-        //                     <p data-active={apiJson.m === '3' ? true : false}>{t("mode_mania")}</p>
-        //                 </li>
-        //             </ul>
-        //         </li>
-        //         <li className="filter-option">
-        //             <strong>{t("categories")}</strong>
-        //             <ul>
-        //                 <li onClick={(e) => optionHandler(e, 'ranked', 'any')}>
-        //                     <p data-active={(apiJson.ranked === 'all') ? true : false}>{t("categories_any")}</p>
-        //                 </li>
-        //                 <li onClick={(e) => optionHandler(e, 'ranked', '')}>
-        //                     <p data-active={(apiJson.ranked === '' || apiJson.ranked === '') ? true : false}>{t("categories_has_leaderboard")}</p>
-        //                 </li>
-        //                 <li onClick={(e) => optionHandler(e, 'ranked', 'ranked')}>
-        //                     <p data-active={apiJson.ranked.includes('ranked') ? true : false}>{t("categories_ranked")}</p>
-        //                 </li>
-        //                 <li onClick={(e) => optionHandler(e, 'ranked', 'qualified')}>
-        //                     <p data-active={apiJson.ranked.includes('qualified') ? true : false}>{t("categories_qualified")}</p>
-        //                 </li>
-        //                 <li onClick={(e) => optionHandler(e, 'ranked', 'loved')}>
-        //                     <p data-active={apiJson.ranked.includes('loved') ? true : false}>{t("categories_loved")}</p>
-        //                 </li>
-        //                 <li onClick={(e) => optionHandler(e, 'ranked', 'pending')}>
-        //                     <p data-active={apiJson.ranked.includes('pending') ? true : false}>{t("categories_pending")}</p>
-        //                 </li>
-        //                 <li onClick={(e) => optionHandler(e, 'ranked', 'wip')}>
-        //                     <p data-active={apiJson.ranked.includes('wip') ? true : false}>{t("categories_wip")}</p>
-        //                 </li>
-        //                 <li onClick={(e) => optionHandler(e, 'ranked', 'graveyard')}>
-        //                     <p data-active={apiJson.ranked.includes('graveyard') ? true : false}>{t("categories_graveyard")}</p>
-        //                 </li>
-        //             </ul>
-        //         </li>
-        //         <li className="filter-option">
-        //             <strong>{t("explicit_content")}</strong>
-        //             <ul>
-        //                 <li onClick={(e) => optionHandler(e, 'nsfw', false)}>
-        //                     <p data-active={(apiJson.nsfw === false || apiJson.nsfw === null) ? true : false}>{t("explicit_content_hide")}</p>
-        //                 </li>
-        //                 <li onClick={(e) => optionHandler(e, 'nsfw', true)}>
-        //                     <p data-active={apiJson.nsfw === true ? true : false}>{t("explicit_content_show")}</p>
-        //                 </li>
-        //             </ul>
-        //         </li>
-        //         <li className="filter-option">
-        //             <strong>{t("extra")}</strong>
-        //             <ul>
-        //                 <li onClick={(e) => optionHandlerForExtra(e, 'video')}>
-        //                     <p data-active={(apiJson.extra === 'storyboard.video' || apiJson.extra === 'video') ? true : false}>{t("extra_has_video")}</p>
-        //                 </li>
-        //                 <li onClick={(e) => optionHandlerForExtra(e, 'storyboard')}>
-        //                     <p data-active={apiJson.extra === 'storyboard.video' || apiJson.extra === 'storyboard' ? true : false}>{t("extra_has_storyboard")}</p>
-        //                 </li>
-        //             </ul>
-        //         </li>
-        //         <li className="filter-option">
-        //             <strong>{t("sort_by")}</strong>
-        //             <ul>
-        //                 <li onClick={(e) => optionHandlerForSortBy(e, 'title')}>
-        //                     <p data-active={apiJson.sort.includes('title') ? true : false}>{t("sort_by_title")}</p>
-        //                     <i data-asc={apiJson.sort.includes('title') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down" style={{display: (apiJson.sort.includes('title') ? '' : 'none')}}></i>
-        //                 </li>
-        //                 <li onClick={(e) => optionHandlerForSortBy(e, 'artist')}>
-        //                     <p data-active={apiJson.sort.includes('artist') ? true : false}>{t("sort_by_artist")}</p>
-        //                     <i data-asc={apiJson.sort.includes('artist') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down" style={{display: (apiJson.sort.includes('artist') ? '' : 'none')}}></i>
-        //                 </li>
-        //                 <li onClick={(e) => optionHandlerForSortBy(e, 'difficulty')}>
-        //                     <p data-active={apiJson.sort.includes('difficulty') ? true : false}>{t("sort_by_difficulty")}</p>
-        //                     <i data-asc={apiJson.sort.includes('difficulty') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down" style={{display: (apiJson.sort.includes('difficulty') ? '' : 'none')}}></i>
-        //                 </li>
-        //                 <li onClick={(e) => optionHandlerForSortBy(e, 'ranked')}>
-        //                     <p data-active={apiJson.sort.includes('ranked') || apiJson.sort === '' ? true : false}>{t("sort_by_ranked")}</p>
-        //                     <i data-asc={apiJson.sort.includes('ranked') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down" style={{display: (apiJson.sort.includes('ranked') ? '' : 'none')}}></i>
-        //                 </li>
-        //                 <li onClick={(e) => optionHandlerForSortBy(e, 'updated')}>
-        //                     <p data-active={apiJson.sort.includes('updated') ? true : false}>{t("sort_by_updated")}</p>
-        //                     <i data-asc={apiJson.sort.includes('updated') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down" style={{display: (apiJson.sort.includes('updated') ? '' : 'none')}}></i>
-        //                 </li>
-        //                 <li onClick={(e) => optionHandlerForSortBy(e, 'plays')}>
-        //                     <p data-active={apiJson.sort.includes('plays') ? true : false}>{t("sort_by_plays")}</p>
-        //                     <i data-asc={apiJson.sort.includes('plays') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down" style={{display: (apiJson.sort.includes('plays') ? '' : 'none')}}></i>
-        //                 </li>
-        //                 <li onClick={(e) => optionHandlerForSortBy(e, 'favourites')}>
-        //                     <p data-active={apiJson.sort.includes('favourites') ? true : false}>{t("sort_by_favorites")}</p>
-        //                     <i data-asc={apiJson.sort.includes('favourites') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down" style={{display: (apiJson.sort.includes('favourites') ? '' : 'none')}}></i>
-        //                 </li>
-        //             </ul>
-        //         </li>
-        //         <li className="filter-option">
-        //             <div className="two-side">
-        //                 <div>
-        //                     <strong>{t("filter_ar")}</strong>
-        //                     <Slider range step={0.1} onAfterChange={detailValueHandler} onChange={detailValueHadlerForAR} defaultValue={[0, 10]} max={10}/>
-        //                 </div>
-        //                 <div>
-        //                     <strong>{t("filter_cs")}</strong>
-        //                     <Slider range step={0.1} onAfterChange={detailValueHandler} onChange={detailValueHadlerForCS} defaultValue={[0, 10]} max={10}/>
-        //                 </div>
-        //             </div>
-        //         </li>
-        //         <li className="filter-option">
-        //             <div className="two-side">
-        //                 <div>
-        //                     <strong>{t("filter_od")}</strong>
-        //                     <Slider range step={0.1} onAfterChange={detailValueHandler} onChange={detailValueHadlerForOD} defaultValue={[0, 10]} max={10}/>
-        //                 </div>
-        //                 <div>
-        //                     <strong>{t("filter_hp")}</strong>
-        //                     <Slider range step={0.1} onAfterChange={detailValueHandler} onChange={detailValueHadlerForHP} defaultValue={[0, 10]} max={10}/>
-        //                 </div>
-        //             </div>
-        //         </li>
-        //         <li className="filter-option">
-        //             <div className="two-side">
-        //                 <div>
-        //                     <strong>{t("filter_bpm")}</strong>
-        //                     <Slider range step={1} onAfterChange={detailValueHandler} onChange={detailValueHadlerForBPM} defaultValue={[0, 500]} max={500}/>
-        //                 </div>
-        //                 <div>
-        //                     <strong>{t("filter_star_rating")}</strong>
-        //                     <Slider range step={0.1} onAfterChange={detailValueHandler} onChange={detailValueHadlerForSR} defaultValue={[0, 11]} max={11}/>
-        //                 </div>
-        //             </div>
-        //         </li>
-        //         <li className="filter-option">
-        //             <strong>{t("download_options")}</strong>
-        //             <ul>
-        //                 <li onClick={(e) => optionHandlerForDownload(e)}>
-        //                     <p data-active={globalDirectDownload ? true : false}>{t("download_options_direct_download")}</p>
-        //                 </li>
-        //                 <li onClick={(e) => optionHandlerForDlOptions(e, 'video')}>
-        //                     <p data-active={globalNoVideo ? true : false}>{t("download_options_no_video")}</p>
-        //                 </li>
-        //                 <li onClick={(e) => optionHandlerForDlOptions(e, 'background')}>
-        //                     <p data-active={globalNoBg ? true : false}>{t("download_options_no_background")}</p>
-        //                 </li>
-        //                 <li onClick={(e) => optionHandlerForDlOptions(e, 'hitsound')}>
-        //                     <p data-active={globalNoHitsound ? true : false}>{t("download_options_no_hitsound")}</p>
-        //                 </li>
-        //                 <li onClick={(e) => optionHandlerForDlOptions(e, 'storyboard')}>
-        //                     <p data-active={globalNoStoryboard ? true : false}>{t("download_options_no_storyboard")}</p>
-        //                 </li>
-        //             </ul>
-        //         </li>
-        //         <li className="filter-option">
-        //             <strong>{t("zip_download")}</strong>
-        //             <ul>
-        //                 <li onClick={(e) => zipDownloadHandler(e)}>
-        //                     <p>{t("zip_download_selected_download")}</p>
-        //                 </li>
-        //                 <li onClick={(e) => zipDownloadHandler(e, false)}>
-        //                     <p>{t("zip_download_all_download")}</p>
-        //                 </li>
-        //             </ul>
-        //         </li>
-        //     </ul>
-        // </div>
     )
 }
 

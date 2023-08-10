@@ -3,7 +3,7 @@ import { initReactI18next } from "react-i18next"
 
 import enTranslation from "./i18n/en.json"
 import deTranslation from "./i18n/de.json"
-import koTranslation from "./i18n/ko.json"
+import krTranslation from "./i18n/kr.json"
 import { getCookie, setCookie } from "./Components/GeneralMixins"
 
 i18n.use(initReactI18next).init({
@@ -14,8 +14,8 @@ i18n.use(initReactI18next).init({
     de: {
       translation: deTranslation
     },
-    ko: {
-      translation: koTranslation
+    kr: {
+      translation: krTranslation
     }
   },
   lng: "en", // Default language

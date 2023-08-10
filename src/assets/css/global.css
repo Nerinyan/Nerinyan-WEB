@@ -163,6 +163,9 @@ button.btn.red:hover {
     background-color: hsl(var(--hsl-red-3));
 }
 
+/* Flags */
+.flags { width: 32px; height: 24px; }
+
 /* Ranked status color */
 .RANKED { background-color: var(--status-ranked-bg); color: var(--status-ranked-color); }
 .LOVED { background-color: var(--status-loved-bg); color: var(--status-loved-color); }
@@ -212,12 +215,19 @@ span.beatmap-version-rating { height: 18px; color: var(--text-color); font-weigh
 
 /* Button */
 .ant-btn { border: none !important; }
+.ant-btn-compact-first-item { border: none !important; color: white !important; background-color: hsl(var(--hsl-b2)) !important; height: 25px !important; border-radius: 10px 0 0 10px !important; display: flex !important; align-items: center !important; }
+.ant-btn-compact-first-item > i { margin-right: 0.25em; }
+.ant-btn-compact-last-item { height: 25px !important; background-color: hsl(var(--hsl-b1)) !important; border-radius: 0 10px 10px 0 !important; color: white !important; display: flex !important; align-items: center !important; justify-content: center; }
+.ant-space-compact-block { width: auto !important; } 
+.ant-dropdown-button { margin-right: 0.5em !important; }  
+
 
 /* DropDown */
 .ant-dropdown-menu { background-color: hsl(var(--hsl-b5)) !important; border-radius: 12px; }
 .ant-dropdown-menu-item-active { background-color: hsl(var(--hsl-b5)) !important; }
 .ant-dropdown-menu-title-content { color: white !important; }
 .ant-dropdown-menu-title-content > span > button { margin-right: 0.25em; }
+.ant-dropdown-menu-item .ant-dropdown-menu-item-active .ant-dropdown-menu-item-only-child .ant-switch { width: 45px !important; margin-right: 0.5em; }
 
 /* Switch */
 .ant-switch { background-color: hsl(var(--hsl-b2)) !important }
@@ -238,14 +248,16 @@ span.beatmap-version-rating { height: 18px; color: var(--text-color); font-weigh
 .ant-modal-confirm-body .ant-modal-confirm-title, .ant-modal-confirm-body .ant-modal-confirm-content { color: rgb(255 255 255 / 85%) !important; }
 
 /* Menu */
-.ant-menu { background-color: hsl(var(--hsl-b5)); }
-.ant-menu-inline { border-right: none; color: white; }
-.ant-menu-sub.ant-menu-inline { background-color: hsl(var(--hsl-b4)); }
-.ant-menu-submenu-selected { color: white; }
-.ant-menu-light .ant-menu-item-active, .ant-menu-light .ant-menu-item:hover, .ant-menu-light .ant-menu-submenu-active, .ant-menu-light .ant-menu-submenu-title:hover, .ant-menu-light .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open { color: hsl(var(--hsl-blue-3)); }
-.ant-menu-item:active, .ant-menu-submenu-title:active { background-color: transparent; }
-.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected { background-color: hsl(var(--hsl-b2)); }
-.ant-menu-item-active { background-color: hsl(var(--hsl-b2)); }
+.ant-menu { background-color: hsl(var(--hsl-b5)) !important; }
+.ant-menu-inline { border-right: none !important; color: white !important; }
+.ant-menu-sub.ant-menu-inline { background-color: hsl(var(--hsl-b4)) !important; }
+.ant-menu-submenu-selected { color: white !important; }
+.ant-menu-submenu .ant-menu-submenu-active { background-color: hsl(var(--hsl-b2)) !important; }
+.ant-menu-light .ant-menu-item-active, .ant-menu-light .ant-menu-item:hover, .ant-menu-light .ant-menu-submenu-active, .ant-menu-light .ant-menu-submenu-title:hover, .ant-menu-light .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open { color: hsl(var(--hsl-blue-3)) !important; }
+.ant-menu-item:active, .ant-menu-submenu-title:active { background-color: hsl(var(--hsl-b2)) !important; }
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected { background-color: hsl(var(--hsl-b2)) !important; }
+.ant-menu-item-active { background-color: hsl(var(--hsl-b2)) !important; }
+.ant-menu-light .ant-menu-submenu-selected >.ant-menu-submenu-title, .ant-menu-light>.ant-menu .ant-menu-submenu-selected >.ant-menu-submenu-title { color: white !important; }
 
 /* Resposive Web Css */
 nav > div { width: 90vw; }
