@@ -301,7 +301,7 @@ function NewBeatmap({ bmap }) {
 
     return (
         <Fragment>
-            <div id={bmap.id} className="beatmap-single" data-isExpand={currentExpandedID === bmap.id ? true : false} data-isplaying={musicPlayerIsPlaying && musicPlayerBeatmap.id === bmap.id ? true : false} onClick={(e) => {changeCollapse(e)}}>
+            <div id={bmap.id} className="beatmap-single" data-isExpand={currentExpandedID === bmap.id ? true : false} data-isplaying={musicPlayerIsPlaying && musicPlayerBeatmap.id === bmap.id ? true : false}>
                 <LazyLoad height={136} offset={300} style={{background: "url(" + require('../../assets/images/beatmaps-default.png') + ")"}}>
                     <div className="card-header" style={{ "--bg": "center / cover no-repeat url(https://assets.ppy.sh/beatmaps/"+bmap.id+"/covers/cover.jpg?1622784772" }}>
                         <div className="card-header-beatmapinfo">
