@@ -1,22 +1,21 @@
 import React, { useEffect, Fragment } from "react"
 import { useSearchParams } from "react-router-dom"
-import { Navbar, Footer, Devbar, Searchbar, Beatmap, NewBeatmap, GeneralMixins, MusicPlayer, Filter } from "../Components"
+import { Navbar, Footer, Beatmap, GeneralMixins, MusicPlayer, Filter, Devbar } from "../Components"
 import { getGlobalState, useGlobalState, setGlobalState } from '../store'
-import { message, notification, Modal } from 'antd' 
+import { Modal } from 'antd' 
 import { useTranslation } from "react-i18next"
 
 import '../assets/css/components/beatmap.css'
 
 function Beatmaps({ dev }) {
     const { t } = useTranslation()
-    const [filterTab] = useGlobalState("filterTab")
+    const [filterMobile] = useGlobalState("filterMobile")
+    const [filterOpen] = useGlobalState("filterOpen")
     const [apiResult] = useGlobalState("apiResult")
     const [noResult] = useGlobalState("noResult")
     const [loading] = useGlobalState("loading")
     const [explicitWarningHandle] = useGlobalState("explicitWarningHandle")
-    const [downloadURLTemp] = useGlobalState("downloadURLTmp")
     const [searchParams] = useSearchParams()
-    const AlertKey = 'alertMsg'
 
     function scrollHandler() {
         const documentData = document.documentElement
@@ -34,43 +33,26 @@ function Beatmaps({ dev }) {
         }
     }
 
-    const LoadingAlertHandler = () => {
-        if (loading === true) {
-            message.loading({
-                content: 'Loading...',
-                AlertKey,
-                duration: 3,
-            })
+    function resizeHandler() {
+        if (window.innerWidth <= 860) {
+            if (!filterMobile)
+                setGlobalState("filterMobile", true)
+                setGlobalState("filterOpen", false)
         }
-        if (loading !== true) {
-            message.success({
-                content: 'Loaded!',
-                AlertKey,
-                duration: 2,
-            })
+        else {
+            setGlobalState("filterMobile", false)
+            setGlobalState("filterOpen", true)
         }
-    }
-
-    const GetNotification = () => {
-        const noti = GeneralMixins.getNotificationFromSubAPI()
-        noti.then((val) => {
-            if (Boolean(val.visible) === true) {
-                notification[val.type]({
-                    message: val.message,
-                    description: val.description
-                })
-            }
-        })
-        console.log("Notification Loaded.")
     }
 
     let renderBeatmaps = []
     apiResult.forEach((bmap, index) => {
         if (bmap.beatmaps.length > 0)
-            renderBeatmaps.push(<li key={index}><NewBeatmap bmap={bmap}/></li>)
+            renderBeatmaps.push(<li key={index}><Beatmap bmap={bmap}/></li>)
         else
             console.log(`Null Beatmaps Detected. -> ${bmap.id} ${bmap.artist} - ${bmap.title} Mapped by ${bmap.creator}`)
     })
+    setGlobalState('currentExpandedData', apiResult[0])
 
     const portalCloseEventController = () => {
         document.body.addEventListener("click" , (e) => {
@@ -83,24 +65,27 @@ function Beatmaps({ dev }) {
                     setGlobalState('currentExpandedID', 0)
                 }, 200)
             }
-            if (!document.querySelector("#filter-area").contains(e.target)) {
-                setGlobalState("filterTab", false)
+            if (getGlobalState("filterMobile")) {
+                if (!document.querySelector("#filter-area").contains(e.target)) {
+                    console.log('gd')
+                    setGlobalState("filterOpen", false)
+                }
             }
         })
     }
 
     useEffect(() => {
-        GetNotification()
         GeneralMixins.getUserRequestParams(searchParams)
         window.addEventListener("scroll", scrollHandler) // Add scroll Event
+        window.addEventListener("resize", resizeHandler)
         return () => {
           window.removeEventListener("scroll", scrollHandler) // Delete scroll Event
+          window.removeEventListener("resize", resizeHandler)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     
     useEffect(() => {
-        LoadingAlertHandler()
         portalCloseEventController()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loading])
@@ -161,18 +146,15 @@ function Beatmaps({ dev }) {
 
                 <div className="two-side">
                     <div className="left">
-                        {/* filter */}
-                        {/* <div className="filter-button" onClick={(e) => {
+                        <button className="filter-btn" data-show={filterMobile} onClick={(e) => {
                             e.stopPropagation()
                             e.preventDefault()
-                            if (!filterTab) {
-                                setGlobalState("filterTab", true)
-                                console.log('열려라 참꺠')
-                            }
+
+                            if (filterOpen) setGlobalState("filterOpen", false)
+                            else setGlobalState("filterOpen", true)
                         }}>
                             <i className="fa-solid fa-filter"></i>
-                        </div> */}
-                        
+                        </button>
                         <Filter />
                     </div>
 
@@ -204,6 +186,7 @@ function Beatmaps({ dev }) {
                 </p>
                 <MusicPlayer />
             </div>
+            
             <Footer />
         </Fragment>
     )

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import Portal from "../../Portal"
 import { getGlobalState, setGlobalState, useGlobalState } from '../../store'
 import LazyLoad from 'react-lazyload'
-import { Tooltip, Switch, Dropdown, Menu, message, Checkbox, Modal } from 'antd'
+import { Tooltip, Switch, Dropdown, Menu } from 'antd'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { GeneralMixins, BeatmapPortal, Version } from '..'
 import { useTranslation } from "react-i18next"
@@ -254,7 +254,7 @@ function Beatmap({ bmap }) {
           items={[
             {
                 label: (
-                    <Tooltip arrow={false} placement="top" title={t("append_this_beatmap_to_download_list")}>
+                    <div>
                         <Switch checked={zipAppend} onChange={(e) => {
                             if (e) {
                                 var paramList = []
@@ -275,9 +275,25 @@ function Beatmap({ bmap }) {
                             }
                         }} />
                         {t("append_this_beatmap_to_download_list")}
-                    </Tooltip>
+                    </div>
                 ),
                 key: '1',
+            },
+            {
+              label: (
+                <button className="btn version-bg-btn" onClick={(e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    window.open(
+                        `https://api.nerinyan.moe/bg/-${bmap.id}`,
+                        '_blank'
+                    )
+                }}>
+                    <i className="fa-solid fa-image"></i>
+                    <p>{t("download_bg")}</p>
+                </button>
+              ),
+              key: '2',
             },
           ]}
         />
@@ -312,27 +328,24 @@ function Beatmap({ bmap }) {
                                         <div className={"NSFW"}>
                                             {t("explicit")}
                                         </div>
-                                    }
+                                    }   
                                 </li>
                             </ul>
                         </div>
                         <div className="beatmap-title">
                             <span className="title">{bmap.title}</span>
                             <span className="artist">by {bmap.artist}</span>
+                            <span className="mapper">{t("mapped_by")} <Link to={"/main?creator="+bmap.user_id}>{bmap.creator}</Link></span>
                         </div>
                         <div className="beatmap-preview" style={musicPlayerIsPlaying && musicPlayerBeatmap.id === bmap.id ? {opacity: 1} : {}}>
                             <button onClick={(e) => {handleCallMusic(e)}} className="play-button">
                                 <i className={"fa-duotone fa-" + (!musicPlayerIsPaused && musicPlayerBeatmap.id === bmap.id ? "pause" : "play")}></i>
                             </button>
-                            <div className="beatmap-preview-progress">
-
-                            </div>
                         </div>
                     </div>
                 </LazyLoad>
                 <ul className="card-main">
                     <li className="beatmap-info">
-                        <span>{t("mapped_by")} <Link to={"/main?creator="+bmap.user_id}>{bmap.creator}</Link></span>
                         <div className="card-header-info">
                             <div className="card-haeder-stats">
                                 <Tooltip arrow={false} placement="top" title={`${t("favorites_count")}: ${GeneralMixins.addCommas(bmap.favourite_count)}`}>
@@ -347,6 +360,18 @@ function Beatmap({ bmap }) {
                             </div>
                         </div>
                     </li>
+                    <li className="beatmap-list">
+                        <div>
+                            <div className="version-lists">
+                                {generateVersionListElement()}
+                            </div>
+                            {getGlobalState('currentExpandedID') === bmap.id &&
+                                <Portal>
+                                    <BeatmapPortal bmap={bmap}></BeatmapPortal>
+                                </Portal>
+                            }
+                        </div>
+                    </li>
                     <li className="beatmap-buttons">
                         <Tooltip arrow={false} placement="top" title={t("copy_download_url")}>
                             <CopyToClipboard text={`https://api.nerinyan.moe/d/${bmap.id}`} onCopy={() => clipboardHandler()}>
@@ -358,19 +383,6 @@ function Beatmap({ bmap }) {
                         <Dropdown.Button  placement="bottom" onClick={(e) => {downloadHandler(e)}} overlay={menu} onOpenChange={handleOpenChange} open={dropdownOpen}>
                             <i className="fa-solid fa-arrow-down-to-bracket"></i> {t("download")}
                         </Dropdown.Button>
-                        <Tooltip arrow={false} placement="top" title={t("download_beatmap_background_image")}>
-                            <button onClick={(e) => {
-                                e.stopPropagation()
-                                e.preventDefault()
-                                window.open(
-                                    `https://api.nerinyan.moe/bg/-${bmap.id}`,
-                                    '_blank'
-                                )
-                            }}>
-                                <i className="fa-solid fa-image"></i>
-                                <p>{t("bg")}</p>
-                            </button>
-                        </Tooltip>
                         <Tooltip arrow={false} placement="top" title={t("go_to_osu_beatmap_page")}>
                             <button onClick={(e) => {
                                 e.stopPropagation()
@@ -384,20 +396,12 @@ function Beatmap({ bmap }) {
                             </button>
                         </Tooltip>
                     </li>
-                    <li className="beatmap-list">
-                        <div>
-                            <Tooltip arrow={false} placement="top" title={getGlobalState('currentExpandedID') === bmap.id ? t("hide_beatmap_info") : t("show_beatmap_info")}>
-                                <button className={"beatmap-list-btn " + (getGlobalState('currentExpandedID') === bmap.id ? 'collapse' : 'expand')} onClick={(e) => {changeCollapse(e)}}>
-                                    <i className="fad fa-caret-square-down"></i>
-                                </button>
-                            </Tooltip>
-                            <div className="version-lists">
-                                {generateVersionListElement()}
-                            </div>
-                            <Portal>
-                                <BeatmapPortal bmap={bmap}></BeatmapPortal>
-                            </Portal>
-                        </div>
+                    <li className="beatmap-more-info">
+                        <Tooltip arrow={false} placement="top" title={getGlobalState('currentExpandedID') === bmap.id ? t("hide_beatmap_info") : t("show_beatmap_info")}>
+                            <button className={"btn beatmap-list-btn " + (getGlobalState('currentExpandedID') === bmap.id ? 'collapse' : 'expand')} onClick={(e) => {changeCollapse(e)}}>
+                                <i className={getGlobalState('currentExpandedID') === bmap.id ? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down"}></i>
+                            </button>
+                        </Tooltip>
                     </li>
                 </ul>
             </div>

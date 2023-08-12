@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react"
+import React, { Fragment } from "react"
 import { Tooltip, Progress } from 'antd'
 import { useTranslation } from "react-i18next"
 import { ReactComponent as TotalLength } from '../assets/images/total_length.svg'
@@ -13,7 +13,6 @@ function Version({ mode, ver, isCollapse }) {
     const { t } = useTranslation()
 
     var iconWidth, iconHeight = '20px'
-    const [InfoCollapse, setInfoCollapse] = useState(true)
 
     function format(percentage) {
         var perc = percentage / 10

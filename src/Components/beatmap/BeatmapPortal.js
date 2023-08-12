@@ -7,7 +7,7 @@ import { setGlobalState, useGlobalState } from '../../store'
 import { useTranslation } from "react-i18next"
 import Odometer from 'react-odometerjs'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { Tooltip, Progress, Switch, Dropdown, Menu, message } from 'antd'
+import { Tooltip, Progress } from 'antd'
 
 import { ReactComponent as TotalLength } from '../../assets/images/total_length.svg'
 import { ReactComponent as SliderCount } from '../../assets/images/count_sliders.svg'
@@ -35,7 +35,6 @@ function BeatmapPortal({ bmap }) {
     const [visibleVer, setVisibleVer] = useState(bmap.beatmaps[0].id)
     const [isHover, setIsHover] = useState(false)
     const [isCopied, setIsCopied] = useState(false)
-    const [dropdownOpen, setDropdownOpen] = useState(false)
 
     const [versionsSTD, setVersionsSTD] = useState([])
     const [versionsTAIKO, setVersionsTAIKO] = useState([])
@@ -43,11 +42,6 @@ function BeatmapPortal({ bmap }) {
     const [versionsMANIA, setVersionsMANIA] = useState([])
     const VersionList = [versionsSTD, versionsTAIKO, versionsCTB, versionsMANIA]
     const [currentVersion, setCurrentVersion] = useState(bmap.beatmaps[0])
-    
-    const [noVideo, setNoVideo] = useState(globalNoVideo)
-    const [noBg, setNoBg] = useState(globalNoBg)
-    const [noHitsound, setNoHitsound] = useState(globalNoHitsound)
-    const [noStoryboard, setNoStoryboard] = useState(globalNoStoryboard)
 
     useEffect(() => {
         sortBeatmaps()

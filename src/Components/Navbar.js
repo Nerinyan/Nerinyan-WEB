@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 import { useTranslation } from "react-i18next"
-import { Dropdown, Space, Divider, Button } from 'antd'
+import { Dropdown, Space } from 'antd'
 import { getCookie, setCookie } from "./GeneralMixins"
 
 import '../assets/css/components/navbar.css'
@@ -67,6 +67,24 @@ function Navbar() {
             ),
         },
         {
+            key: 'ru',
+            label: (
+                <div className="languages-single" onClick={(e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    var lang = "ru"
+                
+                    setCookie("language", lang)
+                    i18n.changeLanguage(lang)
+
+                    setCurrentLang([lang])
+                }}>
+                    <img className="flags" src={require("../assets/images/Flags/RU.png")} alt="ru flags"/>
+                    <p>Русский</p>
+                </div>
+            ),
+        },
+        {
             key: 'help',
             label: (
                 <div className="languages-single" onClick={(e) => {
@@ -89,6 +107,8 @@ function Navbar() {
                 return "DE"
             case "kr":
                 return "KR"
+            case "ru":
+                return "RU"
             default:
                 return "__"
         }

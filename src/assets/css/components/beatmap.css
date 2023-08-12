@@ -181,7 +181,7 @@ div.beatmap-single[data-isplaying=true]::after {
 }
 
 div.beatmap-single div.card-header {
-    background: center / cover no-repeat linear-gradient(to right, #00000099, #ffe4e100), var(--bg);
+    background: center / cover no-repeat linear-gradient(to right, #000000bd, #ffe4e100), var(--bg);
     width: 100%;
     height: 136px;
     padding: 8px;
@@ -234,6 +234,19 @@ div.beatmap-single div.card-header div.beatmap-title span.title {
 
 div.beatmap-single div.card-header div.beatmap-title span.artist {
     color: hsl(var(--hsl-orange-1));
+    text-shadow: 0 0 12px #000; 
+}
+
+div.beatmap-single div.card-header div.beatmap-title span.mapper {
+    color: white;
+    line-height: 1;
+    font-size: 1em;
+    text-shadow: 0 0 12px #000; 
+    margin-bottom: 0.25em;
+}
+
+div.beatmap-single div.card-header div.beatmap-title span.mapper > a {
+    color: hsl(var(--hsl-pink-1));
 }
 
 div.beatmap-single div.card-header div.beatmap-preview {
@@ -277,6 +290,7 @@ div.beatmap-single div.card-header div.beatmap-preview button:hover {
 
 div.beatmap-single ul.card-main li.beatmap-info {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
     padding: 7.5px 10px;
@@ -354,7 +368,6 @@ div.beatmap-single ul.card-main li.beatmap-buttons {
     font-size: 0.95em;
     padding: 7.5px 2.5px;
     border-top: hsl(var(--hsl-b2)) 2px solid;
-    border-radius: 0 0 5px 5px;
 }
 
 div.beatmap-single ul.card-main li.beatmap-buttons>button,
@@ -421,7 +434,6 @@ div.beatmap-single ul.card-main li.beatmap-list {
     font-size: 0.95em;
     padding: 7.5px 2.5px;
     border-top: hsl(var(--hsl-b2)) 2px solid;
-    border-radius: 0 0 5px 5px;
 }
 
 div.beatmap-single ul.card-main li.beatmap-list>div {

@@ -443,7 +443,7 @@ export async function getApiData(append=true) {
         Data = []
     }
   
-    if (Data.length < (apiJson.page * 36)) {
+    if (Data.length < (apiJson.page * 60)) {
         return false
     }
     setGlobalState("loading", true)
@@ -459,7 +459,7 @@ export async function getApiData(append=true) {
                 `${apiURL}/search`, {
                     params: {
                         b64: btoa(JSON.stringify(apiJson)),
-                        ps: 36
+                        ps: 60
                     }
                 }
             // eslint-disable-next-line no-loop-func

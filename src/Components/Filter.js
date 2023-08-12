@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { getGlobalState, setGlobalState, useGlobalState } from '../store'
 import { Input, Slider, message, Modal, Menu } from 'antd'
-import {
-    AppstoreOutlined,
-    CalendarOutlined,
-    LinkOutlined,
-    MailOutlined,
-    SettingOutlined,
-  } from '@ant-design/icons'
 import { useTranslation } from "react-i18next"
 import { GeneralMixins } from "."
 
@@ -25,7 +18,8 @@ function Filter() {
     
     const { Search } = Input
 
-    const [filterTab] = useGlobalState("filterTab")
+    const [filterMobile] = useGlobalState("filterMobile")
+    const [filterOpen] = useGlobalState("filterOpen")
     const [selectedFilters, setSelectedFilters] = useState([])
     const [openedFilters, setOpenedFilters] = useState(["mode", "ranked", "sort"])
 
@@ -33,7 +27,6 @@ function Filter() {
     const [detailSearchTmp] = useGlobalState("detailSearchTmp")
 
     const [tmp, setTmp] = useState(0)
-    const [detailSearchChange, setDetailSearchChange] = useState(false)
 
     const [globalDirectDownload] = useGlobalState("downloadDirect")
     const [globalNoVideo] = useGlobalState("globalNoVideo")
@@ -312,7 +305,6 @@ function Filter() {
     }
 
     const detailValueHandler = (value) => {
-        setDetailSearchChange(true)
         clearTimeout(delay)
         delay = setTimeout(function() {
             requestNewBeatmapData(false)
@@ -505,7 +497,7 @@ function Filter() {
 
     const items = [
         // Filter - Mode
-        getItem(t("mode"), 'mode', <AppstoreOutlined />, [
+        getItem(t("mode"), 'mode', null, [
             getItem(
                 <div className="filter-option" onClick={(e) => optionHandler(e, 'm', '')}>
                     <p data-active={apiJson.m === '' ? true : false}>{t("mode_any")}</p>
@@ -539,7 +531,7 @@ function Filter() {
         ]),
 
         // Filter Categories
-        getItem(t("categories"), 'ranked', <SettingOutlined />, [
+        getItem(t("categories"), 'ranked', null, [
             getItem(
                 <div className="filter-option" onClick={(e) => optionHandler(e, 'ranked', 'any')}>
                     <p data-active={(apiJson.ranked === 'all') ? true : false}>{t("categories_any")}</p>
@@ -591,7 +583,7 @@ function Filter() {
         ]),
 
         // Filter Explicit Content
-        getItem(t("explicit_content"), 'nsfw', <SettingOutlined />, [
+        getItem(t("explicit_content"), 'nsfw', null, [
             getItem(
                 <div className="filter-option" onClick={(e) => optionHandler(e, 'nsfw', false)}>
                     <p data-active={(apiJson.nsfw === false || apiJson.nsfw === null) ? true : false}>{t("explicit_content_hide")}</p>
@@ -607,7 +599,7 @@ function Filter() {
         ]),
 
         // Filter Extra Content
-        getItem(t("extra"), 'extra', <SettingOutlined />, [
+        getItem(t("extra"), 'extra', null, [
             getItem(
                 <div className="filter-option" onClick={(e) => optionHandlerForExtra(e, 'video')}>
                     <p data-active={(apiJson.extra === 'storyboard.video' || apiJson.extra === 'video') ? true : false}>{t("extra_has_video")}</p>
@@ -623,7 +615,7 @@ function Filter() {
         ]),
 
         // Filter Sort
-        getItem(t("sort_by"), 'sort', <SettingOutlined />, [
+        getItem(t("sort_by"), 'sort', null, [
             getItem(
                 <div className="filter-option" onClick={(e) => optionHandlerForSortBy(e, 'title')}>
                     <p data-active={apiJson.sort.includes('title') ? true : false}>{t("sort_by_title")}</p>
@@ -676,7 +668,7 @@ function Filter() {
         ]),
 
         // Filter AR, CS, OD, HP, BPM, SR
-        getItem(t("filter_song_setup"), 'song_setup', <SettingOutlined />, [
+        getItem(t("filter_song_setup"), 'song_setup', null, [
             getItem(
                 <div className="filter-option">
                     <p>
@@ -770,7 +762,7 @@ function Filter() {
         ]),
 
         // Filter Download Options
-        getItem(t("download_options"), 'download', <SettingOutlined />, [
+        getItem(t("download_options"), 'download', null, [
             getItem(
                 <div className="filter-option" onClick={(e) => optionHandlerForDownload(e)}>
                     <p data-active={globalDirectDownload ? true : false}>{t("download_options_direct_download")}</p>
@@ -832,7 +824,7 @@ function Filter() {
     }
 
     return (
-        <div id="filter-area" className="filter-area" data-open={!filterTab}>
+        <div id="filter-area" className="filter-area" data-mobile={filterMobile} data-open={filterOpen}>
             <div className="searchbar">
                 <Search className={"filter-searchbar-input"} onSearch={searchHandler} onChange={searchbarChangeHandler} size="large" enterButton={t("search")} placeholder={t("search_placeholder")} allowClear="true" value={apiJson.query}/>
             </div>

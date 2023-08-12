@@ -22,6 +22,30 @@ div.close-button:hover {
 }
 
 
+.filter-btn[data-show=true] {
+    display: flex;
+    position: fixed;
+    top: 100px;
+    z-index: 3;
+    border: none;
+    padding: 12px;
+    border-radius: 0 18px 18px 0;
+    background: white;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+}
+
+.filter-btn[data-show=true]:hover {
+    background-color: hsl(var(--hsl-blue-5));
+    color: white;
+}
+
+.filter-btn[data-show=false] {
+    display: none;
+}
+
+
 div.filter-area {
     display: flex;
     flex-direction: column;
@@ -29,20 +53,32 @@ div.filter-area {
     left: 0;
     top: 70px;
     width: 20vw;
+    min-width: 350px;
     max-width: 460px;
     height: calc(100vh - 70px - var(--footer-height));
     background-color: hsl(var(--hsl-b6));
     opacity: 0;
     transform: translateX(-40vw);
-    transition: transform 150ms ease-in-out, opacity 250ms ease-in-out, top 100ms ease-in-out;
+    transition: transform 150ms ease-in-out, opacity 250ms ease-in-out;
     z-index: 5;
     box-shadow: 0 0 10px hsl(var(--hsl-b5));
     overflow: hidden scroll;
 }
 
 div.filter-area[data-open=true] {
-    opacity: 1;
-    transform: translateX(0);
+    animation: none;
+    transform: translateX(0vw) !important;
+    opacity: 1 !important;
+}
+
+div.filter-area[data-open=false] {
+    animation: none;
+    transform: translateX(-100vw) !important;
+    opacity: 0 !important;
+}
+
+div.filter-area[data-mobile=false] {
+    animation: filterAnimation 250ms forwards;
 }
 
 .filter-area .searchbar {
@@ -99,4 +135,15 @@ div.filter-area::-webkit-scrollbar-thumb {
 div.filter-area::-webkit-scrollbar-track {
     background-color: #282c2f;
     border-radius: 10px;
+}
+
+@keyframes filterAnimation {
+    0% {
+        opacity: 0;
+        transform: translateX(-40vw);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }

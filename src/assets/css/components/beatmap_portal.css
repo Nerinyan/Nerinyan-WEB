@@ -123,6 +123,7 @@
     padding: 5px 24px 5px 24px;
     display: flex;
     flex-direction: column;
+    justify-content: space-evenly;
 }
 
 .portal-info-left .portal-version {
@@ -245,7 +246,7 @@
 }
 
 .portal-info-center li > span {
-    width: 135px;
+    width: 240px;
     margin-right: 1em;
 }
 
