@@ -97,6 +97,7 @@ function Navbar() {
     return (
         <Fragment>
             <nav>
+                
                 <div className="left">
                     <h1>
                         <Link to="/">
@@ -122,20 +123,23 @@ function Navbar() {
                     </ul>
                 </div>
                 <div className="right">
-                <Dropdown
-                    menu={{
-                        items,
-                        selectable: true,
-                        selectedKeys: currentLang,
-                    }}
-                >
-                    <a onClick={(e) => e.preventDefault()}>
-                    <Space>
-                        <img className="flags" src={require(`../assets/images/Flags/${convertLanguageToImage()}.png`)} alt="flags"/>
-                        {t("navbar_language")}
-                    </Space>
-                    </a>
-                </Dropdown>
+                    <Dropdown
+                        menu={{
+                            items,
+                            selectable: true,
+                            selectedKeys: currentLang,
+                        }}
+                    >
+                        <a onClick={(e) => e.preventDefault()}>
+                        <Space>
+                            <img className="flags" src={require(`../assets/images/Flags/${convertLanguageToImage()}.png`)} alt="flags"/>
+                            <p>{t("navbar_language")}</p>
+                        </Space>
+                        </a>
+                    </Dropdown>
+                    <div className="mobile">
+                        
+                    </div>
                 </div>
             </nav>
         </Fragment>

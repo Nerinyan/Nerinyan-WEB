@@ -5,7 +5,7 @@ nav {
     padding: 10px 30px !important;
     display: flex !important;
     flex-direction: row !important;
-    justify-content: center !important;
+    justify-content: space-between !important;
     z-index: 100 !important;
 }
 
@@ -21,6 +21,14 @@ nav div {
 nav div.right {
     justify-content: flex-end;
 }
+
+nav div.right > .ant-dropdown-trigger { 
+    display: flex;
+}
+
+nav div.right > .ant-dropdown-trigger .ant-space div p {
+    margin-bottom: 0;
+ }
 
 nav div h1 {
     font-size: 16px;
