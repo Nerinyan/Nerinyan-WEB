@@ -280,6 +280,8 @@ div.container { margin: 0 auto; padding: 0 0 var(--footer-height) 0; background-
     :root {
         --footer-height: 50px;
     }
+    nav div.right > .ant-dropdown-trigger .ant-space div p { display: none; }
+    div.two-side > .left > .filter-area { position: fixed; }
     footer { font-size: 10px !important; flex-direction: column-reverse !important; align-items: center !important; }
     footer > ul { margin-left: 0 !important; margin-bottom: 0 !important; }
     div.settings-area { width: 60vw !important; max-width: 60vw; transform: translateX(-60vw) translateY(-50%); }
@@ -291,9 +293,7 @@ div.container { margin: 0 auto; padding: 0 0 var(--footer-height) 0; background-
     div.more-info-two-side > ul.desc { flex-direction: column; }
 }
 @media (max-width: 860px) {
-    nav div.right > .ant-dropdown-trigger .ant-space div p { display: none; }
     div.settings-area { width: 80vw !important; max-width: 80vw; transform: translateX(-80vw) translateY(-50%); }
-    div.two-side > .left > .filter-area { position: fixed; }
     ul.searchbar-type-selector li { width: 200px !important; }
     div.info-Single { width: 80vw !important; }
     div.more-info-two-side { flex-direction: column; align-items: center; }

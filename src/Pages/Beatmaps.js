@@ -24,7 +24,7 @@ function Beatmaps({ dev }) {
             // BeatmapListCreator(true)
             GeneralMixins.getApiData()
         }
-        if (documentData.scrollTop >= 70) {
+        if (documentData.scrollTop >= 1) {
             document.getElementById("filter-area").style.top = 0;
             document.getElementById("filter-area").style.height = "calc(100vh - var(--footer-height))";
         } else {
@@ -34,7 +34,7 @@ function Beatmaps({ dev }) {
     }
 
     function resizeHandler() {
-        if (window.innerWidth <= 860) {
+        if (window.innerWidth <= 1024) {
             if (!filterMobile)
                 setGlobalState("filterMobile", true)
                 setGlobalState("filterOpen", false)
@@ -75,6 +75,15 @@ function Beatmaps({ dev }) {
     }
 
     useEffect(() => {
+        if (window.innerWidth <= 1024) {
+            if (!filterMobile)
+                setGlobalState("filterMobile", true)
+                setGlobalState("filterOpen", false)
+        }
+        else {
+            setGlobalState("filterMobile", false)
+            setGlobalState("filterOpen", true)
+        }
         GeneralMixins.getUserRequestParams(searchParams)
         window.addEventListener("scroll", scrollHandler) // Add scroll Event
         window.addEventListener("resize", resizeHandler)
