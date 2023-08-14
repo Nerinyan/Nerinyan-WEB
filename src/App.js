@@ -1,12 +1,15 @@
 import React from "react"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Redirect, Navigate } from "react-router-dom"
 import { MainPage, Beatmaps, Download, Info, NotFound } from './Pages'
 
 function App() {
     return(
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<MainPage />}/>
+                {/* TODO: Making Main Page */}
+                {/* <Route path="/" element={<MainPage />}/> */}
+
+                <Route path="/" element={<Navigate to="/main"/>}/>
                 <Route path="/main" element={<Beatmaps dev={false}/>}/>
                 <Route path="/browse" element={<Beatmaps dev={false}/>}/>
                 <Route path="/dev" element={<Beatmaps dev={true}/>}/>
