@@ -2,6 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
 
+import "./i18n"
+
 import './assets/css/import/import.css'
 
 ReactDOM.render(

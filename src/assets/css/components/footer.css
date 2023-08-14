@@ -11,7 +11,7 @@ footer {
     font-size: 14px;
     flex-direction: row;
     justify-content: space-between;
-    z-index: 2;
+    z-index: 7;
 }
 
 footer span {

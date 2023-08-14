@@ -1,15 +1,18 @@
 import React, { Fragment, useState, useEffect } from "react"
 import { Link } from "react-router-dom"
-import Portal from "../Portal"
-import { getGlobalState, setGlobalState, useGlobalState } from '../store'
+import Portal from "../../Portal"
+import { getGlobalState, setGlobalState, useGlobalState } from '../../store'
 import LazyLoad from 'react-lazyload'
-import { Tooltip, Switch, Dropdown, Menu, message, Checkbox } from 'antd'
+import { Tooltip, Switch, Dropdown, Menu } from 'antd'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { GeneralMixins, BeatmapPortal, Version } from '../Components'
+import { GeneralMixins, BeatmapPortal, Version } from '..'
+import { useTranslation } from "react-i18next"
 
-import '../assets/css/components/beatmap.css'
+import '../../assets/css/components/beatmap.css'
 
 function Beatmap({ bmap }) {
+    const { t } = useTranslation()
+    
     const [isCopied, setIsCopied] = useState(false)
     const [versionsSTD, setVersionsSTD] = useState([])
     const [versionsTAIKO, setVersionsTAIKO] = useState([])
@@ -161,6 +164,35 @@ function Beatmap({ bmap }) {
         e.stopPropagation()
         e.preventDefault()
         
+        if (bmap.nsfw && !GeneralMixins.getCookie("skip_explict_warning")) {
+            var url = ""
+            var urlList = []
+
+            if (!globalDirectDownload) {
+                url = `${document.location.origin}/d/${bmap.id}`
+            } else {
+                url = `https://api.nerinyan.moe/d/${bmap.id}`
+            }
+
+            urlList = []
+
+            if (noVideo || noBg || noHitsound || noStoryboard) url += "?"
+            if (noVideo) urlList.push("noVideo=1")
+            if (noBg) urlList.push("noBg=1")
+            if (noHitsound) urlList.push("noHitsound=1")
+            if (noStoryboard) urlList.push("noStoryboard=1")
+
+            urlList.map(function (param, i) {
+                if (urlList[0] === param) url += `${param}`           
+                else url += `&${param}`           
+            })
+            
+            setGlobalState("downloadURLTmp", url)
+            setGlobalState("explicitWarningHandle", true)
+        } else return downloadbeatmap()
+    }
+
+    function downloadbeatmap() {
         var url = ""
         var urlList = []
 
@@ -222,55 +254,7 @@ function Beatmap({ bmap }) {
           items={[
             {
                 label: (
-                  <Tooltip placement="top" title={bmap.video ? "This option sets Video's existence." : "This option sets Video's existence.\n But, This beatmap not contains video."}>
-                      <Switch disabled={bmap.video ? false : true} checked={noVideo} onChange={(e) => {
-                            setNoVideo(e)
-                            message.info(noVideo ? "Video is included in osz." : "Video will not included in osz!")
-                      }} />
-                      No Video
-                  </Tooltip>
-                ),
-                key: '1',
-            },
-            {
-                label: (
-                    <Tooltip placement="top" title={"This option sets BG's existence."}>
-                        <Switch checked={noBg} onChange={(e) => {
-                            setNoBg(e)
-                            message.info(noBg ? "Background image is included in osz." : "Background image will not included in osz!")
-                        }} />
-                        No BG
-                    </Tooltip>
-                ),
-                key: '2',
-            },
-            {
-                label: (
-                    <Tooltip placement="top" title={"This option sets Hitsound's existence."}>
-                        <Switch checked={noHitsound} onChange={(e) => {
-                            setNoHitsound(e)
-                            message.info(noHitsound ? "Hitsound are included in osz." : "Hitsound will not included in osz!")
-                        }} />
-                        No Hitsound
-                    </Tooltip>
-                ),
-                key: '3',
-            },
-            {
-                label: (
-                    <Tooltip placement="top" title={"This option sets Storyboard's existence."}>
-                        <Switch checked={noStoryboard} onChange={(e) => {
-                            setNoStoryboard(e)
-                            message.info(noStoryboard ? "Storyboard is included in osz." : "Storyboard will not included in osz!")
-                        }} />
-                        No Storyboard
-                    </Tooltip>
-                ),
-                key: '4',
-            },
-            {
-                label: (
-                    <Tooltip placement="top" title={"Append This beatmap to Download list"}>
+                    <div>
                         <Switch checked={zipAppend} onChange={(e) => {
                             if (e) {
                                 var paramList = []
@@ -290,10 +274,26 @@ function Beatmap({ bmap }) {
                                 return setZipAppend(false)
                             }
                         }} />
-                        Append Download list
-                    </Tooltip>
+                        {t("append_this_beatmap_to_download_list")}
+                    </div>
                 ),
-                key: '5',
+                key: '1',
+            },
+            {
+              label: (
+                <button className="btn version-bg-btn" onClick={(e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    window.open(
+                        `https://api.nerinyan.moe/bg/-${bmap.id}`,
+                        '_blank'
+                    )
+                }}>
+                    <i className="fa-solid fa-image"></i>
+                    <p>{t("download_bg")}</p>
+                </button>
+              ),
+              key: '2',
             },
           ]}
         />
@@ -302,69 +302,78 @@ function Beatmap({ bmap }) {
     return (
         <Fragment>
             <div id={bmap.id} className="beatmap-single" data-isExpand={currentExpandedID === bmap.id ? true : false} data-isplaying={musicPlayerIsPlaying && musicPlayerBeatmap.id === bmap.id ? true : false}>
-                <LazyLoad height={136} offset={300} style={{background: "url(" + require('../assets/images/beatmaps-default.png') + ")"}}>
+                <LazyLoad height={136} offset={300} style={{background: "url(" + require('../../assets/images/beatmaps-default.png') + ")"}}>
                     <div className="card-header" style={{ "--bg": "center / cover no-repeat url(https://assets.ppy.sh/beatmaps/"+bmap.id+"/covers/cover.jpg?1622784772" }}>
                         <div className="card-header-beatmapinfo">
                             <ul>
                                 <li className="card-header-status">
                                     {bmap.video && 
                                         <div className="ranked-status VIDEO">
-                                            <Tooltip placement="top" title={"This beatmap contains video."}>
+                                            <Tooltip arrow={false} placement="top" title={t("this_beatmap_contains_video")}>
                                                 <i className="fa-solid fa-video"></i>
                                             </Tooltip>
                                         </div>
                                     }
                                     {bmap.storyboard && 
                                         <div className="ranked-status STORYBOARD">
-                                            <Tooltip placement="top" title={"This beatmap contains storyboard."}>
+                                            <Tooltip arrow={false} placement="top" title={t("this_beatmap_contains_storyboard")}>
                                                 <i className="fa-solid fa-clapperboard"></i>
                                             </Tooltip>
                                         </div>
                                     }
                                     <div className={"ranked-status " + GeneralMixins.convertRankedStatusToText(bmap.ranked)}>
-                                        {GeneralMixins.convertRankedStatusToText(bmap.ranked)}
+                                        {t(GeneralMixins.convertRankedStatusToText(bmap.ranked).toLowerCase()).toUpperCase()}
                                     </div>
                                     {bmap.nsfw &&
                                         <div className={"NSFW"}>
-                                            EXPLICIT
+                                            {t("explicit")}
                                         </div>
-                                    }
+                                    }   
                                 </li>
                             </ul>
                         </div>
                         <div className="beatmap-title">
                             <span className="title">{bmap.title}</span>
                             <span className="artist">by {bmap.artist}</span>
+                            <span className="mapper">{t("mapped_by")} <Link to={"/main?creator="+bmap.user_id}>{bmap.creator}</Link></span>
                         </div>
                         <div className="beatmap-preview" style={musicPlayerIsPlaying && musicPlayerBeatmap.id === bmap.id ? {opacity: 1} : {}}>
                             <button onClick={(e) => {handleCallMusic(e)}} className="play-button">
                                 <i className={"fa-duotone fa-" + (!musicPlayerIsPaused && musicPlayerBeatmap.id === bmap.id ? "pause" : "play")}></i>
                             </button>
-                            <div className="beatmap-preview-progress">
-
-                            </div>
                         </div>
                     </div>
                 </LazyLoad>
                 <ul className="card-main">
                     <li className="beatmap-info">
-                        <span>mapped by <Link to={"/main?creator="+bmap.user_id}>{bmap.creator}</Link></span>
                         <div className="card-header-info">
                             <div className="card-haeder-stats">
-                                <Tooltip placement="top" title={"Favorites count: " + GeneralMixins.addCommas(bmap.favourite_count)}>
+                                <Tooltip arrow={false} placement="top" title={`${t("favorites_count")}: ${GeneralMixins.addCommas(bmap.favourite_count)}`}>
                                     <i className="fa-solid fa-heart"></i> {GeneralMixins.addCommas(bmap.favourite_count)}
                                 </Tooltip>
-                                <Tooltip placement="top" title={"Play count: " + GeneralMixins.addCommas(bmap.play_count)}>
+                                <Tooltip arrow={false} placement="top" title={`${t("play_count")}: ${GeneralMixins.addCommas(bmap.play_count)}`}>
                                     <i className="fa-solid fa-circle-play"></i> {GeneralMixins.addCommas(bmap.play_count)}
                                 </Tooltip>
-                                <Tooltip placement="top" title={"BPM: " + GeneralMixins.addCommas(parseFloat(bmap.bpm))}>
+                                <Tooltip arrow={false} placement="top" title={`${t("bpm")}: ${GeneralMixins.addCommas(parseFloat(bmap.bpm))}`}>
                                     <i className="fa-solid fa-music-note"></i> {GeneralMixins.addCommas(parseFloat(bmap.bpm))}
                                 </Tooltip>
                             </div>
                         </div>
                     </li>
+                    <li className="beatmap-list">
+                        <div>
+                            <div className="version-lists">
+                                {generateVersionListElement()}
+                            </div>
+                            {getGlobalState('currentExpandedID') === bmap.id &&
+                                <Portal>
+                                    <BeatmapPortal bmap={bmap}></BeatmapPortal>
+                                </Portal>
+                            }
+                        </div>
+                    </li>
                     <li className="beatmap-buttons">
-                        <Tooltip placement="top" title={"Copy download url"}>
+                        <Tooltip arrow={false} placement="top" title={t("copy_download_url")}>
                             <CopyToClipboard text={`https://api.nerinyan.moe/d/${bmap.id}`} onCopy={() => clipboardHandler()}>
                                 <button>
                                     <i className={isCopied ? "download-url-copied fa-solid fa-badge-check" : "fa-solid fa-copy"}></i>
@@ -372,22 +381,9 @@ function Beatmap({ bmap }) {
                             </CopyToClipboard>
                         </Tooltip>
                         <Dropdown.Button  placement="bottom" onClick={(e) => {downloadHandler(e)}} overlay={menu} onOpenChange={handleOpenChange} open={dropdownOpen}>
-                            <i className="fa-solid fa-arrow-down-to-bracket"></i> Download
+                            <i className="fa-solid fa-arrow-down-to-bracket"></i> {t("download")}
                         </Dropdown.Button>
-                        <Tooltip placement="top" title={"Download beatmap background image"}>
-                            <button onClick={(e) => {
-                                e.stopPropagation()
-                                e.preventDefault()
-                                window.open(
-                                    `https://api.nerinyan.moe/bg/-${bmap.id}`,
-                                    '_blank'
-                                )
-                            }}>
-                                <i className="fa-solid fa-image"></i>
-                                <p>BG</p>
-                            </button>
-                        </Tooltip>
-                        <Tooltip placement="top" title={"Go to osu! beatmap page"}>
+                        <Tooltip arrow={false} placement="top" title={t("go_to_osu_beatmap_page")}>
                             <button onClick={(e) => {
                                 e.stopPropagation()
                                 e.preventDefault()
@@ -400,20 +396,12 @@ function Beatmap({ bmap }) {
                             </button>
                         </Tooltip>
                     </li>
-                    <li className="beatmap-list">
-                        <div>
-                            <Tooltip placement="top" title={getGlobalState('currentExpandedID') === bmap.id ? 'Hide Beatmap Info' : 'Show Beatmap Info'}>
-                                <button className={"beatmap-list-btn " + (getGlobalState('currentExpandedID') === bmap.id ? 'collapse' : 'expand')} onClick={(e) => {changeCollapse(e)}}>
-                                    <i className="fad fa-caret-square-down"></i>
-                                </button>
-                            </Tooltip>
-                            <div className="version-lists">
-                                {generateVersionListElement()}
-                            </div>
-                            <Portal>
-                                <BeatmapPortal bmap={bmap}></BeatmapPortal>
-                            </Portal>
-                        </div>
+                    <li className="beatmap-more-info">
+                        <Tooltip arrow={false} placement="top" title={getGlobalState('currentExpandedID') === bmap.id ? t("hide_beatmap_info") : t("show_beatmap_info")}>
+                            <button className={"btn beatmap-list-btn " + (getGlobalState('currentExpandedID') === bmap.id ? 'collapse' : 'expand')} onClick={(e) => {changeCollapse(e)}}>
+                                <i className={getGlobalState('currentExpandedID') === bmap.id ? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down"}></i>
+                            </button>
+                        </Tooltip>
                     </li>
                 </ul>
             </div>

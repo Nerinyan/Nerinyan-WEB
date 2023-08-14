@@ -1,9 +1,11 @@
 import React, { Fragment, useState, useEffect } from "react"
 import { useParams, useSearchParams } from "react-router-dom"
 import { Helmet } from "react-helmet"
+import { useTranslation } from "react-i18next"
 import { GeneralMixins, Navbar, Footer } from "../Components"
 
 function Download() {
+    const { t } = useTranslation()
     let { beatmapsetid } = useParams()
     const [searchParams] = useSearchParams()
     const [dlURL, setDlURL] = useState('')
@@ -31,13 +33,12 @@ function Download() {
             <div className="container">
                 <div className="download-page">
                     <div className="owo">
-                        <h1>Thank you for using Nerinyan!🐈</h1>
-                        <h2>잠시후, 비트맵 다운로드가 시작됩니다. 다운로드가 시작되지 않을 경우 <a href={dlURL}>여기를 클릭해 수동으로 받아주세요!</a></h2>
-                        <h2>Your Requested Beatmapset will download in seconds... Download failed? <a href={dlURL}>Click Here to download manually.</a></h2>
+                        <h1>{t("thank_you_for_using_nerinyan")}</h1>
+                        <h2>{t("your_requested_beatmapset_will_download")} <a href={dlURL}>{t("click_here_to_download_manually")}</a></h2>
                     </div>
                     <a href="/main">
                         <button>
-                            Return to Main Page
+                            {t("return_to_main_page")}
                         </button>
                     </a>
                 </div>
