@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from "react"
+import React, { useRef, useEffect, Fragment } from "react"
 import { useSearchParams } from "react-router-dom"
 import { Navbar, Footer, Beatmap, GeneralMixins, MusicPlayer, Filter, Devbar } from "../Components"
 import { getGlobalState, useGlobalState, setGlobalState } from '../store'
@@ -9,15 +9,17 @@ import '../assets/css/components/beatmap.css'
 
 function Beatmaps({ dev }) {
     const { t } = useTranslation()
-    const [filterMobile] = useGlobalState("filterMobile")
-    const [filterOpen] = useGlobalState("filterOpen")
+    const [filterMobile, setFilterMobile] = useGlobalState('filterMobile')
+    const [filterOpen, setFilterOpen] = useGlobalState('filterOpen')
     const [apiResult] = useGlobalState("apiResult")
     const [noResult] = useGlobalState("noResult")
     const [loading] = useGlobalState("loading")
     const [explicitWarningHandle] = useGlobalState("explicitWarningHandle")
     const [searchParams] = useSearchParams()
 
-    function scrollHandler() {
+    const filterAreaRef = useRef(null)
+
+    const scrollHandler = () => {
         const documentData = document.documentElement
         // console.log(documentData.scrollTop + documentData.clientHeight + (documentData.clientHeight*2) >= documentData.scrollHeight && !getGlobalState('loading') && !getGlobalState('firstLoad') )
         if (documentData.scrollTop + documentData.clientHeight + (documentData.clientHeight*2) >= documentData.scrollHeight && !getGlobalState('loading') && !getGlobalState('firstLoad')) {
@@ -33,7 +35,7 @@ function Beatmaps({ dev }) {
         }
     }
 
-    function resizeHandler() {
+    const resizeHandler = () => {
         if (window.innerWidth <= 1024) {
             if (!filterMobile)
                 setGlobalState("filterMobile", true)
@@ -44,47 +46,37 @@ function Beatmaps({ dev }) {
             setGlobalState("filterOpen", true)
         }
     }
-
-    let renderBeatmaps = []
-    apiResult.forEach((bmap, index) => {
-        if (bmap.beatmaps.length > 0)
-            renderBeatmaps.push(<li key={index}><Beatmap bmap={bmap}/></li>)
-        else
-            console.log(`Null Beatmaps Detected. -> ${bmap.id} ${bmap.artist} - ${bmap.title} Mapped by ${bmap.creator}`)
-    })
-    setGlobalState('currentExpandedData', apiResult[0])
-
-    const portalCloseEventController = () => {
-        document.body.addEventListener("click" , (e) => {
-            if (!document.querySelector("#portal").contains(e.target) || !document.getElementsByClassName("ant-dropdown").contains(e.target)) {
-                if (document.getElementById("beatmap-portal"))
-                    document.getElementById("beatmap-portal").style.animation = "close forwards 200ms"
-                
-                //for animation
+    const handlePortalClose = (e) => {
+        if (!document.querySelector('#portal').contains(e.target) || !document.querySelector('.ant-dropdown').contains(e.target)) {
+            const beatmapPortal = document.getElementById('beatmap-portal')
+            if (beatmapPortal) {
+                beatmapPortal.style.animation = 'close forwards 200ms'
                 setTimeout(() => {
-                    setGlobalState('currentExpandedID', 0)
+                    setGlobalState('currentExpandedID', 0);
                 }, 200)
             }
-            if (getGlobalState("filterMobile")) {
-                if (!document.querySelector("#filter-area").contains(e.target)) {
-                    console.log('gd')
-                    setGlobalState("filterOpen", false)
-                }
+        }
+        if (filterMobile) {
+            if (!filterAreaRef.current.contains(e.target)) {
+                console.log('gd')
+                setFilterOpen(false)
             }
-        })
+        }
     }
 
     useEffect(() => {
         if (window.innerWidth <= 1024) {
             if (!filterMobile)
-                setGlobalState("filterMobile", true)
-                setGlobalState("filterOpen", false)
+                setFilterMobile(true)
+                setFilterOpen(false)
         }
         else {
-            setGlobalState("filterMobile", false)
-            setGlobalState("filterOpen", true)
+            setFilterMobile(false)
+            setFilterOpen(true)
         }
+
         GeneralMixins.getUserRequestParams(searchParams)
+
         window.addEventListener("scroll", scrollHandler) // Add scroll Event
         window.addEventListener("resize", resizeHandler)
         return () => {
@@ -95,19 +87,35 @@ function Beatmaps({ dev }) {
     }, [])
     
     useEffect(() => {
-        portalCloseEventController()
+        const bodyClickHandler = (e) => {
+            handlePortalClose(e)
+        }
+
+        document.body.addEventListener('click', bodyClickHandler)
+
+        return () => {
+            document.body.removeEventListener('click', bodyClickHandler)
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [loading])
+    }, [loading, filterMobile])
+
+    const renderBeatmaps = apiResult.map((bmap, index) => (
+        bmap.beatmaps.length > 0 ? (
+            <li key={index}><Beatmap bmap={bmap} /></li>
+        ) : (
+            <Fragment key={index}>
+                {console.log(`Null Beatmaps Detected. -> ${bmap.id} ${bmap.artist} - ${bmap.title} Mapped by ${bmap.creator}`)}
+            </Fragment>
+        )
+    ))
+    setGlobalState('currentExpandedData', apiResult[0])
 
     return (
         <Fragment>
             <Navbar />
             <div className="container">
                 {/* Change API URL For dev */}
-                {
-                    dev &&
-                    <Devbar/>
-                }
+                { dev && <Devbar/> }
 
                 {/* Explicit Warning Modal */}
                 <Modal
@@ -170,17 +178,16 @@ function Beatmaps({ dev }) {
                     <div className="right">
                         {/* Beatmap List */}
                         <ul className="beatmap-list">
-                            {noResult &&
+                            {noResult ? (
                                 <li className="notfound">
                                     <p>
                                         {t("oops")} <br/>
                                         {t("search_results_do_not_exist")}
                                     </p>
                                 </li>
-                            }
-                            {!noResult &&
+                            ) : (
                                 renderBeatmaps
-                            }
+                            )}
                         </ul>
                     </div>
                 </div>

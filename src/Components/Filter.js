@@ -391,19 +391,10 @@ function Filter() {
         }
         message.info(t("please_wait_to_download"), 10)
         if (!selectedOnly) {
-            var paramList = []
-            if (globalNoVideo) paramList.push(true)
-            else paramList.push(false)
-            if (globalNoBg) paramList.push(true)
-            else paramList.push(false)
-            if (globalNoHitsound) paramList.push(true)
-            else paramList.push(false)
-            if (globalNoStoryboard) paramList.push(true)
-            else paramList.push(false)
             var tmp = []
             getGlobalState("apiResult").map(function(bmap, i) {
                 if (i < 30) {
-                    var url = GeneralMixins.generateDownloadURL(bmap.id, paramList)
+                    var url = GeneralMixins.generateDownloadURL(bmap.id)
                     var bname = `${bmap.id} ${bmap.artist} - ${bmap.title}.osz`
                     tmp.push({'name': bname, 'url': url})
                 }

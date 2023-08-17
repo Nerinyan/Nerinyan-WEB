@@ -4,7 +4,31 @@ import { scaleLinear, interpolateRgb } from 'd3'
 import { setGlobalState, getGlobalState } from '../store'
 import axios from "axios"
 
-var Data = []
+
+const modeMap = {
+    0: "osu!",
+    1: "taiko",
+    2: "catch",
+    3: "mania",
+}
+
+const rankedStatusMap = {
+    '-3': "Unknown",
+    '-2': "Graveyard",
+    '-1': "WIP",
+    '0': "Pending",
+    '1': 'Ranked',
+    '2': 'Approved',
+    '3': 'Qualified',
+    '4': 'Loved',
+}
+
+const iconMap = {
+    0: (<i className="faa fa-extra-mode-osu"></i>),
+    1: (<i className="faa fa-extra-mode-taiko"></i>),
+    2: (<i className="faa fa-extra-mode-furits"></i>),
+    3: (<i className="faa fa-extra-mode-mania"></i>),
+}
 
 const difficultyColorSpectrum = scaleLinear().domain([0.1, 1.25, 2, 2.5, 3.3, 4.2, 4.9, 5.8, 6.7, 7.7, 9])
     .clamp(true)
@@ -16,197 +40,79 @@ const difficultyTextColorSpectrum = scaleLinear().domain([0.1, 1.25, 2, 2.5, 3.3
     .range(['#393939', '#393939', '#393939', '#393939', '#393939', '#393939', '#0e0e0e', '#000000', '#000000', '#000000', '#c5c5c5'])
     .interpolate(interpolateRgb.gamma(2.2))
 
+
 export function convertMode(mode) {
-    switch (Number(mode)) {
-        case 0:
-            return "osu!"
-        case 1:
-            return "taiko"
-        case 2:
-            return "catch"
-        case 3:
-            return "mania"
-        default:
-            return "osu!"
-    }
+    return modeMap[Number(mode)] || modeMap[0]
 }
 
 export function convertRankedStatusToText(ranked) {
-    var temp
-    switch (ranked) {
-        default:
-            temp = "UNKNOWN"
-            break
-        case -2:
-            temp = "GRAVEYARD"
-            break
-        case -1:
-            temp = "WIP"
-            break
-        case 0:
-            temp = "PENDING"
-            break
-        case 1:
-            temp = "RANKED"
-            break
-        case 2:
-            temp = "APPROVED"
-            break
-        case 3:
-            temp = "QUALIFIED"
-            break
-        case 4:
-            temp = "LOVED"
-            break
-    }
-    return temp
-}
-
-export function convertStatus(status) {
-    switch (Number(status)) {
-        case 4:
-            return "Loved"
-        case 3:
-            return "Qualified"
-        case 2:
-            return "Approved"
-        case 1:
-            return "Ranked"
-        case 0:
-            return "Pending"
-        case -1:
-            return "WIP"
-        case -2:
-            return "Graveyard"
-        default:
-            return "Ranked"
-    }
-}
-
-export function convertStatusWithIcon(status) {
-    switch (Number(status)) {
-        case 4:
-            return "💟 Loved"
-        case 3:
-            return "✅ Qualified"
-        case 2:
-            return "🔥 Approved"
-        case 1:
-            return "⏫ Ranked"
-        case 0:
-            return "❔ Pending"
-        case -1:
-            return "🛠️ WIP"
-        case -2:
-            return "⚰️ Graveyard"
-        default:
-            return "⏫ Ranked"
-    }
+    return rankedStatusMap[String(ranked)].toUpperCase() || rankedStatusMap["-3"].toUpperCase()
 }
 
 export function addCommas(nStr) {
-    nStr += ''
-    var x = nStr.split('.')
-    var x1 = x[0]
-    var x2 = x.length > 1 ? '.' + x[1] : ''
-    var rgx = /(\d+)(\d{3})/
-    while (rgx.test(x1)) {
-        x1 = x1.replace(rgx, `$1,$2`)
-    }
-    return x1 + x2
+    const formattedNumber = Number(nStr).toLocaleString('en-US')
+    return formattedNumber
 }
 
 export function DateFormat(date) {
     const tmp = new Date(`${date}`)
 
     const months = [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec'
+        'Jan', 'Feb', 'Mar',
+        'Apr', 'May', 'Jun',
+        'Jul', 'Aug', 'Sep',
+        'Oct', 'Nov', 'Dec'
     ]
 
     return `${tmp.getDate()} ${months[tmp.getMonth()]} ${tmp.getFullYear()}`
 }
 
 export function timeSince(date) {
-    if (typeof date === "object"){
-        date = date.getTime()/1000
+    if (typeof date === "object") {
+        date = date.getTime() / 1000
     }
-    var now = new Date()
-    var currentTime = now / 1000
-    var seconds = Math.floor(currentTime - date)
 
-    var interval = Math.floor(seconds / 31536000)
+    const now = new Date()
+    const currentTime = now / 1000
+    const seconds = Math.floor(currentTime - date)
 
-    if (interval > 1) {
-        return interval + " years ago"
-    }if (interval === 1){
-        return "a year ago"
+    const intervals = {
+        year: 31536000,
+        month: 2592000,
+        day: 86400,
+        hour: 3600,
+        minute: 60,
+        second: 1
     }
-    interval = Math.floor(seconds / 2592000)
-    if (interval > 1) { 
-        return interval + " months ago"
-    }if (interval === 1){
-        return "a month ago"
+
+    for (const [unit, secondsPerUnit] of Object.entries(intervals)) {
+        const interval = Math.floor(seconds / secondsPerUnit)
+        if (interval > 1) {
+            return interval + ` ${unit}s ago`
+        } else if (interval === 1) {
+            return `a ${unit} ago`
+        }
     }
-    interval = Math.floor(seconds / 86400)
-    if (interval > 1) {
-        return interval + " days ago"
-    }if (interval === 1){
-         interval = Math.floor(seconds / 3600)
-        return interval + " hours ago"
-    }
-    interval = Math.floor(seconds / 3600)
-    if (interval > 1) {
-        return interval + " hours ago"
-    }if (interval === 1){
-        return "a hour ago"
-    }
-    interval = Math.floor(seconds / 60);
-    if (interval > 1) {
-        return interval + " minutes ago"
-    }if (interval === 1){
-        return "a minute ago"
-    }
+
     return Math.floor(seconds) + " seconds ago"
 }
 
-export function secondsToTime(time){
-    var hrs = ~~(time / 3600)
-    var mins = ~~((time % 3600) / 60)
-    var secs = ~~time % 60
-    var ret = ""
+export function secondsToTime(time, odometer = false) {
+    const hrs = Math.floor(time / 3600)
+    const mins = Math.floor((time % 3600) / 60)
+    const secs = Math.floor(time % 60)
+
+    const pad = value => (value < 10 ? "0" + value : "" + value)
+
+    let ret = ""
 
     if (hrs > 0) {
-        ret += "" + hrs + ":" + (mins < 10 ? "0" : "")
+        ret += `${hrs}${odometer ? "" : ":"}${pad(mins)}`
+    } else {
+        ret += `${mins}`
     }
 
-    ret += "" + mins + ":" + (secs < 10 ? "0" : "")
-    ret += "" + secs
-    return ret
-}
-
-export function secondsToTimeForOdometer(time){
-    var hrs = ~~(time / 3600)
-    var mins = ~~((time % 3600) / 60)
-    var secs = ~~time % 60
-    var ret = ""
-
-    if (hrs > 0) {
-        ret += "" + hrs + "" + (mins < 10 ? "0" : "")
-    }
-
-    ret += "" + mins + "" + (secs < 10 ? "0" : "")
-    ret += "" + secs
+    ret += `${odometer ? "" : ":"}${pad(secs)}`
     return ret
 }
 
@@ -234,280 +140,185 @@ export function getCookie(name) {
 }
 
 export function calcSuccessRate(pass, play) {
-    var result = (pass / play) * 100
-    if (isNaN(result)){
+    if (play === 0) {
         return 0
     }
-    result = parseFloat(result.toFixed(2))
-    return result
+
+    const result = (pass / play) * 100
+    return parseFloat(result.toFixed(2))
 }
 
 export function getDiffTextColor(rating) {
-    rating += 0
-    if (rating < 0.1) return '#393939';
-    if (rating >= 9) return '#d2d2d2';
-    return difficultyTextColorSpectrum(rating);
+    if (rating < 0.1) return '#393939'
+    if (rating >= 9) return '#d2d2d2'
+
+    return difficultyTextColorSpectrum(rating)
 }
 
 export function getDiffColor(rating) {
-    rating += 0
-    if (rating < 0.1) return '#AAAAAA';
-    if (rating >= 9) return '#000000';
-    return difficultyColorSpectrum(rating);
+    if (rating < 0.1) return '#AAAAAA'
+    if (rating >= 9) return '#000000'
+
+    return difficultyColorSpectrum(rating)
 }
 
 export function modeToicon(mode){
-    switch (mode) {
-        case 0:
-            return (<i className="faa fa-extra-mode-osu"></i>)
-        case 1:
-            return (<i className="faa fa-extra-mode-taiko"></i>)
-        case 2:
-            return (<i className="faa fa-extra-mode-furits"></i>)
-        case 3:
-            return (<i className="faa fa-extra-mode-mania"></i>)
-        default:
-            break
-    }
+    return iconMap[mode]
 }
 
 export function getUserRequestParams(searchParams) {
     setGlobalState('loading', true)
-    var apiJson = getGlobalState('apiJson')
-    var uri = "/main"
-    var params = []
+    const apiJson = getGlobalState('apiJson')
+    const uri = "/main"
+    const params = []
 
-    // Creator
-    // if (searchParams.get("creator") !== null) tempApiJon.creator = Number(searchParams.get("creator")) API 서버에서 지원 안함(?)
-
-    // Mode
-    if (searchParams.get("m") !== null) {
-        if (searchParams.get("m") === "-1" || searchParams.get("m") === "any") {
-            apiJson.m = ""
-        } else if (searchParams.get("m") === "0" || searchParams.get("m") === "osu") {
-            apiJson.m = "0"
-            params.push({'m': '0'})
-        } else if (searchParams.get("m") === "1" || searchParams.get("m") === "taiko") {
-            apiJson.m = "1"
-            params.push({'m': '1'})
-        } else if (searchParams.get("m") === "2" || searchParams.get("m") === "catch") {
-            apiJson.m = "2"
-            params.push({'m': '2'})
-        } else if (searchParams.get("m") === "3" || searchParams.get("m") === "mania") {
-            apiJson.m = "3"
-            params.push({'m': '3'})
+    const paramMap = {
+        m: {
+            values: [
+                "any", //any
+                "osu", "taiko", "catch", "mania", //string
+                "0", "1", "2", "3", // int
+            ],
+            key: "m"
+        },
+        s: {
+            values: ["any", "", "ranked", "qualified", "loved", "pending", "wip", "graveyard"],
+            key: "ranked",
+            multi: true
+        },
+        nsfw: {
+            values: ["1", "true", "0", "false"],
+            key: "nsfw",
+            type: "boolean"
+        },
+        e: {
+            values: [
+                "video", "storyboard",
+                "storyboard.video", "video.storyboard"
+            ],
+            key: "extra"
+        },
+        sort: {
+            values: [
+                "title_desc", "title_asc",
+                "artist_desc", "artist_asc", 
+                "difficulty_desc", "difficulty_asc",
+                "ranked_desc", "ranked_asc", 
+                "updated_desc", "updated_asc",
+                "plays_desc", "plays_asc", 
+                "favourites_desc", "favourites_asc"
+            ],
+            key: "sort"
+        },
+        q: {
+            key: "query"
         }
     }
 
-    // Categories (status)
-    var status = []
-    if (searchParams.get("s") !== null) {
-        if (searchParams.get("s") === "any") {
-            apiJson.ranked = "all"
-            params.push({'s': 'any'})
-        } else if (searchParams.get("s") === "") {
-            apiJson.ranked = ""
-        } else {
-            var status_list = ["ranked", "qualified", "loved", "pending", "wip", "graveyard"]
-            if (searchParams.get("s").includes("ranked")) {
-                status.push('ranked')
-            }
-            if (searchParams.get("s").includes("qualified")) {
-                status.push('qualified')
-            }
-            if (searchParams.get("s").includes("loved")) {
-                status.push('loved')
-            }
-            if (searchParams.get("s").includes("pending")) {
-                status.push('pending')
-            }
-            if (searchParams.get("s").includes("wip")) {
-                status.push('wip')
-            }
-            if (searchParams.get("s").includes("graveyard")) {
-                status.push('graveyard')
-            }
-            
-            var tmp = ""
-            status_list.map(function (v) {
-                if (status.includes(v)) {
-                    if (tmp !== "") tmp += ','
-                    return tmp += v
-                }
-            })
+    for (const key in paramMap) {
+        const param = paramMap[key]
+        const value = searchParams.get(key)
 
-            apiJson.ranked = tmp
-            params.push({'s': status})
+        if (value !== null) {
+            if (key === "s" && (value === "any" || value === "")) {
+                apiJson.ranked = "all"
+                params.push({ [param.key]: "all" })
+            } else {
+                apiJson[param.key] = param.type === "boolean" ? value === "1" || value === "true" : value
+                params.push({ [param.key]: apiJson[param.key] })
+            }
         }
-    }
-
-    // Explicit Content (nsfw)
-    if (searchParams.get("nsfw") !== null) {
-        if (searchParams.get("nsfw") === "1" || searchParams.get("nsfw") === "true") {
-            apiJson.nsfw = true
-            params.push({'nsfw': true})
-        } else if (searchParams.get("nsfw") === "0" || searchParams.get("nsfw") === "false") {
-            apiJson.nsfw = true
-            params.push({'nsfw': false})
-        }
-    }
-
-    // Extra
-    if (searchParams.get("e") !== null) {
-        if (searchParams.get("e") === "video") {
-            apiJson.extra = "video"
-            params.push({'e': 'video'})
-        } else if (searchParams.get("e") === "storyboard") {
-            apiJson.extra = "storyboard"
-            params.push({'e': 'storyboard'})
-        } else if (searchParams.get("e") === "storyboard.video" || searchParams.get("e") === "video.storyboard") {
-            apiJson.extra = "storyboard.video"
-            params.push({'e': 'storyboard.video'})
-        }
-    } 
-
-    // Sort by
-    if (searchParams.get("sort") !== null) {
-        if (searchParams.get("sort") === "title_desc") {
-            apiJson.sort = "title_desc"
-            params.push({'sort': 'title_desc'})
-        } else if (searchParams.get("sort") === "title_asc") {
-            apiJson.sort = "title_asc"
-            params.push({'sort': 'title_asc'})
-        } else if (searchParams.get("sort") === "artist_desc") {
-            apiJson.sort = "artist_desc"
-            params.push({'sort': 'artist_desc'})
-        } else if (searchParams.get("sort") === "artist_asc") {
-            apiJson.sort = "artist_asc"
-            params.push({'sort': 'artist_asc'})
-        } else if (searchParams.get("sort") === "difficulty_desc") {
-            apiJson.sort = "difficulty_desc"
-            params.push({'sort': 'difficulty_desc'})
-        } else if (searchParams.get("sort") === "difficulty_asc") {
-            apiJson.sort = "difficulty_asc"
-            params.push({'sort': 'difficulty_asc'})
-        } else if (searchParams.get("sort") === "ranked_desc") {
-            apiJson.sort = ""
-        } else if (searchParams.get("sort") === "ranked_asc") {
-            apiJson.sort = "ranked_asc"
-            params.push({'sort': 'ranked_asc'})
-        } else if (searchParams.get("sort") === "updated_desc") {
-            apiJson.sort = "updated_desc"
-            params.push({'sort': 'updated_desc'})
-        } else if (searchParams.get("sort") === "updated_asc") {
-            apiJson.sort = "updated_asc"
-            params.push({'sort': 'updated_asc'})
-        } else if (searchParams.get("sort") === "plays_desc") {
-            apiJson.sort = "plays_desc"
-            params.push({'sort': 'plays_desc'})
-        } else if (searchParams.get("sort") === "plays_asc") {
-            apiJson.sort = "plays_asc"
-            params.push({'sort': 'plays_asc'})
-        } else if (searchParams.get("sort") === "favourites_desc") {
-            apiJson.sort = "favourites_desc"
-            params.push({'sort': 'favourites_desc'})
-        } else if (searchParams.get("sort") === "favourites_asc") {
-            apiJson.sort = "favourites_asc"
-            params.push({'sort': 'favourites_asc'})
-        }
-    }
-
-    // Query
-    if (searchParams.get("q") !== null) {
-        apiJson.query = searchParams.get("q")
-        params.push({'q': searchParams.get("q")})
     }
 
     console.log('detact Params -', params)
-    params.map((v, k) => {
-        var key = Object.keys(v)[0]
-        var value = Object.values(v)[0]
-        if (k === 0) uri += `?`
-        else uri += `&`
-        uri += `${key}=${value}`
-    })
 
-    window.history.replaceState("", document.title, uri);
+    const paramString = params.map((v, k) => {
+        const key = Object.keys(v)[0]
+        const value = Array.isArray(v[key]) ? v[key].join(",") : v[key]
+        return `${k === 0 ? '?' : '&'}${key === 'ranked' ? 's' : key}=${value}`
+    }).join('')
+
+    const newUri = `${uri}${paramString}`
+    window.history.replaceState("", document.title, newUri)
 
     setGlobalState("apiJson", apiJson)
-    getApiData() // get Beatmap Data From Nerinyan API
+    getApiData()
     setGlobalState('loading', false)
-    return uri
+    return newUri
 }
 
+const MAX_ERROR_COUNT = 2
+const MAX_RETRY_COUNT = 5
+const PAGE_SIZE = 60
+let Data = []
+
 export async function getApiData(append=true) {
-    var apiErrorCount = getGlobalState("apiErrorCount")
-    var apiURL = getGlobalState("apiURL")
-    var apiJson = getGlobalState("apiJson")
+    let apiErrorCount = getGlobalState("apiErrorCount")
+    let apiURL = getGlobalState("apiURL")
+    let apiJson = getGlobalState("apiJson")
+
     if (append === false) {
         Data = []
     }
   
-    if (Data.length < (apiJson.page * 60)) {
+    if (Data.length < (apiJson.page * PAGE_SIZE)) {
         return false
     }
-    setGlobalState("loading", true)
-    // setGlobalState("apiURL", "https://api.nerinyan.moe")
-    // apiURL = "https://api.nerinyan.moe"
-    for (let i = 0; i < 5; i++) {
-        if (apiErrorCount > 2 || i > 2) {
-            setGlobalState("apiURL", "https://ko2.nerinyan.moe")
-            apiURL = "https://ko2.nerinyan.moe"
-        }
-        try{
-            await axios.get(
-                `${apiURL}/search`, {
-                    params: {
-                        b64: btoa(JSON.stringify(apiJson)),
-                        ps: 60
-                    }
-                }
-            // eslint-disable-next-line no-loop-func
-            ).then(function (response) {
 
-                if (Data.length < 1) {
-                    if (response.data.length <= 0) {
-                        console.log("no")
-                        setGlobalState("noResult", true)
-                    } else {
-                        setGlobalState("apiResult", response.data)
-                        Data = response.data
-                    }
-                } else {
-                    for (var bmp in response.data) {
-                        if (response.data[bmp].beatmaps.length > 0)
-                            Data.push(response.data[bmp])
-                        else
-                            console.log(`Null Beatmaps Detected. - ${response.data[bmp].id}`)
-                    }
-                    setGlobalState("apiResult", Data)
-                }
+    setGlobalState("loading", true)
+
+    for (let retryCount = 0; retryCount < MAX_RETRY_COUNT; retryCount++) {
+        try {
+            const response = await axios.get(`${apiURL}/search`, {
+                params: {
+                    b64: btoa(JSON.stringify(apiJson)),
+                    ps: PAGE_SIZE,
+                },
             })
+
+            if (Data.length < 1) {
+                if (response.data.length <= 0) {
+                    setGlobalState("noResult", true);
+                } else {
+                    setGlobalState("apiResult", response.data)
+                    Data = response.data
+                }
+            } else {
+                response.data.forEach((bmp) => {
+                    if (bmp.beatmaps.length > 0) {
+                        Data.push(bmp)
+                    }
+                })
+                setGlobalState("apiResult", Data)
+            }
             setGlobalState("noResult", false)
-        }
-        catch (e) {
+        } catch (error) {
             setGlobalState("noResult", true)
-            var tempErrorCount = apiErrorCount
-            setGlobalState("apiErrorCount", ++tempErrorCount)
-            continue;
+            apiErrorCount++
+            setGlobalState("apiErrorCount", apiErrorCount)
+            
+            if (apiErrorCount > MAX_ERROR_COUNT || retryCount >= MAX_RETRY_COUNT - 1) {
+                setGlobalState("apiURL", "https://ko2.nerinyan.moe")
+                apiURL = "https://ko2.nerinyan.moe"
+            }
+            
+            continue
         }
-        break;
+        break
     }
-    var temp = apiJson
-    var tempPage = Number(temp.page)
-    temp.page = ++tempPage
+
+    const temp = apiJson
+    temp.page = Number(temp.page) + 1
         
     setGlobalState("apiJson", temp)
     setGlobalState("loading", false)
+
     if (getGlobalState("firstLoad")) setGlobalState("firstLoad", false)
-    if (getGlobalState("apiResult").length < 1) { 
-        return true
-    } else {
-        return false
-    }
+    return getGlobalState("apiResult").length < 1
 }
 
 export function downloadBeatmap() {
+    // Download Beatmap handler for Explicit beatmap
     const url = getGlobalState("downloadURLTmp")
     
     if (!getGlobalState("downloadDirect")) {
@@ -517,63 +328,24 @@ export function downloadBeatmap() {
     }
 }
 
-export function generateDownloadURL(bid, noList=[]){
-    // console.log(nobg, nohitsound)
-    var params = ['noVideo', 'noBg', 'noHitsound', 'noStoryboard']
-    var downloadURL = `https://api.nerinyan.moe/d/${bid}`
-    var parameter = ""
-    params.map(function (param, i) {
-        if (noList[i]) {
-            if (parameter.length === 0) parameter += `?${param}=1`
-            else parameter += `&${param}=1`
-        }
-    })
-    return downloadURL + parameter
+export function generateDownloadURL(bid) {
+    // Generate Download url handler
+    const params = ['noVideo', 'noBg', 'noHitsound', 'noStoryboard']
+    const NoList = [getGlobalState("globalNoVideo"), getGlobalState("globalNoBg"), getGlobalState("globalNoHitsound"), getGlobalState("globalNoStoryboard")]
+
+    const parameter = params
+        .filter((param, i) => NoList[i])
+        .map((param) => `${param}=1`)
+        .join('&')
+
+    return `https://api.nerinyan.moe/d/${bid}${parameter ? '?' + parameter : ''}`
 }
 
-export function genegratePreviewURL(bid, mode){
-    var previewURL
-    switch (mode) {
-        case 0:
-            previewURL = `https://preview.nerinyan.moe/?b=${bid}`
-            break
-        default:
-            previewURL = `https://peppy.pages.dev/preview#${bid}`
-            break
-    }
+export function generatePreviewURL(bid, mode) {
+    // Generate Preview url handler
+    const previewURL = mode === 0
+        ? `https://preview.nerinyan.moe/?b=${bid}`
+        : `https://peppy.pages.dev/preview#${bid}`
+
     return previewURL
-}
-
-export async function getNotificationFromSubAPI(){
-    var apiSubURL = getGlobalState("apiSubURL")
-    var noti = {}
-    try{
-        await axios.get(
-            `${apiSubURL}/notification`
-        ).then(function (response) {
-            noti = response.data
-            // setGlobalState("notification", response.data)
-        })
-    } catch (e) {
-        setGlobalState("notification", {"error": e})
-    }
-    return noti
-}
-
-export async function getInfo(){
-    var apiURL = getGlobalState("apiURL")
-    var ko2apiURL = getGlobalState("ko2apiURL")
-    var tmp = []
-    await axios.get(
-        `${apiURL}/status`
-    ).then(function (response) {
-        tmp.push({"main": response.data})
-    })
-    await axios.get(
-        `${ko2apiURL}/status`
-    ).then(function (response) {
-        tmp.push({"sub": response.data})
-    })
-    setGlobalState("Info", tmp)
-    return tmp
 }

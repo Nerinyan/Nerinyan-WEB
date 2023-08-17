@@ -43,6 +43,13 @@ function BeatmapPortal({ bmap }) {
     const VersionList = [versionsSTD, versionsTAIKO, versionsCTB, versionsMANIA]
     const [currentVersion, setCurrentVersion] = useState(bmap.beatmaps[0])
 
+    const modeMap = {
+        0: 'std',
+        1: 'taiko',
+        2: 'ctb',
+        3: 'mania'
+    }
+    
     useEffect(() => {
         sortBeatmaps()
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -58,32 +65,20 @@ function BeatmapPortal({ bmap }) {
     }
     
     function sortBeatmaps() {
-        var versions_temp = {
+        const versions_temp = {
             'std': [],
             'taiko': [],
             'ctb': [],
             'mania': []
         }
-
-        for (var b in bmap.beatmaps) {
-            var temp = bmap.beatmaps[b]
-            switch (temp.mode_int) {
-                default:
-                    break
-                case 0:
-                    versions_temp.std.push(temp)
-                    break
-                case 1:
-                    versions_temp.taiko.push(temp)
-                    break
-                case 2:
-                    versions_temp.ctb.push(temp)
-                    break
-                case 3:
-                    versions_temp.mania.push(temp)
-                    break
+    
+        bmap.beatmaps.forEach((temp) => {
+            const modeKey = modeMap[temp.mode_int]
+            if (modeKey) {
+                versions_temp[modeKey].push(temp)
             }
-        }
+        })
+    
         setVersionsSTD(versions_temp.std)
         setVersionsTAIKO(versions_temp.taiko)
         setVersionsCTB(versions_temp.ctb)
@@ -119,83 +114,62 @@ function BeatmapPortal({ bmap }) {
     }
 
     function generateVersionListElement() {
-        var result = []
-        VersionList.forEach((version, index) => {
+        return VersionList.map((version, index) => {
             if (version.length > 0) {
-                result.push(
-                    <ul key={index} className='portal-diff-list'>
-                        {version.map((ver, index) => (
-                            <li key={ver.id} className={visibleVer === ver.id ? "portal-diff-single active" : "portal-diff-single"} onMouseEnter={(e) => mouseHover(e, ver)} onMouseLeave={(e) => mouseHoverLeave(e)} onClick={(e) => changeDiff(e, ver)}>
-                                <span>
-                                    <i className={IconList[ver.mode_int]} style={{'color': GeneralMixins.getDiffColor(ver.difficulty_rating)}}></i>
-                                </span>
-                            </li>
-                        ))}
+                return (
+                    <ul key={version[0].id} className='portal-diff-list'>
+                        {version.map((ver) => renderVersionItem(ver))}
                     </ul>
-                )
+                );
             }
+            return null;
         })
-        return result
+    }
+
+    function renderVersionItem(ver) {
+        const isActive = visibleVer === ver.id
+    
+        return (
+            <li
+                key={ver.id}
+                className={`portal-diff-single ${isActive ? "active" : ""}`}
+                onMouseEnter={(e) => mouseHover(e, ver)}
+                onMouseLeave={(e) => mouseHoverLeave(e)}
+                onClick={(e) => changeDiff(e, ver)}
+            >
+                <span>
+                    <i
+                        className={IconList[ver.mode_int]}
+                        style={{ color: GeneralMixins.getDiffColor(ver.difficulty_rating) }}
+                    ></i>
+                </span>
+            </li>
+        )
     }
 
     function generateTagsElement() {
-        var count = 0
-        var result = []
-        var tag_list = []
-
-        bmap.tags.split(" ").map((tag, index) => {
-            if (count < 20) {
-                tag_list.push(
-                    <li key={index} className='tag'>
-                        <p>{count === 19 ? `${tag} ...` : tag}</p>
+        const tags = bmap.tags.split(" ").slice(0, 20)
+    
+        return (
+            <ul key="tags" className="tags">
+                {tags.map((tag, index) => (
+                    <li key={index} className="tag">
+                        <p>{index === 19 ? `${tag} ...` : tag}</p>
                     </li>
-                )
-                count++
-            }
-        })
-        result.push(
-            <ul key={"tags"} className='tags'>
-                {tag_list}
+                ))}
             </ul>
         )
-        return result
     }
 
     function downloadHandler(e) {
         e.stopPropagation()
         e.preventDefault()
         
-        var url = ""
-        var urlList = []
+        const url = GeneralMixins.generateDownloadURL(bmap.id)
 
-        if (!globalDirectDownload) {
-            url = `${document.location.origin}/d/${bmap.id}`
-            urlList = []
-            if (globalNoVideo || globalNoBg || globalNoHitsound || globalNoStoryboard) url += "?"
-            if (globalNoVideo) urlList.push("novideo=1")
-            if (globalNoBg) urlList.push("nobg=1")
-            if (globalNoHitsound) urlList.push("nohitsound=1")
-            if (globalNoStoryboard) urlList.push("nostoryboard=1")
-            urlList.map(function (param, i) {
-                if (urlList[0] === param) url += `${param}`           
-                else url += `&${param}`           
-            })
-            window.open(url, '_blank')
-        } else {
-            url = `https://api.nerinyan.moe/d/${bmap.id}`
-            urlList = []
-            if (globalNoVideo || globalNoBg || globalNoHitsound || globalNoStoryboard) url += "?"
-            if (globalNoVideo) urlList.push("noVideo=1")
-            if (globalNoBg) urlList.push("noBg=1")
-            if (globalNoHitsound) urlList.push("noHitsound=1")
-            if (globalNoStoryboard) urlList.push("noStoryboard=1")
-            urlList.map(function (param, i) {
-                if (urlList[0] === param) url += `${param}`           
-                else url += `&${param}`           
-            })
-            window.open(url)
-        }
+        window.open(url)
     }
+
     function clipboardHandler() {
         setIsCopied(true)
         setTimeout(() => {
@@ -260,7 +234,7 @@ function BeatmapPortal({ bmap }) {
                                         <Tooltip arrow={false} placement="top" title={t("total_length")}>
                                             <li>
                                                 <TotalLength width={iconWidth} height={iconHeight}/>
-                                                <Odometer format='(:dd)' duration={Number(200)} value={GeneralMixins.secondsToTimeForOdometer(currentVersion.total_length)} />
+                                                <Odometer format='(:dd)' duration={Number(200)} value={GeneralMixins.secondsToTime(currentVersion.total_length, true)} />
                                             </li>
                                         </Tooltip>
                                         <Tooltip arrow={false} placement="top" title={t("bpm")}>
@@ -389,7 +363,7 @@ function BeatmapPortal({ bmap }) {
 
                                                 if (currentVersion.mode_int !== 2)
                                                     window.open(
-                                                        GeneralMixins.genegratePreviewURL(currentVersion.id, currentVersion.mode_int),
+                                                        GeneralMixins.generatePreviewURL(currentVersion.id, currentVersion.mode_int),
                                                         '_blank'
                                                     )
                                             }}>

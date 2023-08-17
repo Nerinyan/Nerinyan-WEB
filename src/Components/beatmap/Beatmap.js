@@ -25,7 +25,6 @@ function Beatmap({ bmap }) {
     const [musicPlayerBeatmap] = useGlobalState("musicPlayerBeatmap")
     const IconList = ["faa fa-extra-mode-osu", "faa fa-extra-mode-taiko", "faa fa-extra-mode-furits", "faa fa-extra-mode-mania"]
 
-    const [globalDirectDownload] = useGlobalState("downloadDirect")
     const [globalNoVideo] = useGlobalState("globalNoVideo")
     const [globalNoBg] = useGlobalState("globalNoBg")
     const [globalNoHitsound] = useGlobalState("globalNoHitsound")
@@ -43,67 +42,54 @@ function Beatmap({ bmap }) {
     
     const [tmp, setTmp] = useState(0)
 
+    const modeMap = {
+        0: 'std',
+        1: 'taiko',
+        2: 'ctb',
+        3: 'mania'
+    }
+
     function generateVersionListElement() {
-        var result = []
-        VersionList.forEach((version, index) => {
+        return VersionList.map((version, index) => {
             if (version.length > 0) {
-                if (version.length <= 10) {
-                    result.push(
-                        <div key={index} className="version-list-single">
-                            <i className={IconList[index]}></i>
-                            <ul>
-                                {version.map((ver, index) => (
+                return (
+                    <div key={index} className="version-list-single">
+                        <i className={IconList[index]}></i>
+                        <ul>
+                            {version.length <= 10 ? (
+                                version.map((ver) => (
                                     <li key={ver.id}>
-                                        <Version mode={index} ver={ver} isCollapse={true}/>
+                                        <Version mode={version.mode_int} ver={ver} isCollapse={true} />
                                     </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )
-                } else {
-                    result.push(
-                        <div key={index} className="version-list-single">
-                            <i className={IconList[index]}></i>
-                            <ul>
+                                ))
+                            ) : (
                                 <li>
                                     <span>{version.length}</span>
                                 </li>
-                            </ul>
-                        </div>
-                    )
-                }
+                            )}
+                        </ul>
+                    </div>
+                )
             }
+            return null
         })
-        return result
     }
 
     function sortBeatmaps() {
-        var versions_temp = {
+        const versions_temp = {
             'std': [],
             'taiko': [],
             'ctb': [],
             'mania': []
         }
-
-        for (var b in bmap.beatmaps) {
-            var temp = bmap.beatmaps[b]
-            switch (temp.mode_int) {
-                default:
-                    break
-                case 0:
-                    versions_temp.std.push(temp)
-                    break
-                case 1:
-                    versions_temp.taiko.push(temp)
-                    break
-                case 2:
-                    versions_temp.ctb.push(temp)
-                    break
-                case 3:
-                    versions_temp.mania.push(temp)
-                    break
+    
+        bmap.beatmaps.forEach((temp) => {
+            const modeKey = modeMap[temp.mode_int]
+            if (modeKey) {
+                versions_temp[modeKey].push(temp)
             }
-        }
+        })
+    
         setVersionsSTD(versions_temp.std)
         setVersionsTAIKO(versions_temp.taiko)
         setVersionsCTB(versions_temp.ctb)
@@ -113,49 +99,42 @@ function Beatmap({ bmap }) {
     function changeCollapse(event) {
         event.stopPropagation()
         event.preventDefault()
-
-        if (getGlobalState('currentExpandedID') !== bmap.id) {
-            setGlobalState('currentExpandedID', bmap.id)
-        } else {
-            setGlobalState('currentExpandedID', 0)
-        }
-
+    
+        setGlobalState('currentExpandedID', getGlobalState('currentExpandedID') !== bmap.id ? bmap.id : 0)
         setTmp(new Date().getMilliseconds())
     }
 
     function handleCallMusic(e) {
         e.stopPropagation()
         e.preventDefault()
-        var player = document.getElementById("musicPlayerAudio")
 
-        // 음악이 현재 재생중이며 재생중인 음악이 선택한 비트맵과 같은 경우
-        if (musicPlayerIsPlaying && !musicPlayerIsPaused && musicPlayerBeatmap.id === bmap.id) {
-            player.pause()
-            setGlobalState("musicPlayerIsPaused", true)
+        const player = document.getElementById("musicPlayerAudio")
+        const musicPlayerIsPlaying = getGlobalState("musicPlayerIsPlaying")
+        const musicPlayerIsPaused = getGlobalState("musicPlayerIsPaused")
+        const musicPlayerBeatmap = getGlobalState("musicPlayerBeatmap")
+    
+        if (musicPlayerBeatmap.id === bmap.id) {
+            if (musicPlayerIsPlaying && !musicPlayerIsPaused) {
+                player.pause()
+                setGlobalState("musicPlayerIsPaused", true);
+            } else if (musicPlayerIsPaused) {
+                player.play()
+                setGlobalState("musicPlayerIsPaused", false);
+            }
             return
         }
-
-        if (musicPlayerIsPaused && musicPlayerBeatmap.id === bmap.id) {
-            player.play()
-            setGlobalState("musicPlayerIsPaused", false)
-            return
-        }
-
+    
         setGlobalState("musicPlayerIsPlaying", true)
         setGlobalState("musicPlayerIsPaused", false)
         setGlobalState("musicPlayerBeatmap", bmap)
-
-        if (localStorage.getItem("musicPlayerVolume") === null) {
-            localStorage.setItem("musicPlayerVolume", 0.25)
-            player.volume = localStorage.getItem("musicPlayerVolume")
-        } else {
-            player.volume = localStorage.getItem("musicPlayerVolume")
-        }
-        player.src = "https://b.ppy.sh/preview/" + bmap.id +".mp3"
-        if (player.duration > 0 && !player.paused) { //if player is playing
+    
+        const musicPlayerVolume = localStorage.getItem("musicPlayerVolume") || 0.25;
+        player.volume = musicPlayerVolume
+        player.src = `https://b.ppy.sh/preview/${bmap.id}.mp3`
+    
+        if (player.duration > 0 && !player.paused) {
             return
-        }
-        else {
+        } else {
             player.play()
         }
     }
@@ -163,77 +142,26 @@ function Beatmap({ bmap }) {
     function downloadHandler(e) {
         e.stopPropagation()
         e.preventDefault()
-        
-        if (bmap.nsfw && !GeneralMixins.getCookie("skip_explict_warning")) {
-            var url = ""
-            var urlList = []
 
-            if (!globalDirectDownload) {
-                url = `${document.location.origin}/d/${bmap.id}`
-            } else {
-                url = `https://api.nerinyan.moe/d/${bmap.id}`
-            }
-
-            urlList = []
-
-            if (noVideo || noBg || noHitsound || noStoryboard) url += "?"
-            if (noVideo) urlList.push("noVideo=1")
-            if (noBg) urlList.push("noBg=1")
-            if (noHitsound) urlList.push("noHitsound=1")
-            if (noStoryboard) urlList.push("noStoryboard=1")
-
-            urlList.map(function (param, i) {
-                if (urlList[0] === param) url += `${param}`           
-                else url += `&${param}`           
-            })
-            
-            setGlobalState("downloadURLTmp", url)
+        let url = `https://api.nerinyan.moe/d/${bmap.id}`
+    
+        if (bmap.nsfw && !GeneralMixins.getCookie("skip_explict_warning")) {    
+            setGlobalState("downloadURLTmp", GeneralMixins.generateDownloadURL(bmap.id))
             setGlobalState("explicitWarningHandle", true)
-        } else return downloadbeatmap()
-    }
-
-    function downloadbeatmap() {
-        var url = ""
-        var urlList = []
-
-        if (!globalDirectDownload) {
-            url = `${document.location.origin}/d/${bmap.id}`
-            urlList = []
-            if (noVideo || noBg || noHitsound || noStoryboard) url += "?"
-            if (noVideo) urlList.push("novideo=1")
-            if (noBg) urlList.push("nobg=1")
-            if (noHitsound) urlList.push("nohitsound=1")
-            if (noStoryboard) urlList.push("nostoryboard=1")
-            urlList.map(function (param, i) {
-                if (urlList[0] === param) url += `${param}`           
-                else url += `&${param}`           
-            })
-            window.open(url, '_blank')
         } else {
-            url = `https://api.nerinyan.moe/d/${bmap.id}`
-            urlList = []
-            if (noVideo || noBg || noHitsound || noStoryboard) url += "?"
-            if (noVideo) urlList.push("noVideo=1")
-            if (noBg) urlList.push("noBg=1")
-            if (noHitsound) urlList.push("noHitsound=1")
-            if (noStoryboard) urlList.push("noStoryboard=1")
-            urlList.map(function (param, i) {
-                if (urlList[0] === param) url += `${param}`           
-                else url += `&${param}`           
-            })
-            window.open(url)
+            window.open(url, '_blank')
         }
     }
 
     const handleOpenChange = (flag) => {
-        setDropdownOpen(flag);
-    };
+        setDropdownOpen(flag)
+    }
 
     function clipboardHandler() {
         setIsCopied(true)
         setTimeout(() => {
             setIsCopied(false)
-        }, 900);
+        }, 900)
     }
 
     useEffect(() => {
