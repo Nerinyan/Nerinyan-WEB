@@ -5,6 +5,7 @@ import enTranslation from "./i18n/en.json"
 import deTranslation from "./i18n/de.json"
 import krTranslation from "./i18n/kr.json"
 import ruTranslation from "./i18n/ru.json"
+import idTranslation from "./i18n/id.json"
 
 import { getCookie, setCookie } from "./Components/GeneralMixins"
 
@@ -21,6 +22,9 @@ i18n.use(initReactI18next).init({
     },
     ru: {
       translation: ruTranslation
+    },
+    id: {
+      translation: idTranslation
     },
   },
   lng: "en", // Default language

@@ -85,6 +85,24 @@ function Navbar() {
             ),
         },
         {
+            key: 'id',
+            label: (
+                <div className="languages-single" onClick={(e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    var lang = "id"
+                
+                    setCookie("language", lang)
+                    i18n.changeLanguage(lang)
+
+                    setCurrentLang([lang])
+                }}>
+                    <img className="flags" src={require("../assets/images/Flags/ID.png")} alt="id flags"/>
+                    <p>Bahasa Indonesia</p>
+                </div>
+            ),
+        },
+        {
             key: 'help',
             label: (
                 <div className="languages-single" onClick={(e) => {
@@ -109,6 +127,8 @@ function Navbar() {
                 return "KR"
             case "ru":
                 return "RU"
+            case "id":
+                return "ID"
             default:
                 return "__"
         }
