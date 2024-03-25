@@ -5,7 +5,8 @@ import { getGlobalState, setGlobalState, useGlobalState } from '../../store'
 import LazyLoad from 'react-lazyload'
 import { Tooltip, Switch, Dropdown, Menu } from 'antd'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { GeneralMixins, BeatmapPortal, Version } from '..'
+import { BeatmapPortal, Version } from '..'
+import { GeneralMixins } from "../../lib"
 import { useTranslation } from "react-i18next"
 
 import '../../assets/css/components/beatmap.css'

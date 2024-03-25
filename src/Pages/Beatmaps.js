@@ -1,14 +1,18 @@
-import React, { useEffect, Fragment } from "react"
+import React, { useEffect, Fragment, useState } from "react"
 import { useSearchParams } from "react-router-dom"
-import { Navbar, Footer, Beatmap, GeneralMixins, MusicPlayer, Filter, Devbar } from "../Components"
+import { Navbar, Footer, Beatmap, MusicPlayer, Filter, Devbar } from "../Components"
+import { GeneralMixins } from "../lib"
 import { getGlobalState, useGlobalState, setGlobalState } from '../store'
-import { Modal } from 'antd' 
+import { Modal, Input } from 'antd' 
 import { useTranslation } from "react-i18next"
 
 import '../assets/css/components/beatmap.css'
 
 function Beatmaps({ dev }) {
     const { t } = useTranslation()
+    const { Search } = Input
+    const [tmp, setTmp] = useState(0)
+    const [apiJson] = useGlobalState("apiJson")
     const [filterMobile] = useGlobalState("filterMobile")
     const [filterOpen] = useGlobalState("filterOpen")
     const [apiResult] = useGlobalState("apiResult")
@@ -33,6 +37,40 @@ function Beatmaps({ dev }) {
         }
     }
 
+    function searchParamHandler(target, value) {
+        var uri = "/main"
+        if (window.location.search === "") {
+            uri += `?${target}=${value}`    
+        } else {
+            var tmp = window.location.search.replace("?", "").split("&")
+            var searchs = []
+            var selectedFiltersTmp = []
+
+            tmp.map(function (v) {
+                    if (v.includes(`${target}=`)) {
+                        return searchs.push(`${target}=${value}`)
+                    }
+                    else {
+                        return searchs.push(v)
+                    }
+                })
+
+            if (!window.location.search.includes(`${target}=`)) {
+                searchs.push(`${target}=${value}`)
+            }
+            
+            searchs.map(function (v, k) {
+                if (k === 0)
+                    uri += "?"
+                else
+                    uri += "&"
+                return uri += v
+            })
+        }
+
+        window.history.replaceState("", document.title, uri);
+    }
+
     function resizeHandler() {
         if (window.innerWidth <= 1024) {
             if (!filterMobile)
@@ -43,6 +81,33 @@ function Beatmaps({ dev }) {
             setGlobalState("filterMobile", false)
             setGlobalState("filterOpen", true)
         }
+    }
+
+    function requestNewBeatmapData(append=true) {
+        setGlobalState("musicPlayerIsPlaying", false)
+        setGlobalState("musicPlayerIsPaused", true)
+        setGlobalState("apiResult", [])
+
+        apiJson.page = 0
+
+        GeneralMixins.getApiData(append)
+    }
+
+    function searchHandler(val, event) {
+        event.stopPropagation()
+        event.preventDefault()
+        
+        requestNewBeatmapData(false)
+        searchParamHandler("q", apiJson.query)
+    }
+
+    function searchbarChangeHandler(event) {
+        event.stopPropagation()
+        event.preventDefault()
+        apiJson.query = event.target.value
+        
+        setTmp(new Date().getMilliseconds())
+        // searchParamHandler("q", apiJson.query)
     }
 
     let renderBeatmaps = []
@@ -168,6 +233,12 @@ function Beatmaps({ dev }) {
                     </div>
 
                     <div className="right">
+
+                        {/* Search Bar */}
+                        <div className="searchbar">
+                            <Search className={"filter-searchbar-input"} onSearch={searchHandler} onChange={searchbarChangeHandler} size="large" enterButton={t("search")} placeholder={t("search_placeholder")} allowClear="true" value={apiJson.query}/>
+                        </div>
+
                         {/* Beatmap List */}
                         <ul className="beatmap-list">
                             {noResult &&

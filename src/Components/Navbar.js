@@ -2,7 +2,7 @@ import React, { Fragment, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { Dropdown, Space } from 'antd'
-import { getCookie, setCookie } from "./GeneralMixins"
+import { getCookie, setCookie } from "../lib/GeneralMixins"
 
 import '../assets/css/components/navbar.css'
 
@@ -141,7 +141,7 @@ function Navbar() {
                 <div className="left">
                     <h1>
                         <Link to="/">
-                            NeriNyan: osu! Beatmap Mirror
+                            NeriNyan
                         </Link>
                     </h1>
                     <ul>
@@ -150,11 +150,11 @@ function Navbar() {
                                 {t("navbar_beatmaps")}
                             </Link>
                         </li>
-                        <li data-active={location.pathname === "/mappack" ? "active" : ""}>
+                        {/* <li data-active={location.pathname === "/mappack" ? "active" : ""}>
                             <Link to="/mappack">
                                 {t("navbar_beatmap_pack")}
                             </Link>
-                        </li>
+                        </li> */}
                         <li>
                             <a href="https://api.nerinyan.moe">
                                 {t("navbar_documents")}
@@ -163,6 +163,9 @@ function Navbar() {
                     </ul>
                 </div>
                 <div className="right">
+                    <a className="kofi" href="https://ko-fi.com/n2rina">
+                        ❤️
+                    </a>
                     <Dropdown
                         menu={{
                             items,
@@ -177,9 +180,6 @@ function Navbar() {
                         </Space>
                         </a>
                     </Dropdown>
-                    <div className="mobile">
-                        
-                    </div>
                 </div>
             </nav>
         </Fragment>

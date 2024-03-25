@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react"
 import { getGlobalState, useGlobalState } from '../store'
-import { GeneralMixins, Navbar, Footer } from "../Components"
+import { Navbar, Footer } from "../Components"
+import { GeneralMixins } from "../lib"
 import { useTranslation } from "react-i18next"
 import axios from "axios"
 

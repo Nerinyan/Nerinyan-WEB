@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react"
 import { useSpring, animated } from 'react-spring'
 import { getGlobalState, setGlobalState, useGlobalState } from '../store'
 import { Input, Slider, message } from 'antd'
-import { GeneralMixins } from "."
+import { GeneralMixins } from "../lib"
 
 import '../assets/css/components/searchbar.css'
 

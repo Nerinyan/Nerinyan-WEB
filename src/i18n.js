@@ -7,7 +7,7 @@ import krTranslation from "./i18n/kr.json"
 import ruTranslation from "./i18n/ru.json"
 import idTranslation from "./i18n/id.json"
 
-import { getCookie, setCookie } from "./Components/GeneralMixins"
+import { getCookie, setCookie } from "./lib/GeneralMixins"
 
 i18n.use(initReactI18next).init({
   resources: {

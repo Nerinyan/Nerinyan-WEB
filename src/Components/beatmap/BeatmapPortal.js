@@ -2,7 +2,7 @@ import React from 'react'
 import { Fragment } from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
-import { GeneralMixins } from '..'
+import { GeneralMixins } from '../../lib'
 import { setGlobalState, useGlobalState } from '../../store'
 import { useTranslation } from "react-i18next"
 import Odometer from 'react-odometerjs'
