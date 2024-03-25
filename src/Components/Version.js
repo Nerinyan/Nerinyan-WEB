@@ -5,7 +5,7 @@ import { ReactComponent as TotalLength } from '../assets/images/total_length.svg
 import { ReactComponent as SliderCount } from '../assets/images/count_sliders.svg'
 import { ReactComponent as CircleCount } from '../assets/images/count_circles.svg'
 import { ReactComponent as BPM } from '../assets/images/bpm.svg'
-import { GeneralMixins } from '../Components'
+import { GeneralMixins } from '../lib'
 
 import '../assets/css/components/beatmap.css'
 

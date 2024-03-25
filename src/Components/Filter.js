@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { getGlobalState, setGlobalState, useGlobalState } from '../store'
-import { Input, Slider, message, Modal, Menu } from 'antd'
+import { Slider, message, Modal, Menu } from 'antd'
 import { useTranslation } from "react-i18next"
-import { GeneralMixins } from "."
+import { GeneralMixins } from "../lib"
 
 import JSZip from "jszip"
 import { saveAs } from "file-saver"
@@ -15,8 +15,6 @@ var delay = null
 
 function Filter() {
     const { t } = useTranslation()
-    
-    const { Search } = Input
 
     const [filterMobile] = useGlobalState("filterMobile")
     const [filterOpen] = useGlobalState("filterOpen")
@@ -36,23 +34,6 @@ function Filter() {
 
     const [zipList] = useGlobalState("zipList")
 
-
-    function searchHandler(val, event) {
-        event.stopPropagation()
-        event.preventDefault()
-        
-        requestNewBeatmapData(false)
-        searchParamHandler("q", apiJson.query)
-    }
-
-    function searchbarChangeHandler(event) {
-        event.stopPropagation()
-        event.preventDefault()
-        apiJson.query = event.target.value
-        
-        setTmp(new Date().getMilliseconds())
-        // searchParamHandler("q", apiJson.query)
-    }
 
     function searchParamHandler(target, value) {
         var uri = "/main"
@@ -825,9 +806,6 @@ function Filter() {
 
     return (
         <div id="filter-area" className="filter-area" data-mobile={filterMobile} data-open={filterOpen}>
-            <div className="searchbar">
-                <Search className={"filter-searchbar-input"} onSearch={searchHandler} onChange={searchbarChangeHandler} size="large" enterButton={t("search")} placeholder={t("search_placeholder")} allowClear="true" value={apiJson.query}/>
-            </div>
             <Menu
                 onClick={onClick}
                 style={{

@@ -2,7 +2,8 @@ import React, { Fragment, useState, useEffect } from "react"
 import { useParams, useSearchParams } from "react-router-dom"
 import { Helmet } from "react-helmet"
 import { useTranslation } from "react-i18next"
-import { GeneralMixins, Navbar, Footer } from "../Components"
+import { Navbar, Footer } from "../Components"
+import { GeneralMixins } from "../lib"
 
 function Download() {
     const { t } = useTranslation()

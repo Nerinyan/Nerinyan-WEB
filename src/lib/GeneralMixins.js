@@ -418,7 +418,6 @@ export function getUserRequestParams(searchParams) {
         params.push({'q': searchParams.get("q")})
     }
 
-    console.log('detact Params -', params)
     params.map((v, k) => {
         var key = Object.keys(v)[0]
         var value = Object.values(v)[0]

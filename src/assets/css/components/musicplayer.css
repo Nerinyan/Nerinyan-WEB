@@ -5,8 +5,8 @@ div.music-player-block {
     border-radius: 12px;
     box-shadow: 0 0 10px black;
     position: fixed;
-    bottom: 3vh;
-    right: 2.5vw;
+    bottom: 50px;
+    right: 80px;
     z-index: 3;
     min-width: 400px;
     max-width: 400px;
@@ -103,7 +103,7 @@ div.music-player-block div.music-player-body div.music-player-controller button:
 div.music-player-block div.music-player-body div.music-player-controller div.music-player-volume-controller {
     display: flex;
     width: 30%;
-    align-items: center;
+    align-items: baseline;
 }
 
 div.music-player-block div.music-player-body div.music-player-controller div.music-player-volume-controller>i {

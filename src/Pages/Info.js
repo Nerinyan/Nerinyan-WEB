@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react"
-import { Navbar, Footer, GeneralMixins } from "../Components"
+import { Navbar, Footer } from "../Components"
+import { GeneralMixins } from "../lib"
 import { getGlobalState, useGlobalState } from '../store'
 import axios from "axios"
 
@@ -11,8 +12,10 @@ function Info() {
     const [SubInfo, setSubInfo] = useState({})
     const [Load, setLoad] = useState(true)
 
+    let timer
+
     useEffect(() => {
-        setInterval(() => {
+        timer = setInterval(() => {
             var apiURL = getGlobalState("apiURL")
             axios.get(
                 `${apiURL}/status`
@@ -28,6 +31,10 @@ function Info() {
             })
             setLoad(false)
         }, 2000);
+
+        return () => {
+            clearInterval(timer)
+        }
     }, [])
 
     return (
@@ -40,11 +47,11 @@ function Info() {
                         <ul className="info-page">
                             <li>
                                 <h3>Threads Count</h3>
-                                <p>{Info.CpuThreadCount}</p>
+                                <p>{Info.cpuThreadCount}</p>
                             </li>
                             <li>
                                 <h3>Running Goroutine Count</h3>
-                                <p>{GeneralMixins.addCommas(String(Info.RunningGoroutineCount))}</p>
+                                <p>{GeneralMixins.addCommas(String(Info.runningGoroutineCount))}</p>
                             </li>
                             <li>
                                 <h3>Api Count</h3>
@@ -62,11 +69,11 @@ function Info() {
                         <ul className="info-page">
                             <li>
                                 <h3>Threads Count</h3>
-                                <p>{SubInfo.CpuThreadCount}</p>
+                                <p>{SubInfo.cpuThreadCount}</p>
                             </li>
                             <li>
                                 <h3>Running Goroutine Count</h3>
-                                <p>{GeneralMixins.addCommas(String(SubInfo.RunningGoroutineCount))}</p>
+                                <p>{GeneralMixins.addCommas(String(SubInfo.runningGoroutineCount))}</p>
                             </li>
                             <li>
                                 <h3>Api Count</h3>

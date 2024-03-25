@@ -16,6 +16,11 @@ function Footer() {
                 </span>
                 <ul>
                     <li>
+                        <a className="kofi" href="https://ko-fi.com/n2rina">
+                            ❤️
+                        </a>
+                    </li>
+                    <li>
                         <a href="mailto:admin@nerinyan.moe">
                             {t("footer_dmca")}
                         </a>

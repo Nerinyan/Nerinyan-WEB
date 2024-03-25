@@ -96,6 +96,10 @@ div.container > div.two-side > div {
     margin-right: 2em;
 }
 
+div.container > div.two-side > div.right {
+    width: 100%;
+}
+
 
 
 /* Beatmap Page */
@@ -104,7 +108,7 @@ ul.beatmap-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    margin: 32px auto;
+    margin: 0 auto 32px auto;
 }
 
 ul.beatmap-list>li {
@@ -113,6 +117,7 @@ ul.beatmap-list>li {
     overflow: hidden;
     display: inline-block;
     width: calc(50vw - 15vw);
+    min-width: 380px;
     transition: transform 150ms ease, border 150ms ease;
 }
 
@@ -719,8 +724,23 @@ div.download-page button:hover {
     color: #b9ff6d;
 }
 
+/* Search Bar */
+div.searchbar {
+    background: hsl(var(--hsl-d6));
+    top: 10px;
+    position: sticky;
+    padding: 15px;
+    border-radius: 12px;
+    z-index: 3;
+    margin: 10px 0;
+    filter: drop-shadow(0 0 5px #000);
+
+}
+
 @keyframes Rotate {
     100% {
         transform:  rotate(360deg);
     }
 }
+
+
