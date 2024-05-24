@@ -103,6 +103,42 @@ function Navbar() {
             ),
         },
         {
+            key: 'jp',
+            label: (
+                <div className="languages-single" onClick={(e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    var lang = "jp"
+                
+                    setCookie("language", lang)
+                    i18n.changeLanguage(lang)
+
+                    setCurrentLang([lang])
+                }}>
+                    <img className="flags" src={require("../assets/images/Flags/JP.png")} alt="jp flags"/>
+                    <p>日本語</p>
+                </div>
+            ),
+        },
+        // {
+        //     key: 'vn',
+        //     label: (
+        //         <div className="languages-single" onClick={(e) => {
+        //             e.stopPropagation()
+        //             e.preventDefault()
+        //             var lang = "vn"
+                
+        //             setCookie("language", lang)
+        //             i18n.changeLanguage(lang)
+
+        //             setCurrentLang([lang])
+        //         }}>
+        //             <img className="flags" src={require("../assets/images/Flags/VN.png")} alt="vn flags"/>
+        //             <p>tiếng Việt</p>
+        //         </div>
+        //     ),
+        // },
+        {
             key: 'help',
             label: (
                 <div className="languages-single" onClick={(e) => {
@@ -129,6 +165,10 @@ function Navbar() {
                 return "RU"
             case "id":
                 return "ID"
+            case "jp":
+                return "JP"
+            case "vn":
+                return "VN"
             default:
                 return "__"
         }
