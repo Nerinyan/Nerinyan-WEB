@@ -223,7 +223,7 @@ span.beatmap-version-rating { height: 18px; color: var(--text-color); font-weigh
 
 
 /* DropDown */
-.ant-dropdown-menu { background-color: hsl(var(--hsl-b5)) !important; border-radius: 12px; width: 200px; }
+.ant-dropdown-menu { background-color: hsl(var(--hsl-b5)) !important; border-radius: 12px; width: max-content; }
 .ant-dropdown-menu-item-active { background-color: hsl(var(--hsl-b5)) !important; }
 .ant-dropdown-menu-title-content { color: white !important; }
 .ant-dropdown-menu-title-content > span > button { margin-right: 0.25em; }
