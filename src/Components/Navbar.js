@@ -120,24 +120,24 @@ function Navbar() {
                 </div>
             ),
         },
-        // {
-        //     key: 'vn',
-        //     label: (
-        //         <div className="languages-single" onClick={(e) => {
-        //             e.stopPropagation()
-        //             e.preventDefault()
-        //             var lang = "vn"
+        {
+            key: 'vn',
+            label: (
+                <div className="languages-single" onClick={(e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    var lang = "vn"
                 
-        //             setCookie("language", lang)
-        //             i18n.changeLanguage(lang)
+                    setCookie("language", lang)
+                    i18n.changeLanguage(lang)
 
-        //             setCurrentLang([lang])
-        //         }}>
-        //             <img className="flags" src={require("../assets/images/Flags/VN.png")} alt="vn flags"/>
-        //             <p>tiếng Việt</p>
-        //         </div>
-        //     ),
-        // },
+                    setCurrentLang([lang])
+                }}>
+                    <img className="flags" src={require("../assets/images/Flags/VN.png")} alt="vn flags"/>
+                    <p>tiếng Việt</p>
+                </div>
+            ),
+        },
         {
             key: 'help',
             label: (
