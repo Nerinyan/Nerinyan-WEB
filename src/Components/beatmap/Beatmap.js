@@ -381,9 +381,45 @@ function Beatmap({ bmap }) {
                                 </button>
                             </CopyToClipboard>
                         </Tooltip>
-                        <Dropdown.Button  placement="bottom" onClick={(e) => {downloadHandler(e)}} overlay={menu} onOpenChange={handleOpenChange} open={dropdownOpen}>
-                            <i className="fa-solid fa-arrow-down-to-bracket"></i> {t("download")}
-                        </Dropdown.Button>
+                        <Tooltip arrow={false} placement="top" title={t("download_bg")}>
+                            <button className="btn version-bg-btn" onClick={(e) => {
+                                e.stopPropagation()
+                                e.preventDefault()
+                                window.open(
+                                    `https://api.nerinyan.moe/bg/-${bmap.id}`,
+                                    '_blank'
+                                )
+                            }}>
+                                <i className="fa-solid fa-image"></i>
+                            </button>
+                        </Tooltip>
+                        <Tooltip arrow={false} placement="top" title={t("explicit_warning_button_download")}>
+                            <button className="download" onClick={(e) => {downloadHandler(e)}}>
+                                <i className="fa-solid fa-arrow-down-to-bracket"></i>
+                            </button>
+                        </Tooltip>
+                        <Tooltip arrow={false} placement="top" title={t("append_this_beatmap_to_download_list")}>
+                            <button className="btn version-bg-btn" onClick={(e) => {
+                                if (!zipAppend) {
+                                    var paramList = []
+                                    if (noVideo) paramList.push(true)
+                                    else paramList.push(false)
+                                    if (noBg) paramList.push(true)
+                                    else paramList.push(false)
+                                    if (noHitsound) paramList.push(true)
+                                    else paramList.push(false)
+                                    if (noStoryboard) paramList.push(true)
+                                    else paramList.push(false)
+                                    var url = GeneralMixins.generateDownloadURL(bmap.id, paramList)
+                                    var bname = `${bmap.id} ${bmap.artist} - ${bmap.title}.osz`
+                                    zipList.push({'name': bname, 'url': url})
+                                    setZipAppend(true)
+                                }
+                            }}>
+                                {/* <i class={zipAppend ? "fa-solid fa-trash" : "fa-solid fa-rectangle-history-circle-plus"}></i> */}
+                                <i class={"fa-solid fa-rectangle-history-circle-plus"}></i>
+                            </button>
+                        </Tooltip>
                         <Tooltip arrow={false} placement="top" title={t("go_to_osu_beatmap_page")}>
                             <button onClick={(e) => {
                                 e.stopPropagation()

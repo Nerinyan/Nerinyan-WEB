@@ -357,14 +357,6 @@ div.beatmap-single ul.card-main li.beatmap-info div button:hover {
     border: solid 1px hsl(var(--hsl-orange-1));
 }
 
-.version-bg-btn { 
-    width: 100%;
-}
-
-.version-bg-btn > i {
-    margin-right: 0.5em;
-}
-
 div.beatmap-single ul.card-main li.beatmap-buttons {
     display: flex;
     flex-direction: row;
@@ -373,6 +365,10 @@ div.beatmap-single ul.card-main li.beatmap-buttons {
     font-size: 0.95em;
     padding: 7.5px 2.5px;
     border-top: hsl(var(--hsl-b2)) 2px solid;
+}
+
+div.beatmap-single ul.card-main li.beatmap-buttons .download {
+    padding: 0 30px;
 }
 
 div.beatmap-single ul.card-main li.beatmap-buttons>button,
