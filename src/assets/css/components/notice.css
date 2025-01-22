@@ -1,0 +1,75 @@
+.survey-notice {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    padding: 1em 1.5em;
+    gap: 1.5em;
+    border-radius: 16px;
+    z-index: 123;
+    top: 5%;
+    right: 5%;
+    background-color: hsl(var(--hsl-b4));
+    box-shadow: 0 2.5px 15px rgba(0, 0, 0);
+    max-width: 600px;
+}
+
+.survey-notice .notice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.survey-notice .notice-header h3 {
+    color: white;
+    font-size: 1.75em;
+}
+
+.survey-notice .notice-header button {
+    background-color: hsl(var(--hsl-b3));
+    border: none;
+    color: white;
+    font-size: 1.1em;
+    padding: 0.5em 1em;
+    border-radius: 16px;
+    cursor: pointer;
+}
+
+.survey-notice .notice-header button:hover {
+    background-color: hsl(var(--hsl-b2));
+    color: hsl(var(--hsl-red-1));
+    transition: 0.2s;
+}
+
+.survey-notice p {
+    color: white;
+    font-size: 1.1em;
+    
+}
+
+.survey-notice .notice-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+}
+
+.survey-notice .notice-buttons button {
+    background-color: hsl(var(--hsl-b3));
+    border: none;
+    color: white;
+    font-size: 1.1em;
+    padding: 0.5em 1em;
+    border-radius: 16px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.survey-notice .notice-buttons button:hover {
+    background-color: hsl(var(--hsl-b2));
+    transition: 0.2s;
+}
+
+@media (max-width: 768px) {
+    .survey-notice {
+        right: auto;
+    }
+}

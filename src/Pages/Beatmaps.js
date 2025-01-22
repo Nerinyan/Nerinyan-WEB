@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment, useState } from "react"
 import { useSearchParams } from "react-router-dom"
-import { Navbar, Footer, Beatmap, MusicPlayer, Filter, Devbar } from "../Components"
+import { Navbar, Footer, Beatmap, MusicPlayer, Filter, Devbar, Notice } from "../Components"
 import { GeneralMixins } from "../lib"
 import { getGlobalState, useGlobalState, setGlobalState } from '../store'
 import { Modal, Input } from 'antd' 
@@ -167,6 +167,7 @@ function Beatmaps({ dev }) {
     return (
         <Fragment>
             <Navbar />
+            <Notice />
             <div className="container">
                 {/* Change API URL For dev */}
                 {
