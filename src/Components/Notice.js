@@ -43,6 +43,7 @@ function Notice() {
                         </button>
                         <button onClick={() => {
                             setCookie("survey", "hide")
+                            setVisible(false)
                         }}>
                             Dismiss
                         </button>
