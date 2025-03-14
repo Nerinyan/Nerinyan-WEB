@@ -16,7 +16,7 @@ function Info() {
 
     useEffect(() => {
         timer = setInterval(() => {
-            var apiURL = getGlobalState("apiURL")
+            var apiURL = getGlobalState("ko1apiURL")
             axios.get(
                 `${apiURL}/status`
             ).then(function (response) {
@@ -62,7 +62,7 @@ function Info() {
                                 <p>{GeneralMixins.addCommas(String(Info.fileCount))} files ({Info.fileSize})</p>
                             </li>
                         </ul>
-                        <a href="https://stats.uptimerobot.com/MA71nc2rxK">Main API Server</a>
+                        <a href="https://stats.uptimerobot.com/MA71nc2rxK">Ko1 API Server</a>
                     </div>
                     
                     <div className="info-Single">
