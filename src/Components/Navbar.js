@@ -205,6 +205,10 @@ function Navbar() {
                 return "JP"
             case "vn":
                 return "VN"
+            case "tr":
+                return "TR"
+            case "es":
+                return "ES"
             default:
                 return "__"
         }
