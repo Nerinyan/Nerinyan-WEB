@@ -167,7 +167,7 @@ function Beatmaps({ dev }) {
     return (
         <Fragment>
             <Navbar />
-            <Notice />
+            { /* <Notice /> */ }
             <div className="container">
                 {/* Change API URL For dev */}
                 {
