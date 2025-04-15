@@ -438,6 +438,13 @@ export async function getApiData(append=true) {
     var apiErrorCount = getGlobalState("apiErrorCount")
     var apiURL = getGlobalState("apiURL")
     var apiJson = getGlobalState("apiJson")
+    var diffSort = getGlobalState("diffSort")
+
+    function getMaxDifficulty(beatmapset) {
+        if (!beatmapset.beatmaps || beatmapset.beatmaps.length === 0) return -Infinity
+        return Math.max(...beatmapset.beatmaps.map(b => b.difficulty_rating))
+    }
+
     if (append === false) {
         Data = []
     }
@@ -449,10 +456,6 @@ export async function getApiData(append=true) {
     // setGlobalState("apiURL", "https://api.nerinyan.moe")
     // apiURL = "https://api.nerinyan.moe"
     for (let i = 0; i < 5; i++) {
-        if (apiErrorCount > 2 || i > 2) {
-            setGlobalState("apiURL", "https://ko2.nerinyan.moe")
-            apiURL = "https://ko2.nerinyan.moe"
-        }
         try{
             await axios.get(
                 `${apiURL}/search`, {
@@ -469,8 +472,30 @@ export async function getApiData(append=true) {
                         console.log("no")
                         setGlobalState("noResult", true)
                     } else {
-                        setGlobalState("apiResult", response.data)
-                        Data = response.data
+                        let r = response.data
+                        console.log(diffSort)
+                        console.log(r)
+                        
+                        switch (diffSort) {
+                            case 'desc':
+                                console.log("desc")
+                                r.sort((a, b) => {
+                                    return getMaxDifficulty(b) - getMaxDifficulty(a); // 내림차순 정렬
+                                })
+                                break;
+                            case 'asc':
+                                console.log("asc")
+                                r.sort((a, b) => {
+                                    return getMaxDifficulty(a) - getMaxDifficulty(b); // 내림차순 정렬
+                                })
+                                break;
+                            default:
+                                console.log("default")
+                                break;
+                        }
+
+                        setGlobalState("apiResult", r)
+                        Data = r
                     }
                 } else {
                     for (var bmp in response.data) {

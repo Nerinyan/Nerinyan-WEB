@@ -24,7 +24,10 @@ function Filter() {
     const [apiJson] = useGlobalState("apiJson")
     const [detailSearchTmp] = useGlobalState("detailSearchTmp")
 
+
     const [tmp, setTmp] = useState(0)
+
+    const [diffSort] = useGlobalState("diffSort")
 
     const [globalDirectDownload] = useGlobalState("downloadDirect")
     const [globalNoVideo] = useGlobalState("globalNoVideo")
@@ -172,6 +175,25 @@ function Filter() {
     function optionHandlerForSortBy(event, target) {
         event.stopPropagation()
         event.preventDefault()
+
+        if (target.includes('difficulty')) {
+            switch (diffSort) {
+                case 'none':
+                    setGlobalState("diffSort", "desc")
+                    break;
+                case 'desc':
+                    setGlobalState("diffSort", "asc")
+                    break;
+                case 'asc':
+                    setGlobalState("diffSort", "none")
+                    break;
+                default:
+                    setGlobalState("diffSort", "desc")
+                    break;
+            }
+            return requestNewBeatmapData(false)
+        }
+
 
         var selectedTmp = selectedFilters
         selectedTmp = selectedTmp.filter(item => !item.startsWith(`sort-`))

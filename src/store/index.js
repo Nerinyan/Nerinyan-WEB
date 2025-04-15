@@ -21,6 +21,7 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
     ko2apiURL: "https://ko2.nerinyan.moe",
     apiSubURL: "https://subapi.nerinyan.moe",
     currentExpandedID: 0,
+    diffSort: "none",
     currentExpandedData: {
         "id": 1949806,
         "artist": "James Landino & Kabuki",
