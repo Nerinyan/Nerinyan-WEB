@@ -740,7 +740,7 @@ div.searchbar {
     /* margin: 10px 0; */
     filter: drop-shadow(0 0 5px #000);
     /* width: 500px; */
-    /* width: 100%; */
+    width: 100%;
     display: flex;
     flex-direction: row;
     /* flex-wrap: wrap; */
