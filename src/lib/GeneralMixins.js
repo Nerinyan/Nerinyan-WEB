@@ -466,36 +466,13 @@ export async function getApiData(append=true) {
                 }
             // eslint-disable-next-line no-loop-func
             ).then(function (response) {
+                let r = response.data
+                console.log(diffSort)
 
                 if (Data.length < 1) {
                     if (response.data.length <= 0) {
                         console.log("no")
                         setGlobalState("noResult", true)
-                    } else {
-                        let r = response.data
-                        console.log(diffSort)
-                        console.log(r)
-                        
-                        switch (diffSort) {
-                            case 'desc':
-                                console.log("desc")
-                                r.sort((a, b) => {
-                                    return getMaxDifficulty(b) - getMaxDifficulty(a); // 내림차순 정렬
-                                })
-                                break;
-                            case 'asc':
-                                console.log("asc")
-                                r.sort((a, b) => {
-                                    return getMaxDifficulty(a) - getMaxDifficulty(b); // 내림차순 정렬
-                                })
-                                break;
-                            default:
-                                console.log("default")
-                                break;
-                        }
-
-                        setGlobalState("apiResult", r)
-                        Data = r
                     }
                 } else {
                     for (var bmp in response.data) {
@@ -504,8 +481,29 @@ export async function getApiData(append=true) {
                         else
                             console.log(`Null Beatmaps Detected. - ${response.data[bmp].id}`)
                     }
-                    setGlobalState("apiResult", Data)
+                    r = Data
                 }
+                
+                switch (diffSort) {
+                    case 'desc':
+                        console.log("desc")
+                        r.sort((a, b) => {
+                            return getMaxDifficulty(b) - getMaxDifficulty(a); // 내림차순 정렬
+                        })
+                        break;
+                    case 'asc':
+                        console.log("asc")
+                        r.sort((a, b) => {
+                            return getMaxDifficulty(a) - getMaxDifficulty(b); // 내림차순 정렬
+                        })
+                        break;
+                    default:
+                        console.log("default")
+                        break;
+                }
+
+                setGlobalState("apiResult", r)
+                Data = r
             })
             setGlobalState("noResult", false)
         }
