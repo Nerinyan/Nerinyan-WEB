@@ -176,16 +176,26 @@ function Filter() {
         event.stopPropagation()
         event.preventDefault()
 
+        var selectedTmp = selectedFilters
+        selectedTmp = selectedTmp.filter(item => !item.startsWith(`sort-`))
+
         if (target.includes('difficulty')) {
+            selectedTmp = selectedFilters
             switch (diffSort) {
                 case 'none':
                     setGlobalState("diffSort", "desc")
+                    selectedTmp.push(`sort-${target}`)
+                    setSelectedFilters(selectedTmp)
                     break;
                 case 'desc':
                     setGlobalState("diffSort", "asc")
+                    selectedTmp.push(`sort-${target}`)
+                    setSelectedFilters(selectedTmp)
                     break;
                 case 'asc':
                     setGlobalState("diffSort", "none")
+                    selectedTmp = selectedTmp.filter(item => !item.startsWith(`sort-difficulty`))
+                    setSelectedFilters(selectedTmp)
                     break;
                 default:
                     setGlobalState("diffSort", "desc")
@@ -194,9 +204,6 @@ function Filter() {
             return requestNewBeatmapData(false)
         }
 
-
-        var selectedTmp = selectedFilters
-        selectedTmp = selectedTmp.filter(item => !item.startsWith(`sort-`))
 
         if (apiJson.sort.includes(target)) {
             if (apiJson.sort.includes('desc')) {
@@ -635,8 +642,8 @@ function Filter() {
             ),
             getItem(
                 <div className="filter-option" onClick={(e) => optionHandlerForSortBy(e, 'difficulty')}>
-                    <p data-active={apiJson.sort.includes('difficulty') ? true : false}>{t("sort_by_difficulty")}</p>
-                    <i data-asc={apiJson.sort.includes('difficulty') && apiJson.sort.includes('asc') ? true : false} className="fa-solid fa-chevron-down" style={{display: (apiJson.sort.includes('difficulty') ? '' : 'none')}}></i>
+                    <p data-active={diffSort !== 'none' ? true : false}>{t("sort_by_difficulty")}</p>
+                    <i data-asc={diffSort === 'asc' ? true : false} className="fa-solid fa-chevron-down" style={{display: (diffSort !== 'none' ? '' : 'none')}}></i>
                 </div>,
                 'sort-difficulty'
             ),
