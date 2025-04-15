@@ -72,15 +72,15 @@ function Beatmaps({ dev }) {
     }
 
     function resizeHandler() {
-        if (window.innerWidth <= 1024) {
-            if (!filterMobile)
-                setGlobalState("filterMobile", true)
-                setGlobalState("filterOpen", false)
-        }
-        else {
-            setGlobalState("filterMobile", false)
-            setGlobalState("filterOpen", true)
-        }
+        // if (window.innerWidth <= 1024) {
+        //     if (!filterMobile)
+        //         setGlobalState("filterMobile", true)
+        //         setGlobalState("filterOpen", false)
+        // }
+        // else {
+        //     setGlobalState("filterMobile", false)
+        //     setGlobalState("filterOpen", true)
+        // }
     }
 
     function requestNewBeatmapData(append=true) {
@@ -140,15 +140,19 @@ function Beatmaps({ dev }) {
     }
 
     useEffect(() => {
-        if (window.innerWidth <= 1024) {
-            if (!filterMobile)
-                setGlobalState("filterMobile", true)
-                setGlobalState("filterOpen", false)
-        }
-        else {
-            setGlobalState("filterMobile", false)
-            setGlobalState("filterOpen", true)
-        }
+        // if (window.innerWidth <= 1024) {
+        //     if (!filterMobile)
+        //         setGlobalState("filterMobile", true)
+        //         setGlobalState("filterOpen", false)
+        // }
+        // else {
+        //     setGlobalState("filterMobile", false)
+        //     setGlobalState("filterOpen", true)
+        // }
+
+        setGlobalState("filterMobile", true)
+        setGlobalState("filterOpen", false)
+
         GeneralMixins.getUserRequestParams(searchParams)
         window.addEventListener("scroll", scrollHandler) // Add scroll Event
         window.addEventListener("resize", resizeHandler)
@@ -220,24 +224,19 @@ function Beatmaps({ dev }) {
                 </Modal>
 
                 <div className="two-side">
-                    <div className="left">
-                        <button className="filter-btn" data-show={filterMobile} onClick={(e) => {
-                            e.stopPropagation()
-                            e.preventDefault()
-
-                            if (filterOpen) setGlobalState("filterOpen", false)
-                            else setGlobalState("filterOpen", true)
-                        }}>
-                            <i className="fa-solid fa-filter"></i>
-                        </button>
-                        <Filter />
-                    </div>
-
                     <div className="right">
 
                         {/* Search Bar */}
-                        <div className="searchbar">
+                        <div className={"searchbar" + (filterOpen ? " f-open" : "")}>
                             <Search className={"filter-searchbar-input"} onSearch={searchHandler} onChange={searchbarChangeHandler} size="large" enterButton={t("search")} placeholder={t("search_placeholder")} allowClear="true" value={apiJson.query}/>
+                            <div className="searchbar-filter" onClick={(e) => {
+                                e.stopPropagation()
+                                e.preventDefault()
+                                if (filterOpen) setGlobalState("filterOpen", false)
+                                else setGlobalState("filterOpen", true)
+                            }}>
+                                <i className="fa-solid fa-filter"></i>
+                            </div>
                         </div>
 
                         {/* Beatmap List */}
@@ -256,6 +255,8 @@ function Beatmaps({ dev }) {
                         </ul>
                     </div>
                 </div>
+
+                <Filter />
 
                 {/* Back to top */}
                 <p href="#top" className="backToTop" onClick={(e) => {

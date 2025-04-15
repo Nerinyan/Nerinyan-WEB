@@ -6,7 +6,8 @@ nav {
     display: flex !important;
     flex-direction: row !important;
     justify-content: space-between !important;
-    z-index: 100 !important;
+    z-index: 999 !important;
+    position: relative;
 }
 
 nav a {

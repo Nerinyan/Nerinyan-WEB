@@ -59,7 +59,7 @@ div.filter-area {
     background-color: hsl(var(--hsl-b6));
     opacity: 0;
     transform: translateX(-40vw);
-    transition: transform 150ms ease-in-out, opacity 250ms ease-in-out;
+    transition: transform 250ms ease-in-out, opacity 250ms ease-in-out;
     z-index: 5;
     box-shadow: 0 0 10px hsl(var(--hsl-b5));
     overflow: hidden scroll;
@@ -69,6 +69,7 @@ div.filter-area[data-open=true] {
     animation: none;
     transform: translateX(0vw) !important;
     opacity: 1 !important;
+    position: fixed;
 }
 
 div.filter-area[data-open=false] {

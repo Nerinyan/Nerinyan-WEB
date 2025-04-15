@@ -302,7 +302,13 @@ function Beatmap({ bmap }) {
 
     return (
         <Fragment>
-            <div id={bmap.id} className="beatmap-single" data-isExpand={currentExpandedID === bmap.id ? true : false} data-isplaying={musicPlayerIsPlaying && musicPlayerBeatmap.id === bmap.id ? true : false}>
+            <div
+                id={bmap.id}
+                className="beatmap-single"
+                data-isExpand={currentExpandedID === bmap.id ? true : false}
+                data-isplaying={musicPlayerIsPlaying && musicPlayerBeatmap.id === bmap.id ? true : false}
+                onClick={(e) => changeCollapse(e)}
+            >
                 <LazyLoad height={136} offset={300} style={{background: "url(" + require('../../assets/images/beatmaps-default.png') + ")"}}>
                     <div className="card-header" style={{ "--bg": "center / cover no-repeat url(https://assets.ppy.sh/beatmaps/"+bmap.id+"/covers/cover.jpg?1622784772" }}>
                         <div className="card-header-beatmapinfo">
@@ -375,11 +381,20 @@ function Beatmap({ bmap }) {
                     </li>
                     <li className="beatmap-buttons">
                         <Tooltip arrow={false} placement="top" title={t("copy_download_url")}>
-                            <CopyToClipboard text={`https://api.nerinyan.moe/d/${bmap.id}`} onCopy={() => clipboardHandler()}>
-                                <button>
-                                    <i className={isCopied ? "download-url-copied fa-solid fa-badge-check" : "fa-solid fa-copy"}></i>
-                                </button>
-                            </CopyToClipboard>
+                            <button onClick={(e) => {
+                                e.stopPropagation()
+                                e.preventDefault()
+                                
+                                const text = `https://api.nerinyan.moe/d/${bmap.id}`
+                                navigator.clipboard.writeText(text).then(() => {
+                                    clipboardHandler()
+                                }).catch(err => {
+                                    console.error('dl url copy failed: ', err)
+                                })
+                            }}
+                            >
+                                <i className={isCopied ? "download-url-copied fa-solid fa-badge-check" : "fa-solid fa-copy"}></i>
+                            </button>
                         </Tooltip>
                         <Tooltip arrow={false} placement="top" title={t("download_bg")}>
                             <button className="btn version-bg-btn" onClick={(e) => {
@@ -430,13 +445,6 @@ function Beatmap({ bmap }) {
                                 )
                             }}>
                                 <i className="fa-solid fa-arrow-up-right-from-square"></i>
-                            </button>
-                        </Tooltip>
-                    </li>
-                    <li className="beatmap-more-info">
-                        <Tooltip arrow={false} placement="top" title={getGlobalState('currentExpandedID') === bmap.id ? t("hide_beatmap_info") : t("show_beatmap_info")}>
-                            <button className={"btn beatmap-list-btn " + (getGlobalState('currentExpandedID') === bmap.id ? 'collapse' : 'expand')} onClick={(e) => {changeCollapse(e)}}>
-                                <i className={getGlobalState('currentExpandedID') === bmap.id ? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down"}></i>
                             </button>
                         </Tooltip>
                     </li>

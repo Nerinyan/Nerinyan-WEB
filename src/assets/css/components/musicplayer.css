@@ -37,6 +37,7 @@ div.music-player-block div.music-player-head>img {
     width: 125px;
     height: 125px;
     margin-right: 1.5em;
+    border-radius: 12px;
 }
 
 div.music-player-block div.music-player-head>div.music-player-info {
